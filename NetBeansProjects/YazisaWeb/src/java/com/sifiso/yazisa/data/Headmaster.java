@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,7 +41,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Headmaster.findByUsername", query = "SELECT h FROM Headmaster h WHERE h.username = :username"),
     @NamedQuery(name = "Headmaster.findByPassword", query = "SELECT h FROM Headmaster h WHERE h.password = :password")})
 public class Headmaster implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -83,6 +86,8 @@ public class Headmaster implements Serializable {
     @JoinColumn(name = "schoolID", referencedColumnName = "schoolID")
     @ManyToOne(optional = false)
     private School school;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "headmaster")
+    private List<Gcmdevice> gcmdeviceList;
 
     public Headmaster() {
     }
@@ -174,6 +179,15 @@ public class Headmaster implements Serializable {
         this.school = school;
     }
 
+
+    public List<Gcmdevice> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
+
+    public void setGcmdeviceList(List<Gcmdevice> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -198,5 +212,5 @@ public class Headmaster implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Headmaster[ headMasterID=" + headMasterID + " ]";
     }
-
+    
 }

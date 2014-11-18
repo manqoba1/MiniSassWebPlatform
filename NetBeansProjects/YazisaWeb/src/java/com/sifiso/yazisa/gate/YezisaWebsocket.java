@@ -11,6 +11,7 @@ import com.sifiso.yazisa.transfer.dto.ResponseDTO;
 import com.sifiso.yazisa.util.DataUtil;
 import com.sifiso.yazisa.util.GZipUtility;
 import com.sifiso.yazisa.util.ListUtil;
+import com.sifiso.yazisa.util.PlatformUtil;
 import com.sifiso.yazisa.util.TrafficCop;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -20,6 +21,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.Stateful;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -31,7 +33,8 @@ import javax.websocket.server.ServerEndpoint;
  *
  * @author CodeTribe1
  */
-@ServerEndpoint("/yazi")
+@ServerEndpoint("/wsyazi")
+@Stateful
 public class YezisaWebsocket {
 
     @EJB
@@ -40,6 +43,8 @@ public class YezisaWebsocket {
     DataUtil dataUtil;
     @EJB
     TrafficCop trafficCop;
+    @EJB
+    PlatformUtil platformUtil;
     static final String SOURCE = "YezisaWebsocket";
     public static final Set<Session> peers
             = Collections.synchronizedSet(new HashSet<Session>());
@@ -51,13 +56,13 @@ public class YezisaWebsocket {
         ByteBuffer bb = null;
         try {
             RequestDTO dto = gson.fromJson(message, RequestDTO.class);
-            resp = trafficCop.processRequest(dto, dataUtil, listUtil);
+            resp = trafficCop.processRequest(dto, dataUtil, listUtil, platformUtil);
             bb = GZipUtility.getZippedResponse(resp);
         } catch (IOException ex) {
             Logger.getLogger(YezisaWebsocket.class.getName()).log(Level.SEVERE, null, ex);
             resp.setStatusCode(111);
             resp.setMessage("Problem processing request on server");
-            
+
             try {
                 bb = GZipUtility.getZippedResponse(resp);
             } catch (IOException ex1) {

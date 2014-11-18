@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.dto;
 
 import com.sifiso.yazisa.data.Exam;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,26 +14,26 @@ import java.util.List;
  * @author CodeTribe1
  */
 public class ExamDTO {
- private Integer examID;
-    
+
+    private Integer examID;
     private long examDate;
     private String description;
     private String courseName;
     private Integer totalMarks;
     private ClazzDTO clazz;
     private TeachersDTO teacher;
-    private List<ExammarkDTO> exammarkList;
+    private List<ExammarkDTO> exammarkList = new ArrayList<>();
 
-   public ExamDTO(Exam e) {
-       examID = e.getExamID();
-       examDate = e.getExamDate().getTime();
-       description = e.getDescription();
-       courseName = e.getCourseName();
-       totalMarks = e.getTotalMarks();
-       clazz = new ClazzDTO(e.getClazz());
-       teacher = new TeachersDTO(e.getTeacher());
-       
-   }
+    public ExamDTO(Exam e) {
+        examID = e.getExamID();
+        examDate = e.getExamDate().getTime();
+        description = e.getDescription();
+        courseName = e.getCourseName();
+        totalMarks = e.getTotalMarks();
+        clazz = new ClazzDTO(e.getClazz());
+        teacher = new TeachersDTO(e.getTeacher());
+
+    }
 
     public Integer getExamID() {
         return examID;
@@ -98,5 +98,5 @@ public class ExamDTO {
     public void setExammarkList(List<ExammarkDTO> exammarkList) {
         this.exammarkList = exammarkList;
     }
-    
+
 }

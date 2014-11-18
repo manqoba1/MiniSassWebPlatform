@@ -5,6 +5,7 @@
  */
 package com.sifiso.yazisa.transfer.dto;
 
+import com.sifiso.yazisa.data.Teachers;
 import com.sifiso.yazisa.dto.AbsenteeDTO;
 import com.sifiso.yazisa.dto.ClazzDTO;
 import com.sifiso.yazisa.dto.ClazzlearnerDTO;
@@ -33,25 +34,27 @@ public class ResponseDTO {
 
     private Integer statusCode;
     private String message, sessionID, GCMRegistrationID;
-    private List<AbsenteeDTO> absenteeList;
-    private List<ClazzDTO> clazzList;
-    private List<ClazzlearnerDTO> clazzlearnerList;
-    private List<ClazzteacherDTO> clazzteacherList;
-    private List<CountryDTO> countryList;
-    private List<ExamDTO> examList;
-    private List<ExammarkDTO> exammarkList;
-    private List<HeadmasterDTO> headmasterList;
-    private List<ParentDTO> parentList;
-    private List<ProvinceDTO> provinceList;
-    private List<SchoolDTO> schoolList;
-    private List<SubclazzDTO> subclazzList;
-    private List<SubjectDTO> subjectList;
-    private List<TeachersDTO> teachersList;
-    private List<TeachersubDTO> teachersubList;
-    private List<TownshipDTO> townshipList;
-private List<LearnersDTO> learnersList; 
+    private List<AbsenteeDTO> absenteeList = new ArrayList<>();
+    private List<ClazzDTO> clazzList = new ArrayList<>();
+    private List<ClazzlearnerDTO> clazzlearnerList = new ArrayList<>();
+    private List<ClazzteacherDTO> clazzteacherList = new ArrayList<>();
+    private List<CountryDTO> countryList = new ArrayList<>();
+    private List<ExamDTO> examList = new ArrayList<>();
+    private List<ExammarkDTO> exammarkList = new ArrayList<>();
+    private List<HeadmasterDTO> headmasterList = new ArrayList<>();
+    private List<ParentDTO> parentList = new ArrayList<>();
+    private List<ProvinceDTO> provinceList = new ArrayList<>();
+    private List<SchoolDTO> schoolList = new ArrayList<>();
+    private List<SubclazzDTO> subclazzList = new ArrayList<>();
+    private List<SubjectDTO> subjectList = new ArrayList<>();
+    private List<TeachersDTO> teachersList = new ArrayList<>();
+    private List<TeachersubDTO> teachersubList = new ArrayList<>();
+    private List<TownshipDTO> townshipList = new ArrayList<>();
+    private List<LearnersDTO> learnersList = new ArrayList<>();
     private SubclazzDTO subclazz;
     private TeachersubDTO teachersub;
+    private TeachersDTO teachers;
+
     public Integer getStatusCode() {
         return statusCode;
     }
@@ -62,6 +65,14 @@ private List<LearnersDTO> learnersList;
 
     public List<LearnersDTO> getLearnersList() {
         return learnersList;
+    }
+
+    public TeachersDTO getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(TeachersDTO teachers) {
+        this.teachers = teachers;
     }
 
     public void setLearnersList(List<LearnersDTO> learnersList) {

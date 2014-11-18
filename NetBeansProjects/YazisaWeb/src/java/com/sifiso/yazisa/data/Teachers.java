@@ -59,8 +59,9 @@ public class Teachers implements Serializable {
     private String surname;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "idnumber")
-    private int idnumber;
+    private String idnumber;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -85,6 +86,8 @@ public class Teachers implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
     private List<Teachersub> teachersubList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
+    private List<Gcmdevice> gcmdeviceList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
     private List<Clazzteacher> clazzteacherList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
     private List<Exam> examList;
@@ -99,7 +102,7 @@ public class Teachers implements Serializable {
         this.teacherID = teacherID;
     }
 
-    public Teachers(Integer teacherID, String name, String surname, int idnumber, String email, String cell, String username, String password) {
+    public Teachers(Integer teacherID, String name, String surname, String idnumber, String email, String cell, String username, String password) {
         this.teacherID = teacherID;
         this.name = name;
         this.surname = surname;
@@ -134,11 +137,11 @@ public class Teachers implements Serializable {
         this.surname = surname;
     }
 
-    public int getIdnumber() {
+    public String getIdnumber() {
         return idnumber;
     }
 
-    public void setIdnumber(int idnumber) {
+    public void setIdnumber(String idnumber) {
         this.idnumber = idnumber;
     }
 
@@ -180,6 +183,14 @@ public class Teachers implements Serializable {
 
     public void setTeachersubList(List<Teachersub> teachersubList) {
         this.teachersubList = teachersubList;
+    }
+
+    public List<Gcmdevice> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
+
+    public void setGcmdeviceList(List<Gcmdevice> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
     }
 
     public List<Clazzteacher> getClazzteacherList() {

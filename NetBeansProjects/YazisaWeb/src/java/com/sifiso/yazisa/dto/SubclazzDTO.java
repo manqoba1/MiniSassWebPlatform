@@ -6,6 +6,9 @@
 package com.sifiso.yazisa.dto;
 
 import com.sifiso.yazisa.data.Subclazz;
+import com.sifiso.yazisa.data.Teachersub;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,9 +20,18 @@ public class SubclazzDTO {
     private SubjectDTO subject;
     private ClazzDTO clazz;
     private LearnersDTO learners;
+    private List<Teachersub> teachersubList = new ArrayList<>();
 
     public SubclazzDTO() {
 
+    }
+
+    public List<Teachersub> getTeachersubList() {
+        return teachersubList;
+    }
+
+    public void setTeachersubList(List<Teachersub> teachersubList) {
+        this.teachersubList = teachersubList;
     }
 
     public SubclazzDTO(Subclazz sc) {

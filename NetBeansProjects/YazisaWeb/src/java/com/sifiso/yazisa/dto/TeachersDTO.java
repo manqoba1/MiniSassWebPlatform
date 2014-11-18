@@ -6,6 +6,7 @@
 package com.sifiso.yazisa.dto;
 
 import com.sifiso.yazisa.data.Teachers;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,15 +19,18 @@ public class TeachersDTO {
 
     private String name;
     private String surname;
-    private int idnumber;
+    private String idnumber;
     private String email;
     private String cell;
     private String username;
     private String password;
-    private List<TeachersubDTO> teachersubList;
-    private List<ClazzteacherDTO> clazzteacherList;
-    private List<ExamDTO> examList;
-    private SchoolDTO school;
+    private List<TeachersubDTO> teachersubList = new ArrayList<>();
+    private List<ClazzteacherDTO> clazzteacherList = new ArrayList<>();
+    private List<ExamDTO> examList = new ArrayList<>();
+    private SchoolDTO school;  
+    private List<GcmdeviceDTO> gcmdeviceList= new ArrayList<>();
+    
+
 
     public TeachersDTO(Teachers t) {
         teacherID = t.getTeacherID();
@@ -64,11 +68,11 @@ public class TeachersDTO {
         this.surname = surname;
     }
 
-    public int getIdnumber() {
+    public String getIdnumber() {
         return idnumber;
     }
 
-    public void setIdnumber(int idnumber) {
+    public void setIdnumber(String idnumber) {
         this.idnumber = idnumber;
     }
 
@@ -134,6 +138,14 @@ public class TeachersDTO {
 
     public void setSchool(SchoolDTO school) {
         this.school = school;
+    }
+
+    public List<GcmdeviceDTO> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
+
+    public void setGcmdeviceList(List<GcmdeviceDTO> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
     }
 
 }

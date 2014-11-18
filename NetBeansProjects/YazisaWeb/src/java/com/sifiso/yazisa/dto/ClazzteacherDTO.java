@@ -5,7 +5,6 @@
  */
 package com.sifiso.yazisa.dto;
 
-import com.sifiso.yazisa.data.Clazzlearner;
 import com.sifiso.yazisa.data.Clazzteacher;
 
 /**
@@ -15,9 +14,7 @@ import com.sifiso.yazisa.data.Clazzteacher;
 public class ClazzteacherDTO {
 
     private Integer clazzTeacherID;
-
     private TeachersDTO teacher;
-
     private ClazzDTO clazz;
 
     public ClazzteacherDTO() {

@@ -22,7 +22,7 @@ import javax.persistence.PersistenceContext;
 public class TrafficCop {
 
     public ResponseDTO processRequest(RequestDTO req,
-            DataUtil dataUtil, ListUtil listUtil) {
+            DataUtil dataUtil, ListUtil listUtil, PlatformUtil platformUtil) {
         ResponseDTO resp = new ResponseDTO();
         try {
             switch (req.getRequestType()) {
@@ -30,7 +30,7 @@ public class TrafficCop {
                 case RequestDTO.LOGIN:
                     resp = dataUtil.login(
                             req.getUsername(), req.getPassword(),
-                            listUtil);
+                            listUtil, platformUtil);
                     break;
                 case RequestDTO.REGISTER_ABSENSEE:
                     resp = dataUtil.registerAbsence(req.getAbsentee());
@@ -41,7 +41,9 @@ public class TrafficCop {
                 case RequestDTO.GET_LEARNERS:
                     resp = listUtil.getStudentClassListByID(req.getClazzID(), req.getSubjectID());
                     break;
-
+                case RequestDTO.GET_SUB_CLASS_BY_TEACHER:
+                    resp = listUtil.getSubclassListByID();
+                    break;
             }
         } catch (DataException e) {
             resp.setStatusCode(101);

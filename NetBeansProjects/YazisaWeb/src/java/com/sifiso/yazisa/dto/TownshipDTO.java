@@ -6,6 +6,7 @@
 package com.sifiso.yazisa.dto;
 
 import com.sifiso.yazisa.data.Township;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class TownshipDTO {
     private static final long serialVersionUID = 1L;
     private Integer townshipID;
     private String townshipName;
-    private List<SchoolDTO> schoolList;
+    private List<SchoolDTO> schoolList = new ArrayList<>();
 
     private int province;
 

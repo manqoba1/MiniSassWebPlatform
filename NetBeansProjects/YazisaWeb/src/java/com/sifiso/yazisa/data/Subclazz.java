@@ -29,8 +29,8 @@ import javax.persistence.Table;
 @Table(name = "subclazz")
 @NamedQueries({
     @NamedQuery(name = "Subclazz.findAll", query = "SELECT s FROM Subclazz s"),
-    @NamedQuery(name = "Subclazz.findBySubjectAndClass",
-            query = "SELECT s FROM Subclazz s WHERE s.subject.subjectID = :subjectID AND s.clazz.clazzID = :clazzID"),
+     @NamedQuery(name = "Subclazz.findBySubjectAndClass", 
+             query = "SELECT s FROM Subclazz s WHERE s.clazz.clazzID = :clazzID AND s.subject.subjectID = :subjectID"),
     @NamedQuery(name = "Subclazz.findBySubClazzID", query = "SELECT s FROM Subclazz s WHERE s.subClazzID = :subClazzID")})
 public class Subclazz implements Serializable {
 

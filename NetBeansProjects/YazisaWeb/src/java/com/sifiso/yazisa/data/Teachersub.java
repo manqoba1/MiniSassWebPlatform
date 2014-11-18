@@ -25,11 +25,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "teachersub")
 @NamedQueries({
-    @NamedQuery(name = "Teachersub.findAll", query = "SELECT t FROM Teachersub t"),
-     @NamedQuery(name = "Teachersub.findByTeacher", 
-             query = "SELECT t FROM Teachersub t WHERE t.teacher.teacherID = :teacherID"),
-    @NamedQuery(name = "Teachersub.login",
+    @NamedQuery(name = "Teachersub.login", 
             query = "SELECT t FROM Teachersub t WHERE t.teacher.username = :username AND t.teacher.password = :password"),
+     @NamedQuery(name = "Teachersub.findAll", query = "SELECT t FROM Teachersub t"),
     @NamedQuery(name = "Teachersub.findByTeacherSubID", query = "SELECT t FROM Teachersub t WHERE t.teacherSubID = :teacherSubID")})
 public class Teachersub implements Serializable {
 

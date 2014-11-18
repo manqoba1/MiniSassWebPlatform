@@ -18,12 +18,10 @@ public class AbsenteeDTO implements Serializable {
     private static final long serialVersionUID = 1L;
    
     private Integer absenteeID;
-  
     private long absentDate;
-   
     private int lateForClass;
-   
     private ClazzlearnerDTO clazzLearner;
+
 
     public AbsenteeDTO() {
     }

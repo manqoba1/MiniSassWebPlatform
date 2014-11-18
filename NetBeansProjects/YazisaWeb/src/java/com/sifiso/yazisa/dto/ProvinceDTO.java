@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.dto;
 
 import com.sifiso.yazisa.data.Province;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,13 +15,14 @@ import java.util.List;
  */
 public class ProvinceDTO {
 
-   private Integer provinceID;
-  
+    private Integer provinceID;
+
     private String provinceName;
     private Double latitude;
     private Double longitude;
     private int country;
-    private List<TownshipDTO> townshipList;
+    private List<TownshipDTO> townshipList = new ArrayList<>();
+
     public ProvinceDTO() {
     }
 
@@ -84,5 +85,5 @@ public class ProvinceDTO {
     public void setTownshipList(List<TownshipDTO> townshipList) {
         this.townshipList = townshipList;
     }
-    
+
 }

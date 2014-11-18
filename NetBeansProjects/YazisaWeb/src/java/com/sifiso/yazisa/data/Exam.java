@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -39,7 +40,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Exam.findByCourseName", query = "SELECT e FROM Exam e WHERE e.courseName = :courseName"),
     @NamedQuery(name = "Exam.findByTotalMarks", query = "SELECT e FROM Exam e WHERE e.totalMarks = :totalMarks")})
 public class Exam implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -139,6 +139,7 @@ public class Exam implements Serializable {
         this.teacher = teacher;
     }
 
+    
     public List<Exammark> getExammarkList() {
         return exammarkList;
     }
@@ -171,5 +172,5 @@ public class Exam implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Exam[ examID=" + examID + " ]";
     }
-
+    
 }

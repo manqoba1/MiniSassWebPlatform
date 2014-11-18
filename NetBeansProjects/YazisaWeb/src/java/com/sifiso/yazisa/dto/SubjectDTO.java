@@ -6,6 +6,7 @@
 package com.sifiso.yazisa.dto;
 
 import com.sifiso.yazisa.data.Subject;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,8 +18,8 @@ public class SubjectDTO {
     private Integer subjectID;
 
     private String subjectName;
-    private List<TeachersubDTO> teachersubList;
-    private List<SubclazzDTO> subclazzList;
+    private List<TeachersubDTO> teachersubList = new ArrayList<>();
+    private List<SubclazzDTO> subclazzList = new ArrayList<>();
 
     public SubjectDTO(Subject s) {
         subjectID = s.getSubjectID();

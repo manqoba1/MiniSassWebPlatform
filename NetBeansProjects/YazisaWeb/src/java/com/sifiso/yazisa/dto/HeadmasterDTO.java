@@ -3,34 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.dto;
 
 import com.sifiso.yazisa.data.*;
 import java.io.Serializable;
-
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author CodeTribe1
  */
 public class HeadmasterDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
-   
-    private Integer headMasterID;   
-    private String name;  
-    private String surname;   
-    private String idNumber;    
-    private String email;   
-    private String cell;   
-    private String username;    
-    private String password;   
+
+    private Integer headMasterID;
+    private String name;
+    private String surname;
+    private String idNumber;
+    private String email;
+    private String cell;
+    private String username;
+    private String password;
     private SchoolDTO school;
+    private List<GcmdeviceDTO> gcmdeviceList = new ArrayList<>();
 
     public HeadmasterDTO() {
     }
-
-  
 
     public HeadmasterDTO(Headmaster a) {
         this.headMasterID = a.getHeadMasterID();
@@ -116,9 +114,13 @@ public class HeadmasterDTO implements Serializable {
         this.school = school;
     }
 
-   
+    public List<GcmdeviceDTO> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
 
-   
+    public void setGcmdeviceList(List<GcmdeviceDTO> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
+    }
 
     @Override
     public int hashCode() {
@@ -144,5 +146,5 @@ public class HeadmasterDTO implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Headmaster[ headMasterID=" + headMasterID + " ]";
     }
-    
+
 }

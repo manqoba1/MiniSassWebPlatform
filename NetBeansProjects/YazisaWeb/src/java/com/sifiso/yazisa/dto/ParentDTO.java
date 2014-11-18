@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.dto;
 
 import com.sifiso.yazisa.data.Parent;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,28 +14,29 @@ import java.util.List;
  * @author CodeTribe1
  */
 public class ParentDTO {
-private Integer parentID;
-    
+
+    private Integer parentID;
     private String parentName;
     private String parentSurname;
     private String parentIdNo;
     private String email;
     private String cell;
     private String password;
-       private String username;
-    private List<LearnersDTO> learnersList;
+    private String username;
+    private List<GcmdeviceDTO> gcmdeviceList = new ArrayList<>();
+    private List<LearnersDTO> learnersList = new ArrayList<>();
 
-   public ParentDTO(Parent p) {
-   parentID = p.getParentID();
-   parentIdNo = p.getParentIdNo();
-   parentName = p.getParentName();
-   parentSurname = p.getParentSurname();
-   email = p.getEmail();
-   cell=p.getCell();
-   username = p.getUsername();
-   password = p.getPassword();
-   
-   }
+    public ParentDTO(Parent p) {
+        parentID = p.getParentID();
+        parentIdNo = p.getParentIdNo();
+        parentName = p.getParentName();
+        parentSurname = p.getParentSurname();
+        email = p.getEmail();
+        cell = p.getCell();
+        username = p.getUsername();
+        password = p.getPassword();
+
+    }
 
     public Integer getParentID() {
         return parentID;
@@ -108,5 +109,13 @@ private Integer parentID;
     public void setLearnersList(List<LearnersDTO> learnersList) {
         this.learnersList = learnersList;
     }
-    
+
+    public List<GcmdeviceDTO> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
+
+    public void setGcmdeviceList(List<GcmdeviceDTO> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
+    }
+
 }

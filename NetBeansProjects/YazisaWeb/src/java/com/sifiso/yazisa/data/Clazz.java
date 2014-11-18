@@ -32,7 +32,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Clazz.findAll", query = "SELECT c FROM Clazz c"),
     @NamedQuery(name = "Clazz.findByClazzID", query = "SELECT c FROM Clazz c WHERE c.clazzID = :clazzID"),
     @NamedQuery(name = "Clazz.findByClassName", query = "SELECT c FROM Clazz c WHERE c.className = :className"),
-    @NamedQuery(name = "Clazz.findByClassTypeID", query = "SELECT c FROM Clazz c WHERE c.classTypeID = :classTypeID")})
+    @NamedQuery(name = "Clazz.findByClassTypeID", query = "SELECT c FROM Clazz c WHERE c.classTypeID = :classTypeID"),
+    @NamedQuery(name = "Clazz.findByClassYear", query = "SELECT c FROM Clazz c WHERE c.classYear = :classYear")})
 public class Clazz implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,6 +50,10 @@ public class Clazz implements Serializable {
     @NotNull
     @Column(name = "classTypeID")
     private int classTypeID;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "classYear")
+    private int classYear;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clazz")
     private List<Clazzteacher> clazzteacherList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clazz")
@@ -65,10 +70,11 @@ public class Clazz implements Serializable {
         this.clazzID = clazzID;
     }
 
-    public Clazz(Integer clazzID, String className, int classTypeID) {
+    public Clazz(Integer clazzID, String className, int classTypeID, int classYear) {
         this.clazzID = clazzID;
         this.className = className;
         this.classTypeID = classTypeID;
+        this.classYear = classYear;
     }
 
     public Integer getClazzID() {
@@ -93,6 +99,14 @@ public class Clazz implements Serializable {
 
     public void setClassTypeID(int classTypeID) {
         this.classTypeID = classTypeID;
+    }
+
+    public int getClassYear() {
+        return classYear;
+    }
+
+    public void setClassYear(int classYear) {
+        this.classYear = classYear;
     }
 
     public List<Clazzteacher> getClazzteacherList() {

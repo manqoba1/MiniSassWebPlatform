@@ -82,6 +82,8 @@ public class Parent implements Serializable {
     @Column(name = "password")
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
+    private List<Gcmdevice> gcmdeviceList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
     private List<Learners> learnersList;
 
     public Parent() {
@@ -164,6 +166,14 @@ public class Parent implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Gcmdevice> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
+
+    public void setGcmdeviceList(List<Gcmdevice> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
     }
 
     public List<Learners> getLearnersList() {

@@ -64,6 +64,7 @@ public class Township implements Serializable {
 
     public Township(Integer townshipID) {
         this.townshipID = townshipID;
+        
     }
 
     public Township(Integer townshipID, String townshipName) {

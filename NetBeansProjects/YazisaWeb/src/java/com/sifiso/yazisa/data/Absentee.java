@@ -99,7 +99,7 @@ public class Absentee implements Serializable {
         this.clazzLearner = clazzLearner;
     }
 
-   
+    
 
     @Override
     public int hashCode() {

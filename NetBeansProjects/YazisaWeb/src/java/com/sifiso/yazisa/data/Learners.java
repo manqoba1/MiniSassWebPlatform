@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -38,7 +39,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Learners.findByUsername", query = "SELECT l FROM Learners l WHERE l.username = :username"),
     @NamedQuery(name = "Learners.findByPassword", query = "SELECT l FROM Learners l WHERE l.password = :password")})
 public class Learners implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,8 +57,9 @@ public class Learners implements Serializable {
     private String surname;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "idnumber")
-    private int idnumber;
+    private String idnumber;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -69,6 +70,8 @@ public class Learners implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "learner")
+    private List<Gcmdevice> gcmdeviceList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "learners")
     private List<Clazzlearner> clazzlearnerList;
     @JoinColumn(name = "parentID", referencedColumnName = "parentID")
@@ -86,7 +89,7 @@ public class Learners implements Serializable {
         this.learnersID = learnersID;
     }
 
-    public Learners(Integer learnersID, String name, String surname, int idnumber, String username, String password) {
+    public Learners(Integer learnersID, String name, String surname, String idnumber, String username, String password) {
         this.learnersID = learnersID;
         this.name = name;
         this.surname = surname;
@@ -119,11 +122,11 @@ public class Learners implements Serializable {
         this.surname = surname;
     }
 
-    public int getIdnumber() {
+    public String getIdnumber() {
         return idnumber;
     }
 
-    public void setIdnumber(int idnumber) {
+    public void setIdnumber(String idnumber) {
         this.idnumber = idnumber;
     }
 
@@ -143,6 +146,14 @@ public class Learners implements Serializable {
         this.password = password;
     }
 
+    public List<Gcmdevice> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
+
+    public void setGcmdeviceList(List<Gcmdevice> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
+    }
+
     public List<Clazzlearner> getClazzlearnerList() {
         return clazzlearnerList;
     }
@@ -159,6 +170,7 @@ public class Learners implements Serializable {
         this.parent = parent;
     }
 
+   
     public List<Exammark> getExammarkList() {
         return exammarkList;
     }
@@ -199,5 +211,5 @@ public class Learners implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Learners[ learnersID=" + learnersID + " ]";
     }
-
+    
 }
