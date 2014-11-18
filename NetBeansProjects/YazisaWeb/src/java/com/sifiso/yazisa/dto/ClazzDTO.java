@@ -18,7 +18,7 @@ public class ClazzDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer clazzID;
     private String className;
-    private int classTypeID;
+
     private int classYear;
     private List<ClazzteacherDTO> clazzteacherList = new ArrayList<>();
     private List<ClazzlearnerDTO> clazzlearnerList = new ArrayList<>();
@@ -31,7 +31,6 @@ public class ClazzDTO implements Serializable {
     public ClazzDTO(Clazz c) {
         clazzID = c.getClazzID();
         className = c.getClassName();
-        classTypeID = c.getClassTypeID();
         classYear = c.getClassYear();
     }
 
@@ -57,14 +56,6 @@ public class ClazzDTO implements Serializable {
 
     public void setClassName(String className) {
         this.className = className;
-    }
-
-    public int getClassTypeID() {
-        return classTypeID;
-    }
-
-    public void setClassTypeID(int classTypeID) {
-        this.classTypeID = classTypeID;
     }
 
     public List<ClazzteacherDTO> getClazzteacherList() {

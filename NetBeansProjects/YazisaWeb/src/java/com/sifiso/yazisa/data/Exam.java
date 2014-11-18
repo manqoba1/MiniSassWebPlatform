@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,6 +40,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Exam.findByCourseName", query = "SELECT e FROM Exam e WHERE e.courseName = :courseName"),
     @NamedQuery(name = "Exam.findByTotalMarks", query = "SELECT e FROM Exam e WHERE e.totalMarks = :totalMarks")})
 public class Exam implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,7 +68,10 @@ public class Exam implements Serializable {
     @JoinColumn(name = "teacherID", referencedColumnName = "teacherID")
     @ManyToOne(optional = false)
     private Teachers teacher;
-    @OneToMany(mappedBy = "exam")
+    @JoinColumn(name = "subjectID", referencedColumnName = "subjectID")
+    @ManyToOne(optional = false)
+    private Subject subject;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "exam")
     private List<Exammark> exammarkList;
 
     public Exam() {
@@ -139,7 +143,14 @@ public class Exam implements Serializable {
         this.teacher = teacher;
     }
 
-    
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
     public List<Exammark> getExammarkList() {
         return exammarkList;
     }
@@ -172,5 +183,5 @@ public class Exam implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Exam[ examID=" + examID + " ]";
     }
-    
+
 }

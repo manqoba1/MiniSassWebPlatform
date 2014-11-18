@@ -32,7 +32,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Clazz.findAll", query = "SELECT c FROM Clazz c"),
     @NamedQuery(name = "Clazz.findByClazzID", query = "SELECT c FROM Clazz c WHERE c.clazzID = :clazzID"),
     @NamedQuery(name = "Clazz.findByClassName", query = "SELECT c FROM Clazz c WHERE c.className = :className"),
-    @NamedQuery(name = "Clazz.findByClassTypeID", query = "SELECT c FROM Clazz c WHERE c.classTypeID = :classTypeID"),
     @NamedQuery(name = "Clazz.findByClassYear", query = "SELECT c FROM Clazz c WHERE c.classYear = :classYear")})
 public class Clazz implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -46,10 +45,6 @@ public class Clazz implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "className")
     private String className;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "classTypeID")
-    private int classTypeID;
     @Basic(optional = false)
     @NotNull
     @Column(name = "classYear")
@@ -70,10 +65,9 @@ public class Clazz implements Serializable {
         this.clazzID = clazzID;
     }
 
-    public Clazz(Integer clazzID, String className, int classTypeID, int classYear) {
+    public Clazz(Integer clazzID, String className, int classYear) {
         this.clazzID = clazzID;
         this.className = className;
-        this.classTypeID = classTypeID;
         this.classYear = classYear;
     }
 
@@ -91,14 +85,6 @@ public class Clazz implements Serializable {
 
     public void setClassName(String className) {
         this.className = className;
-    }
-
-    public int getClassTypeID() {
-        return classTypeID;
-    }
-
-    public void setClassTypeID(int classTypeID) {
-        this.classTypeID = classTypeID;
     }
 
     public int getClassYear() {

@@ -7,21 +7,24 @@ package com.sifiso.yazisa.util;
 
 import com.sifiso.yazisa.data.Absentee;
 import com.sifiso.yazisa.data.Clazz;
+import com.sifiso.yazisa.data.Clazzlearner;
 import com.sifiso.yazisa.data.Clazzteacher;
 import com.sifiso.yazisa.data.Exam;
 import com.sifiso.yazisa.data.Exammark;
 import com.sifiso.yazisa.data.Learners;
+import com.sifiso.yazisa.data.Parent;
 import com.sifiso.yazisa.data.Subclazz;
 import com.sifiso.yazisa.data.Subject;
 import com.sifiso.yazisa.data.Teachers;
 import com.sifiso.yazisa.data.Teachersub;
 import com.sifiso.yazisa.dto.AbsenteeDTO;
 import com.sifiso.yazisa.dto.ClazzDTO;
+import com.sifiso.yazisa.dto.ClazzlearnerDTO;
 import com.sifiso.yazisa.dto.ClazzteacherDTO;
 import com.sifiso.yazisa.dto.ExamDTO;
 import com.sifiso.yazisa.dto.ExammarkDTO;
 import com.sifiso.yazisa.dto.LearnersDTO;
-import com.sifiso.yazisa.dto.SubclazzDTO;
+import com.sifiso.yazisa.dto.ParentDTO;
 import com.sifiso.yazisa.dto.SubjectDTO;
 import com.sifiso.yazisa.dto.TeachersDTO;
 import com.sifiso.yazisa.dto.TeachersubDTO;
@@ -31,7 +34,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -65,6 +67,14 @@ public class ListUtil {
                 ExammarkDTO exammark = new ExammarkDTO(ems);
                 exammark.setExam(new ExamDTO(ems.getExam()));
                 o.getExammarkList().add(exammark);
+            }
+            for(Clazzlearner cl: cp.getLearners().getClazzlearnerList()){
+                ClazzlearnerDTO cdto = new ClazzlearnerDTO(cl);
+                o.getClazzlearnerList().add(cdto);
+            }
+            for(Parent p : cp.getLearners().getParentList()){
+                ParentDTO parent = new ParentDTO(p);
+                o.getParentList().add(parent);
             }
             resp.getLearnersList().add(o);
         }

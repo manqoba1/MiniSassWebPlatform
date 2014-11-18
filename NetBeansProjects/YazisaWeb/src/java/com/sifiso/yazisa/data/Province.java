@@ -111,7 +111,7 @@ public class Province implements Serializable {
         this.country = country;
     }
 
-   
+    
     public List<Township> getTownshipList() {
         return townshipList;
     }

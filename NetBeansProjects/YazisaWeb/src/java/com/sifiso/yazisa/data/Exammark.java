@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -35,6 +34,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Exammark.findByPassFail", query = "SELECT e FROM Exammark e WHERE e.passFail = :passFail"),
     @NamedQuery(name = "Exammark.findByDateRegistered", query = "SELECT e FROM Exammark e WHERE e.dateRegistered = :dateRegistered")})
 public class Exammark implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,10 +49,10 @@ public class Exammark implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistered;
     @JoinColumn(name = "examID", referencedColumnName = "examID")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Exam exam;
     @JoinColumn(name = "learnersID", referencedColumnName = "learnersID")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Learners learners;
 
     public Exammark() {
@@ -110,7 +110,6 @@ public class Exammark implements Serializable {
         this.learners = learners;
     }
 
-  
     @Override
     public int hashCode() {
         int hash = 0;
@@ -135,5 +134,5 @@ public class Exammark implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Exammark[ examMarkID=" + examMarkID + " ]";
     }
-    
+
 }

@@ -175,7 +175,7 @@ public class Deviceerror implements Serializable {
         this.school = school;
     }
 
-    
+  
 
     @Override
     public int hashCode() {

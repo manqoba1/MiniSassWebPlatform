@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -30,8 +29,11 @@ import javax.persistence.Table;
 @Table(name = "clazzlearner")
 @NamedQueries({
     @NamedQuery(name = "Clazzlearner.findAll", query = "SELECT c FROM Clazzlearner c"),
+     @NamedQuery(name = "Clazzlearner.findLeanerAndClass", 
+             query = "SELECT c FROM Clazzlearner c WHERE c.clazz.clazzID = :clazzID AND c.learners.learnersID = :learnerID"),
     @NamedQuery(name = "Clazzlearner.findByClazzLearnerID", query = "SELECT c FROM Clazzlearner c WHERE c.clazzLearnerID = :clazzLearnerID")})
 public class Clazzlearner implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,8 +88,6 @@ public class Clazzlearner implements Serializable {
         this.clazz = clazz;
     }
 
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -112,5 +112,5 @@ public class Clazzlearner implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Clazzlearner[ clazzLearnerID=" + clazzLearnerID + " ]";
     }
-    
+
 }

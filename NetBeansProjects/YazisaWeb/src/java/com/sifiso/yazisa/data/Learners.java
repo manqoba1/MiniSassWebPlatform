@@ -15,8 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,6 +37,13 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Learners.findByUsername", query = "SELECT l FROM Learners l WHERE l.username = :username"),
     @NamedQuery(name = "Learners.findByPassword", query = "SELECT l FROM Learners l WHERE l.password = :password")})
 public class Learners implements Serializable {
+    @Size(max = 45)
+    @Column(name = "cell")
+    private String cell;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 45)
+    @Column(name = "email")
+    private String email;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,13 +76,12 @@ public class Learners implements Serializable {
     @Column(name = "password")
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "learner")
+    private List<Parent> parentList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "learner")
     private List<Gcmdevice> gcmdeviceList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "learners")
     private List<Clazzlearner> clazzlearnerList;
-    @JoinColumn(name = "parentID", referencedColumnName = "parentID")
-    @ManyToOne(optional = false)
-    private Parent parent;
-    @OneToMany(mappedBy = "learners")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "learners")
     private List<Exammark> exammarkList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "learners")
     private List<Subclazz> subclazzList;
@@ -146,6 +150,14 @@ public class Learners implements Serializable {
         this.password = password;
     }
 
+    public List<Parent> getParentList() {
+        return parentList;
+    }
+
+    public void setParentList(List<Parent> parentList) {
+        this.parentList = parentList;
+    }
+
     public List<Gcmdevice> getGcmdeviceList() {
         return gcmdeviceList;
     }
@@ -162,15 +174,6 @@ public class Learners implements Serializable {
         this.clazzlearnerList = clazzlearnerList;
     }
 
-    public Parent getParent() {
-        return parent;
-    }
-
-    public void setParent(Parent parent) {
-        this.parent = parent;
-    }
-
-   
     public List<Exammark> getExammarkList() {
         return exammarkList;
     }
@@ -210,6 +213,22 @@ public class Learners implements Serializable {
     @Override
     public String toString() {
         return "com.sifiso.yazisa.data.Learners[ learnersID=" + learnersID + " ]";
+    }
+
+    public String getCell() {
+        return cell;
+    }
+
+    public void setCell(String cell) {
+        this.cell = cell;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
 }

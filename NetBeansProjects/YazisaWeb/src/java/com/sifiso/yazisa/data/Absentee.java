@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -35,6 +34,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Absentee.findByAbsentDate", query = "SELECT a FROM Absentee a WHERE a.absentDate = :absentDate"),
     @NamedQuery(name = "Absentee.findByLateForClass", query = "SELECT a FROM Absentee a WHERE a.lateForClass = :lateForClass")})
 public class Absentee implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -99,8 +99,6 @@ public class Absentee implements Serializable {
         this.clazzLearner = clazzLearner;
     }
 
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -125,5 +123,5 @@ public class Absentee implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Absentee[ absenteeID=" + absenteeID + " ]";
     }
-    
+
 }

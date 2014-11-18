@@ -33,7 +33,7 @@ public class TrafficCop {
                             listUtil, platformUtil);
                     break;
                 case RequestDTO.REGISTER_ABSENSEE:
-                    resp = dataUtil.registerAbsence(req.getAbsentee());
+                   // resp = dataUtil.registerAbsence(req.getAbsentee(),platformUtil);
                     break;
                 case RequestDTO.GET_ABSENSEE:
                     resp = listUtil.getAbsence(req.getAbsenseeDate());

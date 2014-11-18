@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -41,6 +40,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Headmaster.findByUsername", query = "SELECT h FROM Headmaster h WHERE h.username = :username"),
     @NamedQuery(name = "Headmaster.findByPassword", query = "SELECT h FROM Headmaster h WHERE h.password = :password")})
 public class Headmaster implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -179,7 +179,6 @@ public class Headmaster implements Serializable {
         this.school = school;
     }
 
-
     public List<Gcmdevice> getGcmdeviceList() {
         return gcmdeviceList;
     }
@@ -212,5 +211,5 @@ public class Headmaster implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Headmaster[ headMasterID=" + headMasterID + " ]";
     }
-    
+
 }

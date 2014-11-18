@@ -6,6 +6,7 @@
 package com.sifiso.yazisa.dto;
 
 import com.sifiso.yazisa.data.Learners;
+import com.sifiso.yazisa.data.Parent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +22,10 @@ public class LearnersDTO {
     private String idnumber;
     private String username;
     private String password;
+    private String cell;
+    private String email;
     private List<ClazzlearnerDTO> clazzlearnerList = new ArrayList<>();
-    private ParentDTO parent;
+    private List<ParentDTO> parentList = new ArrayList<>();
     private List<ExammarkDTO> exammarkList = new ArrayList<>();
     private List<SubclazzDTO> subclazzList = new ArrayList<>();
     private List<GcmdeviceDTO> gcmdeviceList = new ArrayList<>();
@@ -32,9 +35,34 @@ public class LearnersDTO {
         surname = l.getSurname();
         name = l.getName();
         idnumber = l.getIdnumber();
-        parent = new ParentDTO(l.getParent());
         username = l.getUsername();
         password = l.getPassword();
+        cell = l.getCell();
+        email = l.getEmail();
+    }
+
+    public String getCell() {
+        return cell;
+    }
+
+    public void setCell(String cell) {
+        this.cell = cell;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<ParentDTO> getParentList() {
+        return parentList;
+    }
+
+    public void setParentList(List<ParentDTO> parentList) {
+        this.parentList = parentList;
     }
 
     public Integer getLearnersID() {
@@ -91,14 +119,6 @@ public class LearnersDTO {
 
     public void setClazzlearnerList(List<ClazzlearnerDTO> clazzlearnerList) {
         this.clazzlearnerList = clazzlearnerList;
-    }
-
-    public ParentDTO getParent() {
-        return parent;
-    }
-
-    public void setParent(ParentDTO parent) {
-        this.parent = parent;
     }
 
     public List<ExammarkDTO> getExammarkList() {

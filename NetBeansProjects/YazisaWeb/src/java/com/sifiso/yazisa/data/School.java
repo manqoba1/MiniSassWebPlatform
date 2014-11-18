@@ -34,7 +34,11 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "School.findBySchoolID", query = "SELECT s FROM School s WHERE s.schoolID = :schoolID"),
     @NamedQuery(name = "School.findBySchoolName", query = "SELECT s FROM School s WHERE s.schoolName = :schoolName"),
     @NamedQuery(name = "School.findByLatitude", query = "SELECT s FROM School s WHERE s.latitude = :latitude"),
-    @NamedQuery(name = "School.findByLongitude", query = "SELECT s FROM School s WHERE s.longitude = :longitude")})
+    @NamedQuery(name = "School.findByLongitude", query = "SELECT s FROM School s WHERE s.longitude = :longitude"),
+    @NamedQuery(name = "School.findByTell", query = "SELECT s FROM School s WHERE s.tell = :tell"),
+    @NamedQuery(name = "School.findByAddress", query = "SELECT s FROM School s WHERE s.address = :address"),
+    @NamedQuery(name = "School.findByPostalCode", query = "SELECT s FROM School s WHERE s.postalCode = :postalCode"),
+    @NamedQuery(name = "School.findByEmail", query = "SELECT s FROM School s WHERE s.email = :email")})
 public class School implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,6 +60,19 @@ public class School implements Serializable {
     @NotNull
     @Column(name = "longitude")
     private double longitude;
+    @Size(max = 45)
+    @Column(name = "tell")
+    private String tell;
+    @Size(max = 45)
+    @Column(name = "address")
+    private String address;
+    @Size(max = 45)
+    @Column(name = "postalCode")
+    private String postalCode;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 45)
+    @Column(name = "email")
+    private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "school")
     private List<Headmaster> headmasterList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "school")
@@ -114,6 +131,38 @@ public class School implements Serializable {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getTell() {
+        return tell;
+    }
+
+    public void setTell(String tell) {
+        this.tell = tell;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<Headmaster> getHeadmasterList() {

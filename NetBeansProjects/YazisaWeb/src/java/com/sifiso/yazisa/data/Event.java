@@ -110,7 +110,7 @@ public class Event implements Serializable {
         this.school = school;
     }
 
-   
+    
 
     @Override
     public int hashCode() {

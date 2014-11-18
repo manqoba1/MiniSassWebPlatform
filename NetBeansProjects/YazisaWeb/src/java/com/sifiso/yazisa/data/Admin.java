@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -40,6 +39,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Admin.findByUsername", query = "SELECT a FROM Admin a WHERE a.username = :username"),
     @NamedQuery(name = "Admin.findByPassword", query = "SELECT a FROM Admin a WHERE a.password = :password")})
 public class Admin implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -180,8 +180,6 @@ public class Admin implements Serializable {
         this.school = school;
     }
 
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -206,5 +204,5 @@ public class Admin implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Admin[ adminID=" + adminID + " ]";
     }
-    
+
 }

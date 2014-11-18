@@ -5,6 +5,7 @@
  */
 package com.sifiso.yazisa.dto;
 
+import com.sifiso.yazisa.data.Learners;
 import com.sifiso.yazisa.data.Parent;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class ParentDTO {
     private String password;
     private String username;
     private List<GcmdeviceDTO> gcmdeviceList = new ArrayList<>();
-    private List<LearnersDTO> learnersList = new ArrayList<>();
+    private LearnersDTO learner;
 
     public ParentDTO(Parent p) {
         parentID = p.getParentID();
@@ -35,6 +36,7 @@ public class ParentDTO {
         cell = p.getCell();
         username = p.getUsername();
         password = p.getPassword();
+        learner = new LearnersDTO(p.getLearner());
 
     }
 
@@ -102,12 +104,12 @@ public class ParentDTO {
         this.password = password;
     }
 
-    public List<LearnersDTO> getLearnersList() {
-        return learnersList;
+    public LearnersDTO getLearner() {
+        return learner;
     }
 
-    public void setLearnersList(List<LearnersDTO> learnersList) {
-        this.learnersList = learnersList;
+    public void setLearner(LearnersDTO learner) {
+        this.learner = learner;
     }
 
     public List<GcmdeviceDTO> getGcmdeviceList() {

@@ -15,22 +15,31 @@ import java.util.List;
  */
 public class SchoolDTO {
 
-    private Integer schoolID;
+    private Integer schoolID, townshipID;
     private String schoolName;
     private double latitude;
     private double longitude;
+    private String tell;
+    private String address;
+    private String postalCode;
+    private String email;
     private List<HeadmasterDTO> headmasterList = new ArrayList<>();
     private List<AdminDTO> adminList = new ArrayList<>();
     private List<DeviceerrorDTO> deviceerrorList = new ArrayList<>();
-    private List<EventDTO> eventList = new ArrayList<>();
     private TownshipDTO township;
     private List<TeachersDTO> teachersList = new ArrayList<>();
+    private List<EventDTO> eventList = new ArrayList<>();
 
     public SchoolDTO(School s) {
         schoolID = s.getSchoolID();
         schoolName = s.getSchoolName();
         latitude = s.getLatitude();
         longitude = s.getLongitude();
+        tell = s.getTell();
+        address = s.getAddress();
+        postalCode = s.getPostalCode();
+        email = s.getEmail();
+        townshipID = s.getTownship().getTownshipID();
         township = new TownshipDTO(s.getTownship());
 
     }
@@ -41,6 +50,14 @@ public class SchoolDTO {
 
     public void setSchoolID(Integer schoolID) {
         this.schoolID = schoolID;
+    }
+
+    public Integer getTownshipID() {
+        return townshipID;
+    }
+
+    public void setTownshipID(Integer townshipID) {
+        this.townshipID = townshipID;
     }
 
     public String getSchoolName() {
@@ -65,6 +82,38 @@ public class SchoolDTO {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getTell() {
+        return tell;
+    }
+
+    public void setTell(String tell) {
+        this.tell = tell;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public TownshipDTO getTownship() {

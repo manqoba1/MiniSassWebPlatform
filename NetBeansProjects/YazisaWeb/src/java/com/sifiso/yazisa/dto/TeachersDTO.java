@@ -15,8 +15,7 @@ import java.util.List;
  */
 public class TeachersDTO {
 
-    private Integer teacherID;
-
+    private Integer teacherID, schoolID;
     private String name;
     private String surname;
     private String idnumber;
@@ -27,13 +26,12 @@ public class TeachersDTO {
     private List<TeachersubDTO> teachersubList = new ArrayList<>();
     private List<ClazzteacherDTO> clazzteacherList = new ArrayList<>();
     private List<ExamDTO> examList = new ArrayList<>();
-    private SchoolDTO school;  
-    private List<GcmdeviceDTO> gcmdeviceList= new ArrayList<>();
-    
-
+    private SchoolDTO school;
+    private List<GcmdeviceDTO> gcmdeviceList = new ArrayList<>();
 
     public TeachersDTO(Teachers t) {
         teacherID = t.getTeacherID();
+        schoolID = t.getSchool().getSchoolID();
         name = t.getName();
         surname = t.getSurname();
         idnumber = t.getIdnumber();
@@ -42,6 +40,14 @@ public class TeachersDTO {
         username = t.getUsername();
         password = t.getPassword();
         school = new SchoolDTO(t.getSchool());
+    }
+
+    public Integer getSchoolID() {
+        return schoolID;
+    }
+
+    public void setSchoolID(Integer schoolID) {
+        this.schoolID = schoolID;
     }
 
     public Integer getTeacherID() {

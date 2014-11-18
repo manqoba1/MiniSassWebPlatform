@@ -45,6 +45,8 @@ public class Subject implements Serializable {
     @Column(name = "subjectName")
     private String subjectName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
+    private List<Exam> examList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
     private List<Subclazz> subclazzList;
 
     public Subject() {
@@ -73,6 +75,14 @@ public class Subject implements Serializable {
 
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
+    }
+
+    public List<Exam> getExamList() {
+        return examList;
+    }
+
+    public void setExamList(List<Exam> examList) {
+        this.examList = examList;
     }
 
     public List<Subclazz> getSubclazzList() {

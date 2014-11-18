@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -15,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,6 +40,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Parent.findByUsername", query = "SELECT p FROM Parent p WHERE p.username = :username"),
     @NamedQuery(name = "Parent.findByPassword", query = "SELECT p FROM Parent p WHERE p.password = :password")})
 public class Parent implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,10 +83,11 @@ public class Parent implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
+    @JoinColumn(name = "learnerID", referencedColumnName = "learnersID")
+    @ManyToOne(optional = false)
+    private Learners learner;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
     private List<Gcmdevice> gcmdeviceList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
-    private List<Learners> learnersList;
 
     public Parent() {
     }
@@ -102,6 +105,7 @@ public class Parent implements Serializable {
         this.cell = cell;
         this.username = username;
         this.password = password;
+        
     }
 
     public Integer getParentID() {
@@ -168,20 +172,20 @@ public class Parent implements Serializable {
         this.password = password;
     }
 
+    public Learners getLearner() {
+        return learner;
+    }
+
+    public void setLearner(Learners learner) {
+        this.learner = learner;
+    }
+
     public List<Gcmdevice> getGcmdeviceList() {
         return gcmdeviceList;
     }
 
     public void setGcmdeviceList(List<Gcmdevice> gcmdeviceList) {
         this.gcmdeviceList = gcmdeviceList;
-    }
-
-    public List<Learners> getLearnersList() {
-        return learnersList;
-    }
-
-    public void setLearnersList(List<Learners> learnersList) {
-        this.learnersList = learnersList;
     }
 
     @Override
@@ -208,5 +212,5 @@ public class Parent implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Parent[ parentID=" + parentID + " ]";
     }
-    
+
 }
