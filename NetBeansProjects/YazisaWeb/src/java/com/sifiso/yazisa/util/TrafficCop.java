@@ -27,23 +27,34 @@ public class TrafficCop {
         try {
             switch (req.getRequestType()) {
 
-                case RequestDTO.LOGIN:
-                    resp = dataUtil.login(
+                case RequestDTO.LOGIN_TEACHER:
+                    resp = dataUtil.loginTeacher(
                             req.getUsername(), req.getPassword(),
                             listUtil, platformUtil);
                     break;
-                case RequestDTO.REGISTER_ABSENSEE:
-                   // resp = dataUtil.registerAbsence(req.getAbsentee(),platformUtil);
-                    break;
-                case RequestDTO.GET_ABSENSEE:
-                    resp = listUtil.getAbsence(req.getAbsenseeDate());
+                case RequestDTO.LOGIN_PARENT:
+                    resp = dataUtil.loginParent(req.getUsername(), req.getPassword(),
+                            listUtil, platformUtil);
                     break;
                 case RequestDTO.GET_LEARNERS:
-                    resp = listUtil.getStudentClassListByID(req.getClazzID(), req.getSubjectID());
+                    resp = listUtil.getStudentList(req.getClazzID());
                     break;
-                case RequestDTO.GET_SUB_CLASS_BY_TEACHER:
-                    resp = listUtil.getSubclassListByID();
+                case RequestDTO.ADD_CLASS_STUDENT:
+                    resp = dataUtil.addClazzStudent(req.getClazzstudent());
                     break;
+                case RequestDTO.ADD_CLASS_TEACHER:
+                    resp = dataUtil.addClazzTeacher(req.getClazzteacher());
+                    break;
+                case RequestDTO.ADD_ISSUE:
+                    resp = dataUtil.addIssues(req.getIssue());
+                    break;
+                case RequestDTO.ADD_TEACHER_SUBJECT:
+                    resp = dataUtil.addTeacherSubject(req.getTeachersubject());
+                    break;
+                case RequestDTO.ADD_CLASS:
+                    resp = dataUtil.addClass(req.getClazz());
+                    break;
+
             }
         } catch (DataException e) {
             resp.setStatusCode(101);

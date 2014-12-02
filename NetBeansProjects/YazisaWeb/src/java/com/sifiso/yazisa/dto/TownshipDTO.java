@@ -18,11 +18,10 @@ public class TownshipDTO {
     private Double latitude;
     private Double longitude;
     private static final long serialVersionUID = 1L;
-    private Integer townshipID;
+    private Integer townshipID, provinceID;
     private String townshipName;
     private List<SchoolDTO> schoolList = new ArrayList<>();
-
-    private int province;
+    private ProvinceDTO province;
 
     public TownshipDTO() {
     }
@@ -36,7 +35,8 @@ public class TownshipDTO {
         this.townshipName = a.getTownshipName();
         this.latitude = a.getLatitude();
         this.longitude = a.getLongitude();
-        province = a.getProvince().getProvinceID();
+        provinceID = a.getProvince().getProvinceID();
+        province = new ProvinceDTO(a.getProvince());
     }
 
     public Integer getTownshipID() {
@@ -47,6 +47,14 @@ public class TownshipDTO {
         this.townshipID = townshipID;
     }
 
+    public ProvinceDTO getProvince() {
+        return province;
+    }
+
+    public void setProvince(ProvinceDTO province) {
+        this.province = province;
+    }
+
     public List<SchoolDTO> getSchoolList() {
         return schoolList;
     }
@@ -55,12 +63,12 @@ public class TownshipDTO {
         this.schoolList = schoolList;
     }
 
-    public int getProvince() {
-        return province;
+    public Integer getProvinceID() {
+        return provinceID;
     }
 
-    public void setProvince(int province) {
-        this.province = province;
+    public void setProvinceID(Integer provinceID) {
+        this.provinceID = provinceID;
     }
 
     public String getTownshipName() {

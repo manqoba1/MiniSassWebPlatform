@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -28,19 +26,23 @@ import javax.validation.constraints.Size;
  * @author CodeTribe1
  */
 @Entity
-@Table(name = "teachers")
+@Table(name = "teacher")
 @NamedQueries({
-    @NamedQuery(name = "Teachers.findAll", query = "SELECT t FROM Teachers t"),
-    @NamedQuery(name = "Teachers.findByTeacherID", query = "SELECT t FROM Teachers t WHERE t.teacherID = :teacherID"),
-    @NamedQuery(name = "Teachers.findByName", query = "SELECT t FROM Teachers t WHERE t.name = :name"),
-    @NamedQuery(name = "Teachers.findBySurname", query = "SELECT t FROM Teachers t WHERE t.surname = :surname"),
-    @NamedQuery(name = "Teachers.findByIdnumber", query = "SELECT t FROM Teachers t WHERE t.idnumber = :idnumber"),
-    @NamedQuery(name = "Teachers.findByEmail", query = "SELECT t FROM Teachers t WHERE t.email = :email"),
-    @NamedQuery(name = "Teachers.findByCell", query = "SELECT t FROM Teachers t WHERE t.cell = :cell"),
-    @NamedQuery(name = "Teachers.findByUsername", query = "SELECT t FROM Teachers t WHERE t.username = :username"),
-    @NamedQuery(name = "Teachers.findByPassword", query = "SELECT t FROM Teachers t WHERE t.password = :password")})
-public class Teachers implements Serializable {
-
+    @NamedQuery(name = "Teacher.findAll", query = "SELECT t FROM Teacher t"),
+    @NamedQuery(name = "Teacher.login", query = "SELECT t FROM Teacher t WHERE t.email = :email AND t.password = :password"),
+    @NamedQuery(name = "Teacher.findByTeacherID", query = "SELECT t FROM Teacher t WHERE t.teacherID = :teacherID"),
+    @NamedQuery(name = "Teacher.findByName", query = "SELECT t FROM Teacher t WHERE t.name = :name"),
+    @NamedQuery(name = "Teacher.findBySurname", query = "SELECT t FROM Teacher t WHERE t.surname = :surname"),
+    @NamedQuery(name = "Teacher.findByIdnumber", query = "SELECT t FROM Teacher t WHERE t.idnumber = :idnumber"),
+    @NamedQuery(name = "Teacher.findByEmail", query = "SELECT t FROM Teacher t WHERE t.email = :email"),
+    @NamedQuery(name = "Teacher.findByCell", query = "SELECT t FROM Teacher t WHERE t.cell = :cell"),
+    @NamedQuery(name = "Teacher.findByPassword", query = "SELECT t FROM Teacher t WHERE t.password = :password")})
+public class Teacher implements Serializable {
+    @Size(max = 500)
+    @Column(name = "sessionID")
+    private String sessionID;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
+    private List<Issue> issueList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,40 +78,31 @@ public class Teachers implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "username")
-    private String username;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
-    private List<Teachersub> teachersubList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher")
     private List<Gcmdevice> gcmdeviceList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
     private List<Clazzteacher> clazzteacherList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
-    private List<Exam> examList;
-    @JoinColumn(name = "schoolID", referencedColumnName = "schoolID")
-    @ManyToOne(optional = false)
-    private School school;
+    private List<Attendence> attendenceList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
+    private List<Teachersubject> teachersubjectList;
 
-    public Teachers() {
+    public Teacher() {
     }
 
-    public Teachers(Integer teacherID) {
+    public Teacher(Integer teacherID) {
         this.teacherID = teacherID;
     }
 
-    public Teachers(Integer teacherID, String name, String surname, String idnumber, String email, String cell, String username, String password) {
+    public Teacher(Integer teacherID, String name, String surname, String idnumber, String email, String cell, String password) {
         this.teacherID = teacherID;
         this.name = name;
         this.surname = surname;
         this.idnumber = idnumber;
         this.email = email;
         this.cell = cell;
-        this.username = username;
         this.password = password;
     }
 
@@ -161,28 +154,12 @@ public class Teachers implements Serializable {
         this.cell = cell;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Teachersub> getTeachersubList() {
-        return teachersubList;
-    }
-
-    public void setTeachersubList(List<Teachersub> teachersubList) {
-        this.teachersubList = teachersubList;
     }
 
     public List<Gcmdevice> getGcmdeviceList() {
@@ -201,20 +178,20 @@ public class Teachers implements Serializable {
         this.clazzteacherList = clazzteacherList;
     }
 
-    public List<Exam> getExamList() {
-        return examList;
+    public List<Attendence> getAttendenceList() {
+        return attendenceList;
     }
 
-    public void setExamList(List<Exam> examList) {
-        this.examList = examList;
+    public void setAttendenceList(List<Attendence> attendenceList) {
+        this.attendenceList = attendenceList;
     }
 
-    public School getSchool() {
-        return school;
+    public List<Teachersubject> getTeachersubjectList() {
+        return teachersubjectList;
     }
 
-    public void setSchool(School school) {
-        this.school = school;
+    public void setTeachersubjectList(List<Teachersubject> teachersubjectList) {
+        this.teachersubjectList = teachersubjectList;
     }
 
     @Override
@@ -227,10 +204,10 @@ public class Teachers implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Teachers)) {
+        if (!(object instanceof Teacher)) {
             return false;
         }
-        Teachers other = (Teachers) object;
+        Teacher other = (Teacher) object;
         if ((this.teacherID == null && other.teacherID != null) || (this.teacherID != null && !this.teacherID.equals(other.teacherID))) {
             return false;
         }
@@ -239,7 +216,23 @@ public class Teachers implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sifiso.yazisa.data.Teachers[ teacherID=" + teacherID + " ]";
+        return "com.sifiso.yazisa.data.Teacher[ teacherID=" + teacherID + " ]";
     }
 
+    public String getSessionID() {
+        return sessionID;
+    }
+
+    public void setSessionID(String sessionID) {
+        this.sessionID = sessionID;
+    }
+
+    public List<Issue> getIssueList() {
+        return issueList;
+    }
+
+    public void setIssueList(List<Issue> issueList) {
+        this.issueList = issueList;
+    }
+    
 }

@@ -74,18 +74,12 @@ public class School implements Serializable {
     @Column(name = "email")
     private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "school")
-    private List<Headmaster> headmasterList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "school")
-    private List<Admin> adminList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "school")
     private List<Deviceerror> deviceerrorList;
     @JoinColumn(name = "townshipID", referencedColumnName = "townshipID")
     @ManyToOne(optional = false)
     private Township township;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "school")
-    private List<Teachers> teachersList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "school")
-    private List<Event> eventList;
+    private List<Clazz> clazzList;
 
     public School() {
     }
@@ -165,22 +159,6 @@ public class School implements Serializable {
         this.email = email;
     }
 
-    public List<Headmaster> getHeadmasterList() {
-        return headmasterList;
-    }
-
-    public void setHeadmasterList(List<Headmaster> headmasterList) {
-        this.headmasterList = headmasterList;
-    }
-
-    public List<Admin> getAdminList() {
-        return adminList;
-    }
-
-    public void setAdminList(List<Admin> adminList) {
-        this.adminList = adminList;
-    }
-
     public List<Deviceerror> getDeviceerrorList() {
         return deviceerrorList;
     }
@@ -197,20 +175,12 @@ public class School implements Serializable {
         this.township = township;
     }
 
-    public List<Teachers> getTeachersList() {
-        return teachersList;
+    public List<Clazz> getClazzList() {
+        return clazzList;
     }
 
-    public void setTeachersList(List<Teachers> teachersList) {
-        this.teachersList = teachersList;
-    }
-
-    public List<Event> getEventList() {
-        return eventList;
-    }
-
-    public void setEventList(List<Event> eventList) {
-        this.eventList = eventList;
+    public void setClazzList(List<Clazz> clazzList) {
+        this.clazzList = clazzList;
     }
 
     @Override

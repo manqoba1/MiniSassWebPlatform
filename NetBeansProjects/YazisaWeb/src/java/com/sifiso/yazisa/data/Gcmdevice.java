@@ -67,18 +67,15 @@ public class Gcmdevice implements Serializable {
     @Column(name = "dateRegistered")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistered;
-    @JoinColumn(name = "headmasterID", referencedColumnName = "headMasterID")
-    @ManyToOne(optional = false)
-    private Headmaster headmaster;
-    @JoinColumn(name = "learnerID", referencedColumnName = "learnersID")
-    @ManyToOne(optional = false)
-    private Learners learner;
     @JoinColumn(name = "parentID", referencedColumnName = "parentID")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Parent parent;
     @JoinColumn(name = "teacherID", referencedColumnName = "teacherID")
-    @ManyToOne(optional = false)
-    private Teachers teacher;
+    @ManyToOne
+    private Teacher teacher;
+    @JoinColumn(name = "studentID", referencedColumnName = "studentID")
+    @ManyToOne
+    private Student student;
 
     public Gcmdevice() {
     }
@@ -151,22 +148,6 @@ public class Gcmdevice implements Serializable {
         this.dateRegistered = dateRegistered;
     }
 
-    public Headmaster getHeadmaster() {
-        return headmaster;
-    }
-
-    public void setHeadmaster(Headmaster headmaster) {
-        this.headmaster = headmaster;
-    }
-
-    public Learners getLearner() {
-        return learner;
-    }
-
-    public void setLearner(Learners learner) {
-        this.learner = learner;
-    }
-
     public Parent getParent() {
         return parent;
     }
@@ -175,12 +156,20 @@ public class Gcmdevice implements Serializable {
         this.parent = parent;
     }
 
-    public Teachers getTeacher() {
+    public Teacher getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(Teachers teacher) {
+    public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     @Override

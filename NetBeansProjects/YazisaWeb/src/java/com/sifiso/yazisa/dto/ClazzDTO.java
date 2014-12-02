@@ -16,14 +16,13 @@ import java.util.List;
 public class ClazzDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Integer clazzID;
+    private Integer clazzID, schoolID;
     private String className;
-
-    private int classYear;
+    private Integer totalStudentsPerClazz;
+    private Integer activeFlag;
+    private List<ClazzstudentDTO> clazzstudentList = new ArrayList<>();
+    private SchoolDTO school;
     private List<ClazzteacherDTO> clazzteacherList = new ArrayList<>();
-    private List<ClazzlearnerDTO> clazzlearnerList = new ArrayList<>();
-    private List<ExamDTO> examList = new ArrayList<>();
-    private List<SubclazzDTO> subclazzList = new ArrayList<>();
 
     public ClazzDTO() {
     }
@@ -31,15 +30,10 @@ public class ClazzDTO implements Serializable {
     public ClazzDTO(Clazz c) {
         clazzID = c.getClazzID();
         className = c.getClassName();
-        classYear = c.getClassYear();
-    }
-
-    public int getClassYear() {
-        return classYear;
-    }
-
-    public void setClassYear(int classYear) {
-        this.classYear = classYear;
+        totalStudentsPerClazz = c.getTotalStudentsPerClazz();
+        activeFlag = c.getActiveFlag();
+        schoolID = c.getSchool().getSchoolID();
+        school = new SchoolDTO(c.getSchool());
     }
 
     public Integer getClazzID() {
@@ -58,36 +52,52 @@ public class ClazzDTO implements Serializable {
         this.className = className;
     }
 
+    public Integer getTotalStudentsPerClazz() {
+        return totalStudentsPerClazz;
+    }
+
+    public void setTotalStudentsPerClazz(Integer totalStudentsPerClazz) {
+        this.totalStudentsPerClazz = totalStudentsPerClazz;
+    }
+
+    public Integer getSchoolID() {
+        return schoolID;
+    }
+
+    public void setSchoolID(Integer schoolID) {
+        this.schoolID = schoolID;
+    }
+
+    public Integer getActiveFlag() {
+        return activeFlag;
+    }
+
+    public void setActiveFlag(Integer activeFlag) {
+        this.activeFlag = activeFlag;
+    }
+
+    public List<ClazzstudentDTO> getClazzstudentList() {
+        return clazzstudentList;
+    }
+
+    public void setClazzstudentList(List<ClazzstudentDTO> clazzstudentList) {
+        this.clazzstudentList = clazzstudentList;
+    }
+
+    public SchoolDTO getSchool() {
+        return school;
+    }
+
+    public void setSchool(SchoolDTO school) {
+        this.school = school;
+    }
+
     public List<ClazzteacherDTO> getClazzteacherList() {
         return clazzteacherList;
     }
 
     public void setClazzteacherList(List<ClazzteacherDTO> clazzteacherList) {
         this.clazzteacherList = clazzteacherList;
-    }
-
-    public List<ClazzlearnerDTO> getClazzlearnerList() {
-        return clazzlearnerList;
-    }
-
-    public void setClazzlearnerList(List<ClazzlearnerDTO> clazzlearnerList) {
-        this.clazzlearnerList = clazzlearnerList;
-    }
-
-    public List<ExamDTO> getExamList() {
-        return examList;
-    }
-
-    public void setExamList(List<ExamDTO> examList) {
-        this.examList = examList;
-    }
-
-    public List<SubclazzDTO> getSubclazzList() {
-        return subclazzList;
-    }
-
-    public void setSubclazzList(List<SubclazzDTO> subclazzList) {
-        this.subclazzList = subclazzList;
     }
 
     @Override

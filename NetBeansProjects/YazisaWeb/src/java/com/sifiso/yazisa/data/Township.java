@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -62,6 +61,14 @@ public class Township implements Serializable {
     public Township() {
     }
 
+    public Province getProvince() {
+        return province;
+    }
+
+    public void setProvince(Province province) {
+        this.province = province;
+    }
+
     public Township(Integer townshipID) {
         this.townshipID = townshipID;
     }
@@ -111,15 +118,7 @@ public class Township implements Serializable {
         this.schoolList = schoolList;
     }
 
-    public Province getProvince() {
-        return province;
-    }
-
-    public void setProvince(Province province) {
-        this.province = province;
-    }
-
-   
+    
 
     @Override
     public int hashCode() {

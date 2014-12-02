@@ -5,7 +5,10 @@
  */
 package com.sifiso.yazisa.util;
 
+import com.sifiso.yazisa.data.Deviceerror;
+import com.sifiso.yazisa.data.School;
 import com.sifiso.yazisa.data.Servererror;
+import com.sifiso.yazisa.dto.DeviceerrorDTO;
 import com.sifiso.yazisa.dto.ServererrorDTO;
 import com.sifiso.yazisa.transfer.dto.RequestDTO;
 import java.util.Date;
@@ -54,6 +57,30 @@ public class PlatformUtil {
             em.persist(s);
             log.log(Level.INFO, "####### ErrorStore row added, origin {0} \nmessage: {1}",
                     new Object[]{origin, message});
+        } catch (Exception e) {
+            //addServerError(dto);
+            log.log(Level.SEVERE, "*** Not Stupid ***", e);
+
+        }
+    }
+
+    public void addDeviceError(DeviceerrorDTO dto) {
+        try {
+            Deviceerror s = new Deviceerror();
+            s.setAndroidVersion(dto.getAndroidVersion());
+            s.setAppVersionCode(dto.getAppVersionCode());
+            s.setAppVersionName(dto.getAppVersionName());
+            s.setBrand(dto.getBrand());
+            s.setErrorDate(new Date());
+            s.setLogCat(dto.getLogCat());
+            s.setStackTrace(dto.getBrand());
+            s.setPackageName(dto.getPackageName());
+            s.setPhoneModel(dto.getPhoneModel());
+            s.setSchool(em.find(School.class, dto.getSchoolID()));
+
+            em.persist(s);
+            log.log(Level.INFO, "####### ErrorStore row added, origin {0} \nmessage: {1}",
+                    s);
         } catch (Exception e) {
             //addServerError(dto);
             log.log(Level.SEVERE, "*** Not Stupid ***", e);

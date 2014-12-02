@@ -6,6 +6,7 @@
 package com.sifiso.yazisa.dto;
 
 import com.sifiso.yazisa.data.School;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +14,11 @@ import java.util.List;
  *
  * @author CodeTribe1
  */
-public class SchoolDTO {
+public class SchoolDTO implements Serializable {
 
     private Integer schoolID, townshipID;
+    private static final long serialVersionUID = 1L;
+
     private String schoolName;
     private double latitude;
     private double longitude;
@@ -23,12 +26,9 @@ public class SchoolDTO {
     private String address;
     private String postalCode;
     private String email;
-    private List<HeadmasterDTO> headmasterList = new ArrayList<>();
-    private List<AdminDTO> adminList = new ArrayList<>();
-    private List<DeviceerrorDTO> deviceerrorList = new ArrayList<>();
     private TownshipDTO township;
-    private List<TeachersDTO> teachersList = new ArrayList<>();
-    private List<EventDTO> eventList = new ArrayList<>();
+    private List<DeviceerrorDTO> deviceerrorList = new ArrayList<>();
+    private List<ClazzDTO> clazzList;
 
     public SchoolDTO(School s) {
         schoolID = s.getSchoolID();
@@ -124,30 +124,6 @@ public class SchoolDTO {
         this.township = township;
     }
 
-    public List<TeachersDTO> getTeachersList() {
-        return teachersList;
-    }
-
-    public void setTeachersList(List<TeachersDTO> teachersList) {
-        this.teachersList = teachersList;
-    }
-
-    public List<HeadmasterDTO> getHeadmasterList() {
-        return headmasterList;
-    }
-
-    public void setHeadmasterList(List<HeadmasterDTO> headmasterList) {
-        this.headmasterList = headmasterList;
-    }
-
-    public List<AdminDTO> getAdminList() {
-        return adminList;
-    }
-
-    public void setAdminList(List<AdminDTO> adminList) {
-        this.adminList = adminList;
-    }
-
     public List<DeviceerrorDTO> getDeviceerrorList() {
         return deviceerrorList;
     }
@@ -156,12 +132,12 @@ public class SchoolDTO {
         this.deviceerrorList = deviceerrorList;
     }
 
-    public List<EventDTO> getEventList() {
-        return eventList;
+    public List<ClazzDTO> getClazzList() {
+        return clazzList;
     }
 
-    public void setEventList(List<EventDTO> eventList) {
-        this.eventList = eventList;
+    public void setClazzList(List<ClazzDTO> clazzList) {
+        this.clazzList = clazzList;
     }
 
 }

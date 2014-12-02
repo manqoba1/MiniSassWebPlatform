@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 public class DeviceerrorDTO implements Serializable {
 
-    private Integer deviceErrorID;
+    private Integer deviceErrorID,schoolID;
     private long errorDate;
     private String packageName;
     private String appVersionName;
@@ -37,6 +37,15 @@ public class DeviceerrorDTO implements Serializable {
         stackTrace = a.getStackTrace();
         logCat = a.getLogCat();
         school = new SchoolDTO(a.getSchool());
+        schoolID = a.getSchool().getSchoolID();
+    }
+
+    public Integer getSchoolID() {
+        return schoolID;
+    }
+
+    public void setSchoolID(Integer schoolID) {
+        this.schoolID = schoolID;
     }
 
     public DeviceerrorDTO(Integer deviceErrorID) {

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -41,6 +40,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Deviceerror.findByPhoneModel", query = "SELECT d FROM Deviceerror d WHERE d.phoneModel = :phoneModel"),
     @NamedQuery(name = "Deviceerror.findByAndroidVersion", query = "SELECT d FROM Deviceerror d WHERE d.androidVersion = :androidVersion")})
 public class Deviceerror implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -175,8 +175,6 @@ public class Deviceerror implements Serializable {
         this.school = school;
     }
 
-  
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -201,5 +199,5 @@ public class Deviceerror implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Deviceerror[ deviceErrorID=" + deviceErrorID + " ]";
     }
-    
+
 }

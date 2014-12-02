@@ -35,7 +35,7 @@ import javax.websocket.server.ServerEndpoint;
  */
 @ServerEndpoint("/wsyazi")
 @Stateful
-public class YezisaWebsocket {
+public class TeacherWebsocket {
 
     @EJB
     ListUtil listUtil;
@@ -59,14 +59,14 @@ public class YezisaWebsocket {
             resp = trafficCop.processRequest(dto, dataUtil, listUtil, platformUtil);
             bb = GZipUtility.getZippedResponse(resp);
         } catch (IOException ex) {
-            Logger.getLogger(YezisaWebsocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TeacherWebsocket.class.getName()).log(Level.SEVERE, null, ex);
             resp.setStatusCode(111);
             resp.setMessage("Problem processing request on server");
 
             try {
                 bb = GZipUtility.getZippedResponse(resp);
             } catch (IOException ex1) {
-                Logger.getLogger(YezisaWebsocket.class.getName()).log(Level.SEVERE, null, ex1);
+                Logger.getLogger(TeacherWebsocket.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
         return bb;
@@ -107,6 +107,6 @@ public class YezisaWebsocket {
     }
 
     Gson gson = new Gson();
-    static final Logger log = Logger.getLogger(YezisaWebsocket.class.getSimpleName());
+    static final Logger log = Logger.getLogger(TeacherWebsocket.class.getSimpleName());
 
 }

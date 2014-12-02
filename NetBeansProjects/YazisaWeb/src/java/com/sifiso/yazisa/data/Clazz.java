@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -15,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -32,8 +33,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Clazz.findAll", query = "SELECT c FROM Clazz c"),
     @NamedQuery(name = "Clazz.findByClazzID", query = "SELECT c FROM Clazz c WHERE c.clazzID = :clazzID"),
     @NamedQuery(name = "Clazz.findByClassName", query = "SELECT c FROM Clazz c WHERE c.className = :className"),
-    @NamedQuery(name = "Clazz.findByClassYear", query = "SELECT c FROM Clazz c WHERE c.classYear = :classYear")})
+    @NamedQuery(name = "Clazz.findByTotalStudentsPerClazz", query = "SELECT c FROM Clazz c WHERE c.totalStudentsPerClazz = :totalStudentsPerClazz"),
+    @NamedQuery(name = "Clazz.findByActiveFlag", query = "SELECT c FROM Clazz c WHERE c.activeFlag = :activeFlag")})
 public class Clazz implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,18 +48,17 @@ public class Clazz implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "className")
     private String className;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "classYear")
-    private int classYear;
+    @Column(name = "totalStudentsPerClazz")
+    private Integer totalStudentsPerClazz;
+    @Column(name = "activeFlag")
+    private Integer activeFlag;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clazz")
     private List<Clazzteacher> clazzteacherList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clazz")
-    private List<Clazzlearner> clazzlearnerList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clazz")
-    private List<Exam> examList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clazz")
-    private List<Subclazz> subclazzList;
+    private List<Clazzstudent> clazzstudentList;
+    @JoinColumn(name = "schoolID", referencedColumnName = "schoolID")
+    @ManyToOne(optional = false)
+    private School school;
 
     public Clazz() {
     }
@@ -65,10 +67,9 @@ public class Clazz implements Serializable {
         this.clazzID = clazzID;
     }
 
-    public Clazz(Integer clazzID, String className, int classYear) {
+    public Clazz(Integer clazzID, String className) {
         this.clazzID = clazzID;
         this.className = className;
-        this.classYear = classYear;
     }
 
     public Integer getClazzID() {
@@ -87,12 +88,20 @@ public class Clazz implements Serializable {
         this.className = className;
     }
 
-    public int getClassYear() {
-        return classYear;
+    public Integer getTotalStudentsPerClazz() {
+        return totalStudentsPerClazz;
     }
 
-    public void setClassYear(int classYear) {
-        this.classYear = classYear;
+    public void setTotalStudentsPerClazz(Integer totalStudentsPerClazz) {
+        this.totalStudentsPerClazz = totalStudentsPerClazz;
+    }
+
+    public Integer getActiveFlag() {
+        return activeFlag;
+    }
+
+    public void setActiveFlag(Integer activeFlag) {
+        this.activeFlag = activeFlag;
     }
 
     public List<Clazzteacher> getClazzteacherList() {
@@ -103,28 +112,20 @@ public class Clazz implements Serializable {
         this.clazzteacherList = clazzteacherList;
     }
 
-    public List<Clazzlearner> getClazzlearnerList() {
-        return clazzlearnerList;
+    public List<Clazzstudent> getClazzstudentList() {
+        return clazzstudentList;
     }
 
-    public void setClazzlearnerList(List<Clazzlearner> clazzlearnerList) {
-        this.clazzlearnerList = clazzlearnerList;
+    public void setClazzstudentList(List<Clazzstudent> clazzstudentList) {
+        this.clazzstudentList = clazzstudentList;
     }
 
-    public List<Exam> getExamList() {
-        return examList;
+    public School getSchool() {
+        return school;
     }
 
-    public void setExamList(List<Exam> examList) {
-        this.examList = examList;
-    }
-
-    public List<Subclazz> getSubclazzList() {
-        return subclazzList;
-    }
-
-    public void setSubclazzList(List<Subclazz> subclazzList) {
-        this.subclazzList = subclazzList;
+    public void setSchool(School school) {
+        this.school = school;
     }
 
     @Override
@@ -151,5 +152,5 @@ public class Clazz implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Clazz[ clazzID=" + clazzID + " ]";
     }
-    
+
 }

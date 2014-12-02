@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 public class GcmdeviceDTO implements Serializable {
 
-    private Integer gcmDeviceID;
+    private Integer gcmDeviceID, teacherID, studentID, parentID;
     private String model;
     private String serialNumber;
     private String androidVersion;
@@ -18,10 +18,9 @@ public class GcmdeviceDTO implements Serializable {
     private String product;
     private String registrationID;
     private long dateRegistered;
-    private HeadmasterDTO headmaster;
-    private LearnersDTO learner;
     private ParentDTO parent;
-    private TeachersDTO teacher;
+    private StudentDTO student;
+    private TeacherDTO teacher;
 
     public GcmdeviceDTO() {
     }
@@ -35,10 +34,21 @@ public class GcmdeviceDTO implements Serializable {
         product = a.getProduct();
         registrationID = a.getRegistrationID();
         dateRegistered = a.getDateRegistered().getTime();
-        headmaster = new HeadmasterDTO(a.getHeadmaster());
-        learner = new LearnersDTO(a.getLearner());
         parent = new ParentDTO(a.getParent());
-        teacher = new TeachersDTO(a.getTeacher());
+        teacher = new TeacherDTO(a.getTeacher());
+        parent = new ParentDTO(a.getParent());
+        student = new StudentDTO(a.getStudent());
+        teacherID = a.getTeacher().getTeacherID();
+        studentID = a.getStudent().getStudentID();
+        parentID = a.getParent().getParentID();
+    }
+
+    public Integer getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(Integer parentID) {
+        this.parentID = parentID;
     }
 
     public GcmdeviceDTO(Integer gcmDeviceID) {
@@ -109,22 +119,6 @@ public class GcmdeviceDTO implements Serializable {
         this.dateRegistered = dateRegistered;
     }
 
-    public HeadmasterDTO getHeadmaster() {
-        return headmaster;
-    }
-
-    public void setHeadmaster(HeadmasterDTO headmaster) {
-        this.headmaster = headmaster;
-    }
-
-    public LearnersDTO getLearner() {
-        return learner;
-    }
-
-    public void setLearner(LearnersDTO learner) {
-        this.learner = learner;
-    }
-
     public ParentDTO getParent() {
         return parent;
     }
@@ -133,12 +127,36 @@ public class GcmdeviceDTO implements Serializable {
         this.parent = parent;
     }
 
-    public TeachersDTO getTeacher() {
+    public Integer getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(Integer studentID) {
+        this.studentID = studentID;
+    }
+
+    public Integer getTeacherID() {
+        return teacherID;
+    }
+
+    public void setTeacherID(Integer teacherID) {
+        this.teacherID = teacherID;
+    }
+
+    public TeacherDTO getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(TeachersDTO teacher) {
+    public void setTeacher(TeacherDTO teacher) {
         this.teacher = teacher;
+    }
+
+    public StudentDTO getStudent() {
+        return student;
+    }
+
+    public void setStudent(StudentDTO student) {
+        this.student = student;
     }
 
     @Override

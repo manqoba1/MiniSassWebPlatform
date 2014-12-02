@@ -5,23 +5,22 @@
  */
 package com.sifiso.yazisa.transfer.dto;
 
-import com.sifiso.yazisa.data.Teachers;
-import com.sifiso.yazisa.dto.AbsenteeDTO;
+import com.sifiso.yazisa.dto.AttendenceDTO;
 import com.sifiso.yazisa.dto.ClazzDTO;
-import com.sifiso.yazisa.dto.ClazzlearnerDTO;
+import com.sifiso.yazisa.dto.ClazzstudentDTO;
 import com.sifiso.yazisa.dto.ClazzteacherDTO;
 import com.sifiso.yazisa.dto.CountryDTO;
-import com.sifiso.yazisa.dto.ExamDTO;
-import com.sifiso.yazisa.dto.ExammarkDTO;
-import com.sifiso.yazisa.dto.HeadmasterDTO;
-import com.sifiso.yazisa.dto.LearnersDTO;
+import com.sifiso.yazisa.dto.DeviceerrorDTO;
+import com.sifiso.yazisa.dto.GcmdeviceDTO;
+import com.sifiso.yazisa.dto.IssueDTO;
 import com.sifiso.yazisa.dto.ParentDTO;
 import com.sifiso.yazisa.dto.ProvinceDTO;
 import com.sifiso.yazisa.dto.SchoolDTO;
-import com.sifiso.yazisa.dto.SubclazzDTO;
+import com.sifiso.yazisa.dto.ServererrorDTO;
+import com.sifiso.yazisa.dto.StudentDTO;
 import com.sifiso.yazisa.dto.SubjectDTO;
-import com.sifiso.yazisa.dto.TeachersDTO;
-import com.sifiso.yazisa.dto.TeachersubDTO;
+import com.sifiso.yazisa.dto.TeacherDTO;
+import com.sifiso.yazisa.dto.TeachersubjectDTO;
 import com.sifiso.yazisa.dto.TownshipDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,26 +33,66 @@ public class ResponseDTO {
 
     private Integer statusCode;
     private String message, sessionID, GCMRegistrationID;
-    private List<AbsenteeDTO> absenteeList = new ArrayList<>();
-    private List<ClazzDTO> clazzList = new ArrayList<>();
-    private List<ClazzlearnerDTO> clazzlearnerList = new ArrayList<>();
+
+    private AttendenceDTO attendence;
+    private ClazzteacherDTO clazzteacher;
+    private CountryDTO country;
+    private DeviceerrorDTO deviceerror;
+    private ClazzstudentDTO clazzstudent;
+    private ParentDTO parent;
+    private GcmdeviceDTO gcmdevice;
+    private ServererrorDTO servererror;
+    private TeachersubjectDTO teachersubject;
+    private ClazzDTO clazz;
+    private TownshipDTO township;
+    private ProvinceDTO province;
+    private SchoolDTO school;
+    private StudentDTO student;
+    private SubjectDTO subject;
+    private TeacherDTO teacher;
+    private IssueDTO issue;
+
+    private List<IssueDTO> issueList = new ArrayList<>();
+    private List<AttendenceDTO> attendenceList = new ArrayList<>();
+    private List<ClazzstudentDTO> clazzstudentList = new ArrayList<>();
     private List<ClazzteacherDTO> clazzteacherList = new ArrayList<>();
+    private List<DeviceerrorDTO> deviceerrorList = new ArrayList<>();
+    private List<GcmdeviceDTO> gcmdeviceList = new ArrayList<>();
+    private List<ServererrorDTO> servererrorList = new ArrayList<>();
+    private List<ClazzDTO> clazzList = new ArrayList<>();
     private List<CountryDTO> countryList = new ArrayList<>();
-    private List<ExamDTO> examList = new ArrayList<>();
-    private List<ExammarkDTO> exammarkList = new ArrayList<>();
-    private List<HeadmasterDTO> headmasterList = new ArrayList<>();
     private List<ParentDTO> parentList = new ArrayList<>();
     private List<ProvinceDTO> provinceList = new ArrayList<>();
     private List<SchoolDTO> schoolList = new ArrayList<>();
-    private List<SubclazzDTO> subclazzList = new ArrayList<>();
     private List<SubjectDTO> subjectList = new ArrayList<>();
-    private List<TeachersDTO> teachersList = new ArrayList<>();
-    private List<TeachersubDTO> teachersubList = new ArrayList<>();
+    private List<TeachersubjectDTO> teachersubjectList = new ArrayList<>();
     private List<TownshipDTO> townshipList = new ArrayList<>();
-    private List<LearnersDTO> learnersList = new ArrayList<>();
-    private SubclazzDTO subclazz;
-    private TeachersubDTO teachersub;
-    private TeachersDTO teachers;
+    private List<StudentDTO> studentList = new ArrayList<>();
+    private List<TeacherDTO> teacherList = new ArrayList<>();
+
+    public IssueDTO getIssue() {
+        return issue;
+    }
+
+    public void setIssue(IssueDTO issue) {
+        this.issue = issue;
+    }
+
+    public List<IssueDTO> getIssueList() {
+        return issueList;
+    }
+
+    public void setIssueList(List<IssueDTO> issueList) {
+        this.issueList = issueList;
+    }
+
+    public ParentDTO getParent() {
+        return parent;
+    }
+
+    public void setParent(ParentDTO parent) {
+        this.parent = parent;
+    }
 
     public Integer getStatusCode() {
         return statusCode;
@@ -61,38 +100,6 @@ public class ResponseDTO {
 
     public void setStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
-    }
-
-    public List<LearnersDTO> getLearnersList() {
-        return learnersList;
-    }
-
-    public TeachersDTO getTeachers() {
-        return teachers;
-    }
-
-    public void setTeachers(TeachersDTO teachers) {
-        this.teachers = teachers;
-    }
-
-    public void setLearnersList(List<LearnersDTO> learnersList) {
-        this.learnersList = learnersList;
-    }
-
-    public TeachersubDTO getTeachersub() {
-        return teachersub;
-    }
-
-    public void setTeachersub(TeachersubDTO teachersub) {
-        this.teachersub = teachersub;
-    }
-
-    public SubclazzDTO getSubclazz() {
-        return subclazz;
-    }
-
-    public void setSubclazz(SubclazzDTO subclazz) {
-        this.subclazz = subclazz;
     }
 
     public String getMessage() {
@@ -119,28 +126,140 @@ public class ResponseDTO {
         this.GCMRegistrationID = GCMRegistrationID;
     }
 
-    public List<AbsenteeDTO> getAbsenteeList() {
-        return absenteeList;
+    public AttendenceDTO getAttendence() {
+        return attendence;
     }
 
-    public void setAbsenteeList(List<AbsenteeDTO> absenteeList) {
-        this.absenteeList = absenteeList;
+    public void setAttendence(AttendenceDTO attendence) {
+        this.attendence = attendence;
     }
 
-    public List<ClazzDTO> getClazzList() {
-        return clazzList;
+    public ClazzteacherDTO getClazzteacher() {
+        return clazzteacher;
     }
 
-    public void setClazzList(List<ClazzDTO> clazzList) {
-        this.clazzList = clazzList;
+    public void setClazzteacher(ClazzteacherDTO clazzteacher) {
+        this.clazzteacher = clazzteacher;
     }
 
-    public List<ClazzlearnerDTO> getClazzlearnerList() {
-        return clazzlearnerList;
+    public CountryDTO getCountry() {
+        return country;
     }
 
-    public void setClazzlearnerList(List<ClazzlearnerDTO> clazzlearnerList) {
-        this.clazzlearnerList = clazzlearnerList;
+    public void setCountry(CountryDTO country) {
+        this.country = country;
+    }
+
+    public DeviceerrorDTO getDeviceerror() {
+        return deviceerror;
+    }
+
+    public void setDeviceerror(DeviceerrorDTO deviceerror) {
+        this.deviceerror = deviceerror;
+    }
+
+    public ClazzstudentDTO getClazzstudent() {
+        return clazzstudent;
+    }
+
+    public void setClazzstudent(ClazzstudentDTO clazzstudent) {
+        this.clazzstudent = clazzstudent;
+    }
+
+    public GcmdeviceDTO getGcmdevice() {
+        return gcmdevice;
+    }
+
+    public void setGcmdevice(GcmdeviceDTO gcmdevice) {
+        this.gcmdevice = gcmdevice;
+    }
+
+    public ServererrorDTO getServererror() {
+        return servererror;
+    }
+
+    public void setServererror(ServererrorDTO servererror) {
+        this.servererror = servererror;
+    }
+
+    public TeachersubjectDTO getTeachersubject() {
+        return teachersubject;
+    }
+
+    public void setTeachersubject(TeachersubjectDTO teachersubject) {
+        this.teachersubject = teachersubject;
+    }
+
+    public ClazzDTO getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(ClazzDTO clazz) {
+        this.clazz = clazz;
+    }
+
+    public TownshipDTO getTownship() {
+        return township;
+    }
+
+    public void setTownship(TownshipDTO township) {
+        this.township = township;
+    }
+
+    public ProvinceDTO getProvince() {
+        return province;
+    }
+
+    public void setProvince(ProvinceDTO province) {
+        this.province = province;
+    }
+
+    public SchoolDTO getSchool() {
+        return school;
+    }
+
+    public void setSchool(SchoolDTO school) {
+        this.school = school;
+    }
+
+    public StudentDTO getStudent() {
+        return student;
+    }
+
+    public void setStudent(StudentDTO student) {
+        this.student = student;
+    }
+
+    public SubjectDTO getSubject() {
+        return subject;
+    }
+
+    public void setSubject(SubjectDTO subject) {
+        this.subject = subject;
+    }
+
+    public TeacherDTO getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(TeacherDTO teacher) {
+        this.teacher = teacher;
+    }
+
+    public List<AttendenceDTO> getAttendenceList() {
+        return attendenceList;
+    }
+
+    public void setAttendenceList(List<AttendenceDTO> attendenceList) {
+        this.attendenceList = attendenceList;
+    }
+
+    public List<ClazzstudentDTO> getClazzstudentList() {
+        return clazzstudentList;
+    }
+
+    public void setClazzstudentList(List<ClazzstudentDTO> clazzstudentList) {
+        this.clazzstudentList = clazzstudentList;
     }
 
     public List<ClazzteacherDTO> getClazzteacherList() {
@@ -151,36 +270,44 @@ public class ResponseDTO {
         this.clazzteacherList = clazzteacherList;
     }
 
+    public List<DeviceerrorDTO> getDeviceerrorList() {
+        return deviceerrorList;
+    }
+
+    public void setDeviceerrorList(List<DeviceerrorDTO> deviceerrorList) {
+        this.deviceerrorList = deviceerrorList;
+    }
+
+    public List<GcmdeviceDTO> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
+
+    public void setGcmdeviceList(List<GcmdeviceDTO> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
+    }
+
+    public List<ServererrorDTO> getServererrorList() {
+        return servererrorList;
+    }
+
+    public void setServererrorList(List<ServererrorDTO> servererrorList) {
+        this.servererrorList = servererrorList;
+    }
+
+    public List<ClazzDTO> getClazzList() {
+        return clazzList;
+    }
+
+    public void setClazzList(List<ClazzDTO> clazzList) {
+        this.clazzList = clazzList;
+    }
+
     public List<CountryDTO> getCountryList() {
         return countryList;
     }
 
     public void setCountryList(List<CountryDTO> countryList) {
         this.countryList = countryList;
-    }
-
-    public List<ExamDTO> getExamList() {
-        return examList;
-    }
-
-    public void setExamList(List<ExamDTO> examList) {
-        this.examList = examList;
-    }
-
-    public List<ExammarkDTO> getExammarkList() {
-        return exammarkList;
-    }
-
-    public void setExammarkList(List<ExammarkDTO> exammarkList) {
-        this.exammarkList = exammarkList;
-    }
-
-    public List<HeadmasterDTO> getHeadmasterList() {
-        return headmasterList;
-    }
-
-    public void setHeadmasterList(List<HeadmasterDTO> headmasterList) {
-        this.headmasterList = headmasterList;
     }
 
     public List<ParentDTO> getParentList() {
@@ -207,14 +334,6 @@ public class ResponseDTO {
         this.schoolList = schoolList;
     }
 
-    public List<SubclazzDTO> getSubclazzList() {
-        return subclazzList;
-    }
-
-    public void setSubclazzList(List<SubclazzDTO> subclazzList) {
-        this.subclazzList = subclazzList;
-    }
-
     public List<SubjectDTO> getSubjectList() {
         return subjectList;
     }
@@ -223,20 +342,12 @@ public class ResponseDTO {
         this.subjectList = subjectList;
     }
 
-    public List<TeachersDTO> getTeachersList() {
-        return teachersList;
+    public List<TeachersubjectDTO> getTeachersubjectList() {
+        return teachersubjectList;
     }
 
-    public void setTeachersList(List<TeachersDTO> teachersList) {
-        this.teachersList = teachersList;
-    }
-
-    public List<TeachersubDTO> getTeachersubList() {
-        return teachersubList;
-    }
-
-    public void setTeachersubList(List<TeachersubDTO> teachersubList) {
-        this.teachersubList = teachersubList;
+    public void setTeachersubjectList(List<TeachersubjectDTO> teachersubjectList) {
+        this.teachersubjectList = teachersubjectList;
     }
 
     public List<TownshipDTO> getTownshipList() {
@@ -245,6 +356,22 @@ public class ResponseDTO {
 
     public void setTownshipList(List<TownshipDTO> townshipList) {
         this.townshipList = townshipList;
+    }
+
+    public List<StudentDTO> getStudentList() {
+        return studentList;
+    }
+
+    public void setStudentList(List<StudentDTO> studentList) {
+        this.studentList = studentList;
+    }
+
+    public List<TeacherDTO> getTeacherList() {
+        return teacherList;
+    }
+
+    public void setTeacherList(List<TeacherDTO> teacherList) {
+        this.teacherList = teacherList;
     }
 
 }

@@ -5,29 +5,24 @@
  */
 package com.sifiso.yazisa.util;
 
-import com.sifiso.yazisa.data.Absentee;
+import com.sifiso.yazisa.data.Attendence;
 import com.sifiso.yazisa.data.Clazz;
-import com.sifiso.yazisa.data.Clazzlearner;
+import com.sifiso.yazisa.data.Clazzstudent;
 import com.sifiso.yazisa.data.Clazzteacher;
-import com.sifiso.yazisa.data.Exam;
-import com.sifiso.yazisa.data.Exammark;
-import com.sifiso.yazisa.data.Learners;
+import com.sifiso.yazisa.data.Issue;
 import com.sifiso.yazisa.data.Parent;
-import com.sifiso.yazisa.data.Subclazz;
+import com.sifiso.yazisa.data.School;
+import com.sifiso.yazisa.data.Student;
 import com.sifiso.yazisa.data.Subject;
-import com.sifiso.yazisa.data.Teachers;
-import com.sifiso.yazisa.data.Teachersub;
-import com.sifiso.yazisa.dto.AbsenteeDTO;
+import com.sifiso.yazisa.data.Teacher;
+import com.sifiso.yazisa.data.Teachersubject;
+import com.sifiso.yazisa.dto.AttendenceDTO;
 import com.sifiso.yazisa.dto.ClazzDTO;
-import com.sifiso.yazisa.dto.ClazzlearnerDTO;
 import com.sifiso.yazisa.dto.ClazzteacherDTO;
-import com.sifiso.yazisa.dto.ExamDTO;
-import com.sifiso.yazisa.dto.ExammarkDTO;
-import com.sifiso.yazisa.dto.LearnersDTO;
-import com.sifiso.yazisa.dto.ParentDTO;
+import com.sifiso.yazisa.dto.IssueDTO;
+import com.sifiso.yazisa.dto.StudentDTO;
 import com.sifiso.yazisa.dto.SubjectDTO;
-import com.sifiso.yazisa.dto.TeachersDTO;
-import com.sifiso.yazisa.dto.TeachersubDTO;
+import com.sifiso.yazisa.dto.TeacherDTO;
 import com.sifiso.yazisa.transfer.dto.ResponseDTO;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,47 +49,6 @@ public class ListUtil {
     @PersistenceContext
     EntityManager em;
 
-    public ResponseDTO getStudentClassListByID(int clazzID, int subjectID) {
-        ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("Subclazz.findBySubjectAndClass", Subclazz.class);
-        q.setParameter("clazzID", clazzID);
-        q.setParameter("subjectID", subjectID);
-
-        List<Subclazz> list = q.getResultList();
-        for (Subclazz cp : list) {
-            LearnersDTO o = new LearnersDTO(cp.getLearners());
-            for (Exammark ems : cp.getLearners().getExammarkList()) {
-                ExammarkDTO exammark = new ExammarkDTO(ems);
-                exammark.setExam(new ExamDTO(ems.getExam()));
-                o.getExammarkList().add(exammark);
-            }
-            for(Clazzlearner cl: cp.getLearners().getClazzlearnerList()){
-                ClazzlearnerDTO cdto = new ClazzlearnerDTO(cl);
-                o.getClazzlearnerList().add(cdto);
-            }
-            for(Parent p : cp.getLearners().getParentList()){
-                ParentDTO parent = new ParentDTO(p);
-                o.getParentList().add(parent);
-            }
-            resp.getLearnersList().add(o);
-        }
-
-        return resp;
-    }
-
-    public ResponseDTO getAbsence(long dateAbsence) {
-        ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("Absentee.findByAbsentDate", Absentee.class);
-        q.setParameter("absentDate", new Date(dateAbsence));
-
-        List<Absentee> list = q.getResultList();
-
-        for (Absentee cp : list) {
-            resp.getAbsenteeList().add(new AbsenteeDTO(cp));
-        }
-        return resp;
-    }
-
     public static long getSimpleDate(Date date, int day) {
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(date);
@@ -108,45 +62,18 @@ public class ListUtil {
         return cal.getTimeInMillis();
     }
 
-    public ResponseDTO getSubclassListByID() {
-        ResponseDTO resp = new ResponseDTO();
-
-        List<ClazzDTO> clazzDTO = getClazzList();
-        List<SubjectDTO> subclazzDTO = getSubjectList();
-
-        resp.setClazzList(clazzDTO);
-        resp.setSubjectList(subclazzDTO);
-
-        return resp;
+    public School getSchoolByID(int schoolID) {
+        return em.find(School.class, schoolID);
     }
 
     public ResponseDTO getTeacherData(int teacherID) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
-            Query q = em.createNamedQuery("Teachers.findByTeacherID", Teachers.class);
-            q.setParameter("teacherID", teacherID);
-            List<Teachers> teacherses = q.getResultList();
+            List<ClazzDTO> clazzList = getClazzList(teacherID);
+            List<SubjectDTO> subjectList = getSubjectList(teacherID);
+            resp.setClazzList(clazzList);
+            resp.setSubjectList(subjectList);
 
-            for (Teachers t : teacherses) {
-                TeachersDTO teachers = new TeachersDTO(t);
-                for (Teachersub ts : t.getTeachersubList()) {
-                    TeachersubDTO tsd = new TeachersubDTO(ts);
-                    teachers.getTeachersubList().add(tsd);
-                }
-                for (Clazzteacher ct : t.getClazzteacherList()) {
-                    ClazzteacherDTO clazzteacher = new ClazzteacherDTO(ct);
-                    teachers.getClazzteacherList().add(clazzteacher);
-                }
-                for (Exam e : t.getExamList()) {
-                    ExamDTO exam = new ExamDTO(e);
-                    for (Exammark ems : e.getExammarkList()) {
-                        ExammarkDTO exammark = new ExammarkDTO(ems);
-                        exam.getExammarkList().add(exammark);
-                    }
-                    teachers.getExamList().add(exam);
-                }
-                resp.getTeachersList().add(teachers);
-            }
         } catch (Exception e) {
             log.log(Level.SEVERE, "Error, Not Stupid", e);
             resp.setMessage("Sorry Error getting data");
@@ -155,38 +82,50 @@ public class ListUtil {
         return resp;
     }
 
-    private List<ClazzDTO> getClazzList() {
+    private List<ClazzDTO> getClazzList(int teacherID) {
         List<ClazzDTO> clazz = new ArrayList<>();
 
-        Query q = em.createNamedQuery("Clazz.findAll", Clazz.class);
-        List<Clazz> list = q.getResultList();
-        for (Clazz c : list) {
-            ClazzDTO cd = new ClazzDTO(c);
+        Query q = em.createNamedQuery("Clazzteacher.findByClazzTeacherID", Clazz.class);
+        q.setParameter("teacherID", teacherID);
+        List<Clazzteacher> list = q.getResultList();
+        for (Clazzteacher c : list) {
+            ClazzDTO cd = new ClazzDTO(c.getClazz());
             clazz.add(cd);
         }
         return clazz;
     }
 
-    private List<SubjectDTO> getSubjectList() {
+    private List<SubjectDTO> getSubjectList(int teacherID) {
         List<SubjectDTO> subject = new ArrayList<>();
 
-        Query q = em.createNamedQuery("Subject.findAll", Subject.class);
-        List<Subject> list = q.getResultList();
-        for (Subject c : list) {
-            SubjectDTO cd = new SubjectDTO(c);
+        Query q = em.createNamedQuery("Teachersubject.findSubjectByTeacher", Subject.class);
+        q.setParameter("teacherID", teacherID);
+        List<Teachersubject> list = q.getResultList();
+        for (Teachersubject c : list) {
+            SubjectDTO cd = new SubjectDTO(c.getSubject());
             subject.add(cd);
         }
         return subject;
     }
 
-    public ResponseDTO getLearnerList() {
+    public ResponseDTO getStudentList(int clazzID) {
         ResponseDTO resp = new ResponseDTO();
 
-        Query q = em.createNamedQuery("Learners.findAll", Learners.class);
-        List<Learners> list = q.getResultList();
-        for (Learners c : list) {
-            LearnersDTO cd = new LearnersDTO(c);
+        Query q = em.createNamedQuery("Clazzstudent.findStudentByClass", Clazzstudent.class);
+        q.setParameter("clazzID", clazzID);
+        List<Clazzstudent> list = q.getResultList();
+        for (Clazzstudent c : list) {
+            StudentDTO cd = new StudentDTO(c.getStudent());
+            for (Attendence a : c.getStudent().getAttendenceList()) {
+                AttendenceDTO attendence = new AttendenceDTO(a);
+                cd.getAttendenceList().add(attendence);
+            }
 
+            for (Issue i : c.getStudent().getIssueList()) {
+                IssueDTO issue = new IssueDTO(i);
+                cd.getIssueList().add(issue);
+            }
+            resp.getStudentList().add(cd);
         }
         return resp;
     }

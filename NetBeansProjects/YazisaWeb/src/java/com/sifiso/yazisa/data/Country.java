@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -57,7 +56,7 @@ public class Country implements Serializable {
     private Double latitude;
     @Column(name = "longitude")
     private Double longitude;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "countryID")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
     private List<Province> provinceList;
 
     public Country() {

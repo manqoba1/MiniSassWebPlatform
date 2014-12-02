@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sifiso.yazisa.data;
 
 import java.io.Serializable;
@@ -37,6 +36,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Province.findByLatitude", query = "SELECT p FROM Province p WHERE p.latitude = :latitude"),
     @NamedQuery(name = "Province.findByLongitude", query = "SELECT p FROM Province p WHERE p.longitude = :longitude")})
 public class Province implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -111,7 +111,6 @@ public class Province implements Serializable {
         this.country = country;
     }
 
-    
     public List<Township> getTownshipList() {
         return townshipList;
     }
@@ -144,5 +143,5 @@ public class Province implements Serializable {
     public String toString() {
         return "com.sifiso.yazisa.data.Province[ provinceID=" + provinceID + " ]";
     }
-    
+
 }

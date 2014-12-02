@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -31,15 +29,19 @@ import javax.validation.constraints.Size;
 @Table(name = "parent")
 @NamedQueries({
     @NamedQuery(name = "Parent.findAll", query = "SELECT p FROM Parent p"),
+    @NamedQuery(name = "Parent.login",
+            query = "SELECT p FROM Parent p WHERE p.email = :email AND p.password = :password"),
     @NamedQuery(name = "Parent.findByParentID", query = "SELECT p FROM Parent p WHERE p.parentID = :parentID"),
     @NamedQuery(name = "Parent.findByParentName", query = "SELECT p FROM Parent p WHERE p.parentName = :parentName"),
     @NamedQuery(name = "Parent.findByParentSurname", query = "SELECT p FROM Parent p WHERE p.parentSurname = :parentSurname"),
     @NamedQuery(name = "Parent.findByParentIdNo", query = "SELECT p FROM Parent p WHERE p.parentIdNo = :parentIdNo"),
     @NamedQuery(name = "Parent.findByEmail", query = "SELECT p FROM Parent p WHERE p.email = :email"),
     @NamedQuery(name = "Parent.findByCell", query = "SELECT p FROM Parent p WHERE p.cell = :cell"),
-    @NamedQuery(name = "Parent.findByUsername", query = "SELECT p FROM Parent p WHERE p.username = :username"),
     @NamedQuery(name = "Parent.findByPassword", query = "SELECT p FROM Parent p WHERE p.password = :password")})
 public class Parent implements Serializable {
+    @Size(max = 500)
+    @Column(name = "sessionID")
+    private String sessionID;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -76,17 +78,11 @@ public class Parent implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "username")
-    private String username;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
-    @JoinColumn(name = "learnerID", referencedColumnName = "learnersID")
-    @ManyToOne(optional = false)
-    private Learners learner;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
+    private List<Student> studentList;
+    @OneToMany(mappedBy = "parent")
     private List<Gcmdevice> gcmdeviceList;
 
     public Parent() {
@@ -96,16 +92,14 @@ public class Parent implements Serializable {
         this.parentID = parentID;
     }
 
-    public Parent(Integer parentID, String parentName, String parentSurname, String parentIdNo, String email, String cell, String username, String password) {
+    public Parent(Integer parentID, String parentName, String parentSurname, String parentIdNo, String email, String cell, String password) {
         this.parentID = parentID;
         this.parentName = parentName;
         this.parentSurname = parentSurname;
         this.parentIdNo = parentIdNo;
         this.email = email;
         this.cell = cell;
-        this.username = username;
         this.password = password;
-        
     }
 
     public Integer getParentID() {
@@ -156,14 +150,6 @@ public class Parent implements Serializable {
         this.cell = cell;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -172,12 +158,12 @@ public class Parent implements Serializable {
         this.password = password;
     }
 
-    public Learners getLearner() {
-        return learner;
+    public List<Student> getStudentList() {
+        return studentList;
     }
 
-    public void setLearner(Learners learner) {
-        this.learner = learner;
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
     }
 
     public List<Gcmdevice> getGcmdeviceList() {
@@ -211,6 +197,14 @@ public class Parent implements Serializable {
     @Override
     public String toString() {
         return "com.sifiso.yazisa.data.Parent[ parentID=" + parentID + " ]";
+    }
+
+    public String getSessionID() {
+        return sessionID;
+    }
+
+    public void setSessionID(String sessionID) {
+        this.sessionID = sessionID;
     }
 
 }

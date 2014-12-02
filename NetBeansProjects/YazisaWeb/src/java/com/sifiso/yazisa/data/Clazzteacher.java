@@ -26,6 +26,7 @@ import javax.persistence.Table;
 @Table(name = "clazzteacher")
 @NamedQueries({
     @NamedQuery(name = "Clazzteacher.findAll", query = "SELECT c FROM Clazzteacher c"),
+        @NamedQuery(name = "Clazzteacher.findClazzByTeacher", query = "SELECT c FROM Clazzteacher c WHERE c.teacher.teacherID = :teacherID"),
     @NamedQuery(name = "Clazzteacher.findByClazzTeacherID", query = "SELECT c FROM Clazzteacher c WHERE c.clazzTeacherID = :clazzTeacherID")})
 public class Clazzteacher implements Serializable {
 
@@ -35,12 +36,12 @@ public class Clazzteacher implements Serializable {
     @Basic(optional = false)
     @Column(name = "clazzTeacherID")
     private Integer clazzTeacherID;
-    @JoinColumn(name = "teacherID", referencedColumnName = "teacherID")
-    @ManyToOne(optional = false)
-    private Teachers teacher;
     @JoinColumn(name = "clazzID", referencedColumnName = "clazzID")
     @ManyToOne(optional = false)
     private Clazz clazz;
+    @JoinColumn(name = "teacherID", referencedColumnName = "teacherID")
+    @ManyToOne(optional = false)
+    private Teacher teacher;
 
     public Clazzteacher() {
     }
@@ -57,20 +58,20 @@ public class Clazzteacher implements Serializable {
         this.clazzTeacherID = clazzTeacherID;
     }
 
-    public Teachers getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(Teachers teacher) {
-        this.teacher = teacher;
-    }
-
     public Clazz getClazz() {
         return clazz;
     }
 
     public void setClazz(Clazz clazz) {
         this.clazz = clazz;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
     @Override

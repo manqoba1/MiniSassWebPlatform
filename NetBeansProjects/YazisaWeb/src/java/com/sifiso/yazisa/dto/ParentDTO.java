@@ -5,8 +5,8 @@
  */
 package com.sifiso.yazisa.dto;
 
-import com.sifiso.yazisa.data.Learners;
 import com.sifiso.yazisa.data.Parent;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +14,9 @@ import java.util.List;
  *
  * @author CodeTribe1
  */
-public class ParentDTO {
+public class ParentDTO implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Integer parentID;
     private String parentName;
     private String parentSurname;
@@ -23,9 +24,9 @@ public class ParentDTO {
     private String email;
     private String cell;
     private String password;
-    private String username;
-    private List<GcmdeviceDTO> gcmdeviceList = new ArrayList<>();
-    private LearnersDTO learner;
+    private String sessionID;
+    private List<StudentDTO> studentList;
+    private List<GcmdeviceDTO> gcmdeviceList;
 
     public ParentDTO(Parent p) {
         parentID = p.getParentID();
@@ -34,10 +35,16 @@ public class ParentDTO {
         parentSurname = p.getParentSurname();
         email = p.getEmail();
         cell = p.getCell();
-        username = p.getUsername();
         password = p.getPassword();
-        learner = new LearnersDTO(p.getLearner());
+        sessionID = p.getSessionID();
+    }
 
+    public String getSessionID() {
+        return sessionID;
+    }
+
+    public void setSessionID(String sessionID) {
+        this.sessionID = sessionID;
     }
 
     public Integer getParentID() {
@@ -48,12 +55,12 @@ public class ParentDTO {
         this.parentID = parentID;
     }
 
-    public String getUsername() {
-        return username;
+    public List<StudentDTO> getStudentList() {
+        return studentList;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setStudentList(List<StudentDTO> studentList) {
+        this.studentList = studentList;
     }
 
     public String getParentName() {
@@ -102,14 +109,6 @@ public class ParentDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public LearnersDTO getLearner() {
-        return learner;
-    }
-
-    public void setLearner(LearnersDTO learner) {
-        this.learner = learner;
     }
 
     public List<GcmdeviceDTO> getGcmdeviceList() {
