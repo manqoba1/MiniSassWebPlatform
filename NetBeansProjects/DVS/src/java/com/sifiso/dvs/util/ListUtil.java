@@ -37,9 +37,10 @@ public class ListUtil {
 
     public ResponseDTO getDoctorData(int id) {
         ResponseDTO resp = new ResponseDTO();
-        resp.setVisitList(getVisitByDoctorID(id));
-        resp.setPatientfileList(getPatientFileByDoctorID(id));
-
+        DoctorDTO dTO = new DoctorDTO();
+        dTO.setVisitList(getVisitByDoctorID(id));
+        dTO.setPatientfileList(getPatientFileByDoctorID(id));
+        resp.setDoctor(dTO);
         return resp;
     }
 
@@ -71,7 +72,7 @@ public class ListUtil {
         q.setParameter("id", id);
         List<Visit> visits = q.getResultList();
         for (Visit v : visits) {
-            VisitDTO dTO = new VisitDTO(v);           
+            VisitDTO dTO = new VisitDTO(v);
             list.add(dTO);
         }
         return list;
@@ -84,7 +85,7 @@ public class ListUtil {
         List<Patientfile> patientfiles = q.getResultList();
         for (Patientfile p : patientfiles) {
             PatientfileDTO dTO = new PatientfileDTO(p);
-            for(Visit v: p.getVisitList()){
+            for (Visit v : p.getVisitList()) {
                 dTO.getVisitList().add(new VisitDTO(v));
             }
             list.add(dTO);

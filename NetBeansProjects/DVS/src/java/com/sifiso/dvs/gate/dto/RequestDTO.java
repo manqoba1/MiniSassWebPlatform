@@ -51,7 +51,7 @@ public class RequestDTO implements Serializable {
             UPDATE_PATIENT_FILE = 301;
 
     //get
-    public static final int GET_CLIENT_FILES = 400;
+    public static final int GET_CLIENT_FILES = 400, GET_DOCTOR_DATA = 401;
 
     private ClientDTO client;
     private CountryDTO country;

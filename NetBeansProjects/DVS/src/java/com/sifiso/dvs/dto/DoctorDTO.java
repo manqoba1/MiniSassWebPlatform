@@ -26,7 +26,7 @@ public class DoctorDTO implements Serializable {
     private String pin;
     private SurgeryDTO surgery;
     private DoctortypeDTO doctorType;
-    private List<Deviceerror> deviceerrorList = new ArrayList<>();
+    private List<DeviceerrorDTO> deviceerrorList = new ArrayList<>();
     private List<VisitDTO> visitList = new ArrayList<>();
     private List<PatientfileDTO> patientfileList = new ArrayList<>();
 
@@ -154,11 +154,11 @@ public class DoctorDTO implements Serializable {
         this.patientfileList = patientfileList;
     }
 
-    public List<Deviceerror> getDeviceerrorList() {
+    public List<DeviceerrorDTO> getDeviceerrorList() {
         return deviceerrorList;
     }
 
-    public void setDeviceerrorList(List<Deviceerror> deviceerrorList) {
+    public void setDeviceerrorList(List<DeviceerrorDTO> deviceerrorList) {
         this.deviceerrorList = deviceerrorList;
     }
 

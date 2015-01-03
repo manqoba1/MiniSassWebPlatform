@@ -77,9 +77,7 @@ public class DataUtil {
             q.setParameter("email", email);
             q.setParameter("pin", pin);
             Doctor r = (Doctor) q.getSingleResult();
-            DoctorDTO rdto = new DoctorDTO(r);
-            rdto.setVisitList(listUtil.getDoctorData(r.getDoctorID()).getVisitList());
-            rdto.setPatientfileList(listUtil.getDoctorData(r.getDoctorID()).getPatientfileList());
+            DoctorDTO rdto = new DoctorDTO(r);           
             
             resp.setDoctor(rdto);
             log.log(Level.INFO, "Login");
