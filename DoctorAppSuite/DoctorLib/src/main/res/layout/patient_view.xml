@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/xgrey_light_rounded_corners"
+        android:id="@+id/relativeLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:id="@+id/PV_count"
+            style="@style/GreyCircle"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="3150"
+            android:textSize="28sp"
+            android:id="@+id/PV_stnd_no"
+            android:layout_alignBottom="@+id/PV_count"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Patient"
+            android:id="@+id/VV_name"
+            android:layout_below="@+id/PV_count"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Sifiso Mtshweni"
+            android:id="@+id/PV_name"
+            android:layout_alignTop="@+id/VV_name"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date Made:"
+            android:id="@+id/textView7"
+            android:layout_below="@+id/VV_name"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12/12/2013"
+            android:id="@+id/PV_date_made"
+            android:layout_alignTop="@+id/textView7"
+            android:layout_alignLeft="@+id/PV_stnd_no"
+            android:layout_alignStart="@+id/PV_stnd_no" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Area Code:"
+            android:id="@+id/textView"
+            android:layout_below="@+id/textView7"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="6dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1021"
+            android:id="@+id/PV_code"
+            android:layout_alignTop="@+id/textView"
+            android:layout_alignLeft="@+id/PV_date_made"
+            android:layout_alignStart="@+id/PV_date_made" />
+
+    </RelativeLayout>
+</RelativeLayout>
