@@ -253,6 +253,7 @@ public class DatePickerDialog extends DialogFragment implements View.OnClickList
 		mYearView = ((TextView) view.findViewById(R.id.date_picker_year));
 		mYearView.setOnClickListener(this);
 
+
 		int listPosition = -1;
 		int currentView = MONTH_AND_DAY_VIEW;
 		int listPositionOffset = 0;
