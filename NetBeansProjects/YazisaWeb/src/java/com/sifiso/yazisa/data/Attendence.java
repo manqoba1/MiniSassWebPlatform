@@ -32,6 +32,10 @@ import javax.validation.constraints.Size;
 @Table(name = "attendence")
 @NamedQueries({
     @NamedQuery(name = "Attendence.findAll", query = "SELECT a FROM Attendence a"),
+     @NamedQuery(name = "Attendence.findByStudentID", 
+            query = "SELECT a FROM Attendence a WHERE a.student.studentID =:studentID AND FUNCTION('YEAR', CURRENT_DATE) = FUNCTION('YEAR',a.dateAttended) ORDER BY a.dateAttended DESC"),  
+    @NamedQuery(name = "Attendence.findByStudent", 
+            query = "SELECT a FROM Attendence a WHERE a.student.studentID =:studentID AND a.attendenceFlag =:flag AND FUNCTION('YEAR', CURRENT_DATE) = FUNCTION('YEAR',a.dateAttended)"),
     @NamedQuery(name = "Attendence.findByAttendenceID", query = "SELECT a FROM Attendence a WHERE a.attendenceID = :attendenceID"),
     @NamedQuery(name = "Attendence.findByDateAttended", query = "SELECT a FROM Attendence a WHERE a.dateAttended = :dateAttended"),
     @NamedQuery(name = "Attendence.findByAttendenceFlag", query = "SELECT a FROM Attendence a WHERE a.attendenceFlag = :attendenceFlag")})

@@ -22,22 +22,31 @@ import javax.persistence.PersistenceContext;
 public class TrafficCop {
 
     public ResponseDTO processRequest(RequestDTO req,
-            DataUtil dataUtil, ListUtil listUtil, PlatformUtil platformUtil) {
+            DataUtil dataUtil, ListUtil listUtil, CloudMsgUtil cloudMsgUtil, PlatformUtil platformUtil) {
         ResponseDTO resp = new ResponseDTO();
         try {
             switch (req.getRequestType()) {
 
                 case RequestDTO.LOGIN_TEACHER:
                     resp = dataUtil.loginTeacher(
-                            req.getUsername(), req.getPassword(),
+                            req.getEmail(), req.getPassword(), req.getGcmdevice(),
                             listUtil, platformUtil);
                     break;
                 case RequestDTO.LOGIN_PARENT:
-                    resp = dataUtil.loginParent(req.getUsername(), req.getPassword(),
+                    resp = dataUtil.loginParent(req.getEmail(), req.getPassword(), req.getGcmdevice(),
                             listUtil, platformUtil);
+                    break;
+                case RequestDTO.REGISTER_ATTENDENCE:
+                    resp = dataUtil.registerPresent(req.getAttendence(), cloudMsgUtil, platformUtil);
                     break;
                 case RequestDTO.GET_LEARNERS:
                     resp = listUtil.getStudentList(req.getClazzID());
+                    break;
+                case RequestDTO.GET_STUDENT_BY_ID:
+                    resp = listUtil.getStudentDataByID(req.getStudentID());
+                    break;
+                case RequestDTO.GET_SUB_CLASS_BY_TEACHER:
+                    resp = listUtil.getTeacherData(req.getTeacherID());
                     break;
                 case RequestDTO.ADD_CLASS_STUDENT:
                     resp = dataUtil.addClazzStudent(req.getClazzstudent());
@@ -53,6 +62,9 @@ public class TrafficCop {
                     break;
                 case RequestDTO.ADD_CLASS:
                     resp = dataUtil.addClass(req.getClazz());
+                    break;
+                case RequestDTO.SEND_PARENT_REPORT:
+                    resp = cloudMsgUtil.sendTeacherToParentMessage(req.getIssue(), platformUtil, dataUtil);
                     break;
 
             }

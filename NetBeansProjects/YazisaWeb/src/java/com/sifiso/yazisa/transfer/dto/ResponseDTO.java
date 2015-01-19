@@ -69,6 +69,7 @@ public class ResponseDTO {
     private List<TownshipDTO> townshipList = new ArrayList<>();
     private List<StudentDTO> studentList = new ArrayList<>();
     private List<TeacherDTO> teacherList = new ArrayList<>();
+    public static Integer ERROR_SERVER = 888;
 
     public IssueDTO getIssue() {
         return issue;

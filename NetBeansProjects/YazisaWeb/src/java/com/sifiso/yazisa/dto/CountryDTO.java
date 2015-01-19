@@ -6,6 +6,7 @@
 package com.sifiso.yazisa.dto;
 
 import com.sifiso.yazisa.data.Country;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author CodeTribe1
  */
-public class CountryDTO {
+public class CountryDTO implements Serializable{
 
     private Double latitude;
     private Double longitude;

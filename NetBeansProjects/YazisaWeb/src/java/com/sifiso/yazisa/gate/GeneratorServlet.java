@@ -5,9 +5,16 @@
  */
 package com.sifiso.yazisa.gate;
 
+import com.google.gson.Gson;
+import com.sifiso.yazisa.transfer.dto.ResponseDTO;
+import com.sifiso.yazisa.util.DataUtil;
 import com.sifiso.yazisa.util.Generator;
+import com.sifiso.yazisa.util.ListUtil;
+import com.sifiso.yazisa.util.PlatformUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,22 +40,37 @@ public class GeneratorServlet extends HttpServlet {
      */
     @EJB
     Generator generator;
+    @EJB
+    DataUtil dataUtil;
+    @EJB
+    ListUtil listUtil;
+    @EJB
+    PlatformUtil platformUtil;
+    Gson gson = new Gson();
+
+    static final Logger log = Logger.getLogger(GeneratorServlet.class.getSimpleName());
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        generator.generate();
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet GeneratorServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet GeneratorServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        //generator.generate();
+        int row = generator.attendanceCounts(11, 3);
+        PrintWriter out = response.getWriter();
+        log.log(Level.INFO, "Count{0}", row);//Thabo@gmail.com, 206
+        ResponseDTO resp = null;
+        try {
+           // resp = dataUtil.loginParent("Sifiso@gmail.com", "558", listUtil, platformUtil);
+            //snpeace.sifiso@gmail.com,123
+            resp = listUtil.getStudentDataByID(2);
+            //resp = listUtil.getStudentList(5);
+        } catch (Exception e) {
+            log.log(Level.INFO, "Count{0}", e);
+        } finally {
+            String json = gson.toJson(resp);
+            out.println(json);
+            out.close();
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

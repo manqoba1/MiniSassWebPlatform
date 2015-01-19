@@ -29,6 +29,7 @@ import javax.persistence.TemporalType;
 @Table(name = "clazzstudent")
 @NamedQueries({
     @NamedQuery(name = "Clazzstudent.findAll", query = "SELECT c FROM Clazzstudent c"),
+    @NamedQuery(name = "Clazzstudent.findByStudentID", query = "SELECT c FROM Clazzstudent c WHERE c.student.studentID = :studentID"),
     @NamedQuery(name = "Clazzstudent.findStudentByClass", 
             query = "SELECT c FROM Clazzstudent c WHERE c.clazz.clazzID = :clazzID"),
     @NamedQuery(name = "Clazzstudent.findByClazzStudentID", query = "SELECT c FROM Clazzstudent c WHERE c.clazzStudentID = :clazzStudentID"),

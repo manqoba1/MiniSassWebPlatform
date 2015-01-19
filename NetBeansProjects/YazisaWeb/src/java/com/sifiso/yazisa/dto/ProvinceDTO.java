@@ -6,6 +6,7 @@
 package com.sifiso.yazisa.dto;
 
 import com.sifiso.yazisa.data.Province;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +14,15 @@ import java.util.List;
  *
  * @author CodeTribe1
  */
-public class ProvinceDTO {
+public class ProvinceDTO implements Serializable{
 
+    private static final long serialVersionUID = 1L;
     private Integer provinceID;
 
     private String provinceName;
     private Double latitude;
     private Double longitude;
-    private int country;
+    private Integer countryID;
     private List<TownshipDTO> townshipList = new ArrayList<>();
 
     public ProvinceDTO() {
@@ -35,7 +37,7 @@ public class ProvinceDTO {
         this.provinceName = a.getProvinceName();
         this.latitude = a.getLatitude();
         this.longitude = a.getLongitude();
-        country = a.getCountry().getCountryID();
+        countryID = a.getCountry().getCountryID();
     }
 
     public Integer getProvinceID() {
@@ -70,12 +72,12 @@ public class ProvinceDTO {
         this.longitude = longitude;
     }
 
-    public int getCountry() {
-        return country;
+    public Integer getcountryID() {
+        return countryID;
     }
 
-    public void setCountry(int country) {
-        this.country = country;
+    public void setcountryID(Integer countryID) {
+        this.countryID = countryID;
     }
 
     public List<TownshipDTO> getTownshipList() {

@@ -30,7 +30,7 @@ public class AttendenceDTO implements Serializable {
     public AttendenceDTO(Attendence a) {
         attendenceID = a.getAttendenceID();
         attendenceFlag = a.getAttendenceFlag();
-        message = a.getMessage();        
+        message = a.getMessage();
         dateAttended = a.getDateAttended().getTime();
         student = new StudentDTO(a.getStudent());
         subject = new SubjectDTO(a.getSubject());
@@ -38,14 +38,6 @@ public class AttendenceDTO implements Serializable {
         teacherID = a.getTeacher().getTeacherID();
         subjectID = a.getSubject().getSubjectID();
         studentID = a.getStudent().getStudentID();
-    }
-
-    public Integer getSubjectID() {
-        return subjectID;
-    }
-
-    public void setSubjectID(Integer subjectID) {
-        this.subjectID = subjectID;
     }
 
     public Integer getAttendenceID() {
@@ -56,12 +48,12 @@ public class AttendenceDTO implements Serializable {
         this.attendenceID = attendenceID;
     }
 
-    public long getDateAttended() {
-        return dateAttended;
+    public Integer getSubjectID() {
+        return subjectID;
     }
 
-    public void setDateAttended(long dateAttended) {
-        this.dateAttended = dateAttended;
+    public void setSubjectID(Integer subjectID) {
+        this.subjectID = subjectID;
     }
 
     public Integer getStudentID() {
@@ -70,6 +62,22 @@ public class AttendenceDTO implements Serializable {
 
     public void setStudentID(Integer studentID) {
         this.studentID = studentID;
+    }
+
+    public Integer getTeacherID() {
+        return teacherID;
+    }
+
+    public void setTeacherID(Integer teacherID) {
+        this.teacherID = teacherID;
+    }
+
+    public long getDateAttended() {
+        return dateAttended;
+    }
+
+    public void setDateAttended(long dateAttended) {
+        this.dateAttended = dateAttended;
     }
 
     public StudentDTO getStudent() {
@@ -86,14 +94,6 @@ public class AttendenceDTO implements Serializable {
 
     public void setSubject(SubjectDTO subject) {
         this.subject = subject;
-    }
-
-    public Integer getTeacherID() {
-        return teacherID;
-    }
-
-    public void setTeacherID(Integer teacherID) {
-        this.teacherID = teacherID;
     }
 
     public Integer getAttendenceFlag() {
@@ -118,26 +118,6 @@ public class AttendenceDTO implements Serializable {
 
     public void setTeacher(TeacherDTO teacher) {
         this.teacher = teacher;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (attendenceID != null ? attendenceID.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AttendenceDTO)) {
-            return false;
-        }
-        AttendenceDTO other = (AttendenceDTO) object;
-        if ((this.attendenceID == null && other.attendenceID != null) || (this.attendenceID != null && !this.attendenceID.equals(other.attendenceID))) {
-            return false;
-        }
-        return true;
     }
 
     @Override

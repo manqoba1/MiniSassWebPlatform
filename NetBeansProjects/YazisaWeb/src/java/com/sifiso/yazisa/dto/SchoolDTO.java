@@ -28,7 +28,7 @@ public class SchoolDTO implements Serializable {
     private String email;
     private TownshipDTO township;
     private List<DeviceerrorDTO> deviceerrorList = new ArrayList<>();
-    private List<ClazzDTO> clazzList;
+    private List<ClazzDTO> clazzList = new ArrayList<>();
 
     public SchoolDTO(School s) {
         schoolID = s.getSchoolID();

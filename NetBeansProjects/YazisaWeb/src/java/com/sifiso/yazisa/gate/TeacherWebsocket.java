@@ -8,6 +8,7 @@ package com.sifiso.yazisa.gate;
 import com.google.gson.Gson;
 import com.sifiso.yazisa.transfer.dto.RequestDTO;
 import com.sifiso.yazisa.transfer.dto.ResponseDTO;
+import com.sifiso.yazisa.util.CloudMsgUtil;
 import com.sifiso.yazisa.util.DataUtil;
 import com.sifiso.yazisa.util.GZipUtility;
 import com.sifiso.yazisa.util.ListUtil;
@@ -45,9 +46,20 @@ public class TeacherWebsocket {
     TrafficCop trafficCop;
     @EJB
     PlatformUtil platformUtil;
+    @EJB
+    CloudMsgUtil cloudMsgUtil;
     static final String SOURCE = "YezisaWebsocket";
     public static final Set<Session> peers
             = Collections.synchronizedSet(new HashSet<Session>());
+
+    public void sendData(ResponseDTO resp, String sessionID)
+            throws IOException, Exception {
+        for (Session session : peers) {
+            if (sessionID.equals(session.getId())) {
+                session.getBasicRemote().sendBinary(GZipUtility.getZippedResponse(resp));
+            }
+        }
+    }
 
     @OnMessage
     public ByteBuffer onMessage(String message) {
@@ -56,7 +68,7 @@ public class TeacherWebsocket {
         ByteBuffer bb = null;
         try {
             RequestDTO dto = gson.fromJson(message, RequestDTO.class);
-            resp = trafficCop.processRequest(dto, dataUtil, listUtil, platformUtil);
+            resp = trafficCop.processRequest(dto, dataUtil, listUtil, cloudMsgUtil, platformUtil);
             bb = GZipUtility.getZippedResponse(resp);
         } catch (IOException ex) {
             Logger.getLogger(TeacherWebsocket.class.getName()).log(Level.SEVERE, null, ex);

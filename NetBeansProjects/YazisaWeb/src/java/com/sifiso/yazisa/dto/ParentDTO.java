@@ -25,8 +25,8 @@ public class ParentDTO implements Serializable {
     private String cell;
     private String password;
     private String sessionID;
-    private List<StudentDTO> studentList;
-    private List<GcmdeviceDTO> gcmdeviceList;
+    private List<StudentDTO> studentList = new ArrayList<>();
+    private List<GcmdeviceDTO> gcmdeviceList = new ArrayList<>();
 
     public ParentDTO(Parent p) {
         parentID = p.getParentID();

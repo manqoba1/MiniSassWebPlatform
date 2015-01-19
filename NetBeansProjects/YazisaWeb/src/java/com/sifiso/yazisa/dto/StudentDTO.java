@@ -17,7 +17,7 @@ import java.util.List;
 public class StudentDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Integer studentID, parentID;
+    private Integer studentID, parentID, countAbsent, countAttendant, countLate;
     private String name;
     private String surname;
     private String idNumber;
@@ -39,11 +39,38 @@ public class StudentDTO implements Serializable {
         name = a.getName();
         surname = a.getSurname();
         idNumber = a.getIdNumber();
-        dateOfBirth = a.getDateOfBirth().getTime();
+        if (a.getDateOfBirth() != null) {
+            dateOfBirth = a.getDateOfBirth().getTime();
+        }
         email = a.getEmail();
         cell = a.getCell();
         password = a.getPassword();
         sessionID = a.getSessionID();
+
+    }
+
+    public Integer getCountAbsent() {
+        return countAbsent;
+    }
+
+    public void setCountAbsent(Integer countAbsent) {
+        this.countAbsent = countAbsent;
+    }
+
+    public Integer getCountAttendant() {
+        return countAttendant;
+    }
+
+    public void setCountAttendant(Integer countAttendant) {
+        this.countAttendant = countAttendant;
+    }
+
+    public Integer getCountLate() {
+        return countLate;
+    }
+
+    public void setCountLate(Integer countLate) {
+        this.countLate = countLate;
     }
 
     public Integer getStudentID() {

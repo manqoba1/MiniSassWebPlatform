@@ -5,11 +5,14 @@
  */
 package com.sifiso.yazisa.util;
 
+import com.google.gson.Gson;
 import com.sifiso.yazisa.data.Attendence;
 import com.sifiso.yazisa.data.Clazz;
 import com.sifiso.yazisa.data.Clazzstudent;
 import com.sifiso.yazisa.data.Clazzteacher;
 import com.sifiso.yazisa.data.Deviceerror;
+import com.sifiso.yazisa.data.Gcmdevice;
+import com.sifiso.yazisa.data.Gcmdevice_;
 import com.sifiso.yazisa.data.Issue;
 import com.sifiso.yazisa.data.Parent;
 import com.sifiso.yazisa.data.Province;
@@ -23,17 +26,19 @@ import com.sifiso.yazisa.dto.AttendenceDTO;
 import com.sifiso.yazisa.dto.ClazzDTO;
 import com.sifiso.yazisa.dto.ClazzstudentDTO;
 import com.sifiso.yazisa.dto.ClazzteacherDTO;
+import com.sifiso.yazisa.dto.GcmdeviceDTO;
 import com.sifiso.yazisa.dto.IssueDTO;
 import com.sifiso.yazisa.dto.ParentDTO;
 import com.sifiso.yazisa.dto.SchoolDTO;
 import com.sifiso.yazisa.dto.StudentDTO;
-import com.sifiso.yazisa.dto.SubjectDTO;
 import com.sifiso.yazisa.dto.TeacherDTO;
 import com.sifiso.yazisa.dto.TeachersubjectDTO;
 import com.sifiso.yazisa.dto.TownshipDTO;
 import com.sifiso.yazisa.transfer.dto.ResponseDTO;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -53,17 +58,17 @@ import javax.persistence.Query;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class DataUtil {
-    
+
     @PersistenceContext
     EntityManager em;
-    
+
     static final int OPERATIONS_MANAGER = 1,
             SITE_SUPERVISOR = 2,
             EXECUTIVE_STAFF = 3,
             PROJECT_MANAGER = 4;
-    
+
     public ResponseDTO loginTeacher(String email,
-            String password, ListUtil listUtil, PlatformUtil platformUtil) throws DataException {
+            String password, GcmdeviceDTO device, ListUtil listUtil, PlatformUtil platformUtil) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         Query q = null;
         try {
@@ -72,11 +77,19 @@ public class DataUtil {
             q.setParameter("password", password);
             q.setMaxResults(1);
             Teacher ts = (Teacher) q.getSingleResult();
+
+            device.setTeacherID(ts.getTeacherID());
+            addDevice(device);
             
+            try {
+                CloudMessagingRegistrar.sendRegistration(device.getRegistrationID(), platformUtil);
+            } catch (IOException ex) {
+                Logger.getLogger(DataUtil.class.getName()).log(Level.SEVERE, null, ex);
+            }
             resp.setTeacher(new TeacherDTO(ts));
             resp.setClazzList(listUtil.getTeacherData(ts.getTeacherID()).getClazzList());
             resp.setSubjectList(listUtil.getTeacherData(ts.getTeacherID()).getSubjectList());
-
+            log.log(Level.WARNING, "Invalid login attempt: " + email + " pin: " + password);
             //load appropriate data for each type
         } catch (NoResultException e) {
             log.log(Level.WARNING, "Invalid login attempt: " + email + " pin: " + password, e);
@@ -86,10 +99,43 @@ public class DataUtil {
         }
         return resp;
     }
-    
+
+    public void addDevice(GcmdeviceDTO d) throws DataException {
+        try {
+            Gcmdevice g = new Gcmdevice();
+            if (d.getParentID() != null && d.getParentID() > 0) {
+                g.setParent(em.find(Parent.class, d.getParentID()));
+            }
+
+            if (d.getStudentID() != null
+                    && d.getStudentID() > 0) {
+                g.setStudent(em.find(Student.class, d.getStudentID()));
+            }
+            if (d.getTeacherID() != null
+                    && d.getTeacherID() > 0) {
+                g.setTeacher(em.find(Teacher.class, d.getTeacherID()));
+            }
+            g.setDateRegistered(new Date());
+            g.setManufacturer(d.getManufacturer());
+            g.setModel(d.getModel());
+            g.setRegistrationID(d.getRegistrationID());
+            g.setSerialNumber(d.getSerialNumber());
+            g.setProduct(d.getProduct());
+            g.setAndroidVersion(d.getAndroidVersion());
+
+            em.persist(g);
+            log.log(Level.WARNING, "New device loaded");
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Failed", e);
+            throw new DataException("Failed to add device\n" + getErrorString(e));
+
+        }
+    }
+
     public ResponseDTO loginParent(String email,
-            String password, ListUtil listUtil, PlatformUtil platformUtil) throws DataException {
+            String password, GcmdeviceDTO d, ListUtil listUtil, PlatformUtil platformUtil) throws DataException {
         ResponseDTO resp = new ResponseDTO();
+        GcmdeviceDTO dTO = new GcmdeviceDTO();
         Query q = null;
         try {
             q = em.createNamedQuery("Parent.login", Teacher.class);
@@ -97,21 +143,30 @@ public class DataUtil {
             q.setParameter("password", password);
             q.setMaxResults(1);
             Parent ts = (Parent) q.getSingleResult();
-            ParentDTO parentDTO = new ParentDTO(ts);
+            ParentDTO parent = new ParentDTO(ts);
             for (Student s : ts.getStudentList()) {
-                StudentDTO studentDTO = new StudentDTO(s);
-                for (Attendence a : s.getAttendenceList()) {
-                    AttendenceDTO attendenceDTO = new AttendenceDTO(a);
-                    studentDTO.getAttendenceList().add(attendenceDTO);
-                }
-                for (Issue i : s.getIssueList()) {
-                    IssueDTO issueDTO = new IssueDTO(i);
-                    studentDTO.getIssueList().add(issueDTO);
-                }
-                resp.getStudentList().add(studentDTO);
+                StudentDTO student = new StudentDTO(s);
+                parent.getStudentList().add(student);
+                log.log(Level.INFO, "Students", s);
             }
-            resp.setParent(parentDTO);
-            //load appropriate data for each type
+            log.log(Level.INFO, "Login{0}",ts.getParentID());
+            dTO.setAndroidVersion(d.getAndroidVersion());
+            dTO.setDateRegistered(new Date().getTime());
+            dTO.setManufacturer(d.getManufacturer());
+            dTO.setModel(d.getModel());
+            dTO.setProduct(d.getProduct());
+            dTO.setSerialNumber(d.getSerialNumber());
+            dTO.setRegistrationID(d.getRegistrationID());            
+            dTO.setParentID(ts.getParentID());
+            addDevice(dTO);
+
+            try {
+                CloudMessagingRegistrar.sendRegistration(dTO.getRegistrationID(), platformUtil);
+            } catch (IOException ex) {
+                Logger.getLogger(DataUtil.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            resp.setParent(parent);
+            //load appropriate data for each type 
         } catch (NoResultException e) {
             log.log(Level.WARNING, "Invalid login attempt: " + email + " pin: " + password, e);
             resp.setStatusCode(301);
@@ -125,29 +180,45 @@ public class DataUtil {
         try {
             em.persist(d);
         } catch (Exception e) {
-            
+
         }
     }
 
     //register main entity
-    public ResponseDTO registerPresent(ArrayList<AttendenceDTO> dto, PlatformUtil platformUtil) throws DataException {
+    public ResponseDTO registerPresent(AttendenceDTO s,CloudMsgUtil cloudMsgUtil, PlatformUtil platformUtil) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
-            for (AttendenceDTO s : dto) {
-                Attendence a = new Attendence();
-                a.setDateAttended(new Date(s.getDateAttended()));
-                a.setStudent(em.find(Student.class, s.getStudentID()));
-                a.setSubject(em.find(Subject.class, s.getSubjectID()));
-                a.setAttendenceFlag(a.getAttendenceFlag());
-                a.setMessage(s.getMessage());
-                a.setTeacher(em.find(Teacher.class, s.getTeacherID()));
-                
-                em.persist(a);
-                em.flush();
-                resp.getAttendenceList().add(new AttendenceDTO(a));
+            String flag = null;
+            Attendence a = new Attendence();
+            a.setDateAttended(new Date());
+            a.setStudent(em.find(Student.class, s.getStudentID()));
+            a.setSubject(em.find(Subject.class, s.getSubjectID()));
+            a.setAttendenceFlag(s.getAttendenceFlag());
+            a.setMessage(s.getMessage());
+            a.setTeacher(em.find(Teacher.class, s.getTeacherID()));
+
+            em.persist(a);
+            em.flush();
+            Parent p = a.getStudent().getParent();
+            List<String> registrationsID = new ArrayList<>();
+            for(Gcmdevice g: p.getGcmdeviceList()){
+                registrationsID.add(g.getRegistrationID());
             }
-            log.log(Level.INFO, "Learner is Present");
+            AttendenceDTO attend = new AttendenceDTO(a);
             
+            resp.setAttendence(attend);
+            if (s.getAttendenceFlag() == 1) {
+                flag = "Absent";
+                cloudMsgUtil.sendMessage(gson.toJson(resp), registrationsID, platformUtil);
+            } else if (s.getAttendenceFlag() == 2) {
+                flag = "Present";
+            } else if (s.getAttendenceFlag() == 3) {
+                flag = "Late";
+            }
+            resp.getAttendenceList().add(attend);
+            resp.setMessage(a.getStudent().getName() + " is " + flag);
+            log.log(Level.INFO, "Learner is Present");
+
         } catch (NoResultException ex) {
             log.log(Level.SEVERE, null, ex);
             resp.setStatusCode(101);
@@ -160,11 +231,11 @@ public class DataUtil {
             resp.setMessage("Failed to Register Learner Present");
             platformUtil.addServerError(101, getErrorString(e), "DataUtil");
             throw new DataException("Failed to register Present:\n" + getErrorString(e));
-            
+
         }
         return resp;
     }
-    
+    Gson gson = new Gson();
     public ResponseDTO registerSchool(SchoolDTO dto) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
@@ -175,7 +246,7 @@ public class DataUtil {
             s.setEmail(dto.getEmail());
             s.setTell(dto.getTell());
             s.setPostalCode(dto.getPostalCode());
-            
+
             if (t != null) {
                 s.setTownship(t);
             }
@@ -188,11 +259,11 @@ public class DataUtil {
             resp.setStatusCode(102);
             resp.setMessage("Failed Adding School;");
             throw new DataException("Failed to Register School:\n" + getErrorString(e));
-            
+
         }
         return resp;
     }
-    
+
     public ResponseDTO registerTeacher(TeacherDTO dto) {
         ResponseDTO resp = new ResponseDTO();
         try {
@@ -203,10 +274,10 @@ public class DataUtil {
             t.setCell(dto.getCell());
             t.setIdnumber(dto.getIdnumber());
             t.setPassword(dto.getPassword());
-            
+
             em.persist(t);
             em.flush();
-            
+
             log.log(Level.INFO, "Teacher Added Successful");
             resp.getTeacherList().add(new TeacherDTO(t));
             resp.setMessage("Teacher Added Successful");
@@ -217,7 +288,7 @@ public class DataUtil {
         }
         return resp;
     }
-    
+
     public ResponseDTO registerStudent(StudentDTO dto) {
         ResponseDTO resp = new ResponseDTO();
         try {
@@ -230,7 +301,7 @@ public class DataUtil {
             t.setPassword(dto.getPassword());
             t.setDateOfBirth(new Date(dto.getDateOfBirth()));
             t.setParent(em.find(Parent.class, dto.getParentID()));
-            
+
             em.persist(t);
             em.flush();
             log.log(Level.INFO, "Learner Added Successful");
@@ -244,7 +315,7 @@ public class DataUtil {
     }
     private EmailUtil emailUtil = new EmailUtil();
     private PasswordGenerator pg = new PasswordGenerator();
-    
+
     public ResponseDTO registerParent(ParentDTO dto, PlatformUtil platformUtil) {
         ResponseDTO resp = new ResponseDTO();
         try {
@@ -255,12 +326,12 @@ public class DataUtil {
             t.setEmail(dto.getEmail());
             t.setParentIdNo(dto.getParentIdNo());
             t.setPassword(pg.getPassword(dto.getParentSurname()));
-            
+
             em.persist(t);
             em.flush();
             log.log(Level.INFO, "Parent Added Successful");
             resp.getParentList().add(new ParentDTO(t));
-            
+
             if (t.getEmail() != null) {
                 String body = "Hi " + t.getParentName() + ",\n "
                         + "Your Sign IN details are:\n\n"
@@ -285,14 +356,14 @@ public class DataUtil {
         }
         return resp;
     }
-    
+
     public ResponseDTO addTownship(TownshipDTO dto) {
         ResponseDTO resp = new ResponseDTO();
         try {
             Township c = new Township();
             c.setTownshipName(dto.getTownshipName());
             c.setProvince(em.find(Province.class, dto.getProvinceID()));
-            
+
             em.persist(c);
             em.flush();
             log.log(Level.INFO, "Class Added Successful");
@@ -314,7 +385,7 @@ public class DataUtil {
             c.setTotalStudentsPerClazz(dto.getTotalStudentsPerClazz());
             c.setActiveFlag(1);
             c.setSchool(em.find(School.class, dto.getSchoolID()));
-            
+
             em.persist(c);
             em.flush();
             log.log(Level.INFO, "Class Added Successful");
@@ -346,7 +417,7 @@ public class DataUtil {
         }
         return resp;
     }
-    
+
     public ResponseDTO addIssues(IssueDTO dto) {
         ResponseDTO resp = new ResponseDTO();
         try {
@@ -366,14 +437,14 @@ public class DataUtil {
         }
         return resp;
     }
-    
+
     public ResponseDTO addClazzTeacher(ClazzteacherDTO dto) {
         ResponseDTO resp = new ResponseDTO();
         try {
             Clazzteacher s = new Clazzteacher();
             s.setClazz(em.find(Clazz.class, dto.getClazzID()));
             s.setTeacher(em.find(Teacher.class, dto.getTeacherID()));
-            
+
             em.persist(s);
             em.flush();
             log.log(Level.INFO, "Clazzteacher Added Successful");
@@ -385,14 +456,14 @@ public class DataUtil {
         }
         return resp;
     }
-    
+
     public ResponseDTO addTeacherSubject(TeachersubjectDTO dto) {
         ResponseDTO resp = new ResponseDTO();
         try {
             Teachersubject s = new Teachersubject();
             s.setSubject(em.find(Subject.class, dto.getSubjectID()));
             s.setTeacher(em.find(Teacher.class, dto.getTeacherID()));
-            
+
             em.persist(s);
             em.flush();
             log.log(Level.INFO, "Teachersubject Added Successful");
@@ -404,7 +475,7 @@ public class DataUtil {
         }
         return resp;
     }
-    
+
     public String getErrorString(Exception e) {
         StringBuilder sb = new StringBuilder();
         if (e.getMessage() != null) {
@@ -423,7 +494,7 @@ public class DataUtil {
             sb.append("Method: ").append(method).append("\n");
             sb.append("Line Number: ").append(line).append("\n");
         }
-        
+
         return sb.toString();
     }
     /*  public void updateProjectSite(ProjectSiteDTO dto) throws DataException {

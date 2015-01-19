@@ -73,7 +73,10 @@ public class PhotoUtil {
                             logger.log(Level.INFO, "picture with associated json: {0}", json);
                             dto = gson.fromJson(json, PhotoUploadDTO.class);
                             if (dto != null) {
-                                schoolDir = createSchoolDirectory(rootDir, schoolDir, dto.getSchoolID());
+                                if (dto.getSchoolID() > 0) {
+                                    schoolDir = createSchoolDirectory(rootDir, schoolDir, dto.getSchoolID());
+                                }
+
                                 if (dto.getClassID() > 0) {
                                     classDir = createClassDirectory(schoolDir, classDir, dto.getClassID());
                                 }
@@ -87,7 +90,7 @@ public class PhotoUtil {
                                 }
                                 if (dto.getStudentID() > 0) {
                                     studentDir = createStudentDirectory(
-                                            schoolDir, studentDir);
+                                            rootDir, studentDir);
                                 }
                             }
                         } else {
@@ -140,15 +143,15 @@ public class PhotoUtil {
                             }
                         }
                     }
-                    if (dto.getSchoolID() != null) {
-                        if (dto.getStudentID() != null) {
-                            if (dto.isIsFullPicture()) {
-                                fileName = "f" + dto.getStudentID() + ".jpg";
-                            } else {
-                                fileName = "t" + dto.getStudentID() + ".jpg";
-                            }
+
+                    if (dto.getStudentID() != null) {
+                        if (dto.isIsFullPicture()) {
+                            fileName = "f" + dto.getStudentID() + ".jpg";
+                        } else {
+                            fileName = "t" + dto.getStudentID() + ".jpg";
                         }
                     }
+
                     //
                     switch (dto.getPictureType()) {
                         case PhotoUploadDTO.SCHOOL_IMAGE:
@@ -172,18 +175,18 @@ public class PhotoUtil {
                     System.out.println("filepath: " + imageFile.getAbsolutePath());
                     //create uri
                     /*int index = imageFile.getAbsolutePath().indexOf("monitor_images");
-                    if (index > -1) {
-                        String uri = imageFile.getAbsolutePath().substring(index);
-                        System.out.println("uri: " + uri);
-                        dto.setUri(uri);
-                    }
-                    dto.setDateUploaded(new Date());
-                    if (dto.isIsFullPicture()) {
-                        dto.setThumbFlag(null);
-                    } else {
-                        dto.setThumbFlag(1);
-                    }
-                    dataUtil.addPhotoUpload(dto);*/
+                     if (index > -1) {
+                     String uri = imageFile.getAbsolutePath().substring(index);
+                     System.out.println("uri: " + uri);
+                     dto.setUri(uri);
+                     }
+                     dto.setDateUploaded(new Date());
+                     if (dto.isIsFullPicture()) {
+                     dto.setThumbFlag(null);
+                     } else {
+                     dto.setThumbFlag(1);
+                     }
+                     dataUtil.addPhotoUpload(dto);*/
 
                 }
             }

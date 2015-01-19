@@ -31,6 +31,7 @@ import javax.validation.constraints.Size;
 @Table(name = "issue")
 @NamedQueries({
     @NamedQuery(name = "Issue.findAll", query = "SELECT i FROM Issue i"),
+    @NamedQuery(name = "Issue.findByStudent", query = "SELECT i FROM Issue i WHERE i.student.studentID = :studentID ORDER BY i.issueDate DESC"),
     @NamedQuery(name = "Issue.findByIssueID", query = "SELECT i FROM Issue i WHERE i.issueID = :issueID")})
 public class Issue implements Serializable {
     @Column(name = "issueDate")

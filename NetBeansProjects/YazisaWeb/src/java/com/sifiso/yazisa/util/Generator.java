@@ -5,6 +5,7 @@
  */
 package com.sifiso.yazisa.util;
 
+import com.sifiso.yazisa.data.Attendence;
 import com.sifiso.yazisa.data.Clazz;
 import com.sifiso.yazisa.data.Parent;
 import com.sifiso.yazisa.data.School;
@@ -13,12 +14,14 @@ import com.sifiso.yazisa.data.Subject;
 import com.sifiso.yazisa.data.Teacher;
 import com.sifiso.yazisa.data.Township;
 import com.sifiso.yazisa.dto.SchoolDTO;
+import java.util.List;
 import java.util.Random;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -35,19 +38,36 @@ public class Generator {
 
     public void generate() {
         random = new Random();
-        School s = new School();
-        s.setSchoolName("School #" + random.nextInt(1000));
-        s.setAddress("10211 Nkunala Ave");
-        s.setEmail("schoool" + random.nextInt(10000) + "@gdoe.org");
-        s.setPostalCode("" + random.nextInt(10000));
-        s.setTell("" + random.nextLong());
-        s.setTownship(em.find(Township.class, 7));
-        em.persist(s);
-        em.flush();
+        /*School s = new School();
+         s.setSchoolName("School #" + random.nextInt(1000));
+         s.setAddress("10211 Nkunala Ave");
+         s.setEmail("schoool" + random.nextInt(10000) + "@gdoe.org");
+         s.setPostalCode("" + random.nextInt(10000));
+         s.setTell("" + random.nextLong());
+         s.setTownship(em.find(Township.class, 7));
+         em.persist(s);
+         em.flush();*/
+
+        //addClasses(s);
+        // addSubjects();
+        //addParent();
+        addTeacher();
+        //addStudent(null);
+    }
+
+    public int attendanceCounts(int studentID, int flag) {
+        int row=0;
+        Query q = em.createNamedQuery("Attendence.findByStudent",Attendence.class);
+        q.setParameter("studentID", studentID);
+        q.setParameter("flag", flag);
+        
+        List<Attendence> list  = q.getResultList();
+        row = list.size();
+        return row;
     }
 
     private void addClasses(School s) {
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 12; i++) {
             for (int x = 0; x < 4; x++) {
                 Clazz c = new Clazz();
                 c.setActiveFlag(1);
@@ -69,13 +89,14 @@ public class Generator {
     }
 
     private void addSubjects() {
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 12; i++) {
             for (int x = 0; x < subCode.length; x++) {
                 Subject s = new Subject();
 
                 s.setCode(subCode[x] + (i + 1));
-                s.setName(clazzName[x]);
+                s.setName(subName[x]);
                 s.setGrade("Grade" + (i + 1));
+
                 em.persist(s);
             }
         }
@@ -89,46 +110,48 @@ public class Generator {
             t.setCell("" + random.nextInt(1000000000));
             t.setEmail(tname[i] + "@gmail.com");
             t.setIdnumber("" + random.nextInt(1000000000));
-            t.setName(tname[i]);
+            t.setName(tname[i] + random.nextInt(1000));
             t.setPassword("" + random.nextInt(1000));
             t.setSessionID(null);
-            t.setSurname(tsurname[i]);
+            t.setSurname(tsurname[i] + random.nextInt(1000));
 
             em.persist(t);
         }
     }
 
     private void addStudent(Parent p) {
-        for (int i = 0; i < tname.length; ++i) {
-            random = new Random();
+        random = new Random();
+        for (int i = 0; i < tname.length - 2; ++i) {
+
             Student t = new Student();
             t.setCell("" + random.nextInt(1000000000));
-            t.setEmail(tname[i] + "@gmail.com");
+            t.setEmail(tname[i] + random.nextInt(1000) + "@gmail.com");
             t.setIdNumber("" + random.nextInt(1000000000));
             t.setName(tname[i]);
             t.setPassword("" + random.nextInt(1000));
             t.setSessionID(null);
             t.setSurname(tsurname[i]);
-            t.setParent(p);
+            t.setParent(em.find(Parent.class, 22));
             em.persist(t);
         }
     }
-     private void addParent() {
+
+    private void addParent() {
         for (int i = 0; i < tname.length; ++i) {
             random = new Random();
             Parent t = new Parent();
             t.setCell("" + random.nextInt(1000000000));
-            t.setEmail(tname[i] + "@gmail.com");
+            t.setEmail(tname[i] + random.nextInt(1000) + "@gmail.com");
             t.setParentIdNo("" + random.nextInt(1000000000));
-            t.setParentName(tname[i]);
+            t.setParentName(tname[i] + random.nextInt(1000));
             t.setPassword("" + random.nextInt(1000));
             t.setSessionID(null);
-            t.setParentSurname(tsurname[i]);
-            
+            t.setParentSurname(tsurname[i] + random.nextInt(1000));
+
             em.persist(t);
         }
     }
-    
+
     private String[] tname = {"Sifiso", "Thabo", "Lina"};
     private String[] tsurname = {"Mtshweni", "Matha", "Moyo"};
     private String[] subName = {"Mathemetics", "Physical Science", "Geography", "History", "Biology", "English", "Zulu", "Xhosa",

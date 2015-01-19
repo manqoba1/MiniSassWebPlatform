@@ -37,8 +37,8 @@ import java.util.ArrayList;
  */
 public class RequestDTO implements Serializable {
 
-    private Integer requestType, teacherID, clazzID, subjectID;
-    private String username, password, gcmRegistrationID, sessionID;
+    private Integer requestType, teacherID, clazzID, subjectID, studentID, parentID;
+    private String email, password, gcmRegistrationID, sessionID;
     private long absenseeDate;
 
     private AttendenceDTO attendence;
@@ -72,7 +72,8 @@ public class RequestDTO implements Serializable {
     //get stuff
     public static final int GET_SUB_CLASS_BY_TEACHER = 101,
             GET_ABSENSEE = 102,
-            GET_LEARNERS = 103;
+            GET_LEARNERS = 103,
+            GET_STUDENT_BY_ID = 104;
 
     //login's 
     public static final int LOGIN_TEACHER = 200,
@@ -86,7 +87,8 @@ public class RequestDTO implements Serializable {
             ADD_SUBJECT = 304,
             ADD_TEACHER_SUBJECT = 305,
             ADD_CLASS = 306;
-    //updates 
+    
+
     //invoice * claim
     //reports
     public static final String SCHOOL_DIR = "school";
@@ -102,6 +104,22 @@ public class RequestDTO implements Serializable {
 
     public void setRequestType(Integer requestType) {
         this.requestType = requestType;
+    }
+
+    public Integer getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(Integer parentID) {
+        this.parentID = parentID;
+    }
+
+    public Integer getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(Integer studentID) {
+        this.studentID = studentID;
     }
 
     public String getSessionID() {
@@ -176,12 +194,12 @@ public class RequestDTO implements Serializable {
         this.subjectID = subjectID;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
