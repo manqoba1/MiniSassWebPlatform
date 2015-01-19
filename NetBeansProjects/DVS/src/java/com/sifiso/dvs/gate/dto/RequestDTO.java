@@ -10,6 +10,7 @@ import com.sifiso.dvs.dto.CountryDTO;
 import com.sifiso.dvs.dto.DeviceerrorDTO;
 import com.sifiso.dvs.dto.DoctorDTO;
 import com.sifiso.dvs.dto.DoctortypeDTO;
+import com.sifiso.dvs.dto.GcmdeviceDTO;
 import com.sifiso.dvs.dto.MedicalaidDTO;
 import com.sifiso.dvs.dto.PatientfileDTO;
 import com.sifiso.dvs.dto.ProvinceDTO;
@@ -65,6 +66,7 @@ public class RequestDTO implements Serializable {
     private SurgeryDTO surgery;
     private TownshipDTO township;
     private VisitDTO visit;
+    private GcmdeviceDTO gcmdevice;
     private DoctorDTO doctor;
 
     public static final String SURGERY_DIR = "surgery";
@@ -86,6 +88,14 @@ public class RequestDTO implements Serializable {
 
     public void setSurgeryID(Integer surgeryID) {
         this.surgeryID = surgeryID;
+    }
+
+    public GcmdeviceDTO getGcmdevice() {
+        return gcmdevice;
+    }
+
+    public void setGcmdevice(GcmdeviceDTO gcmdevice) {
+        this.gcmdevice = gcmdevice;
     }
 
     public String getStandNumber() {

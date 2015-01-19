@@ -5,10 +5,12 @@
  */
 package com.sifiso.dvs.util;
 
+import com.google.gson.Gson;
 import com.sifiso.dvs.data.Client;
 import com.sifiso.dvs.data.Deviceerror;
 import com.sifiso.dvs.data.Doctor;
 import com.sifiso.dvs.data.Doctortype;
+import com.sifiso.dvs.data.Gcmdevice;
 import com.sifiso.dvs.data.Medicalaid;
 import com.sifiso.dvs.data.Patientfile;
 import com.sifiso.dvs.data.Receptionist;
@@ -18,12 +20,14 @@ import com.sifiso.dvs.data.Visit;
 import com.sifiso.dvs.dto.ClientDTO;
 import com.sifiso.dvs.dto.DoctorDTO;
 import com.sifiso.dvs.dto.DoctortypeDTO;
+import com.sifiso.dvs.dto.GcmdeviceDTO;
 import com.sifiso.dvs.dto.MedicalaidDTO;
 import com.sifiso.dvs.dto.PatientfileDTO;
 import com.sifiso.dvs.dto.ReceptionistDTO;
 import com.sifiso.dvs.dto.SurgeryDTO;
 import com.sifiso.dvs.dto.VisitDTO;
 import com.sifiso.dvs.gate.dto.ResponseDTO;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,15 +74,34 @@ public class DataUtil {
         return resp;
     }
 
-    public ResponseDTO loginDoctor(String email, String pin, ListUtil listUtil, PlatformUtil platformUtil) throws DataException {
+    public ResponseDTO loginDoctor(String email, String pin, GcmdeviceDTO d, ListUtil listUtil, PlatformUtil platformUtil) throws DataException {
         ResponseDTO resp = new ResponseDTO();
+        GcmdeviceDTO dTO = new GcmdeviceDTO();
         try {
             Query q = em.createNamedQuery("Doctor.loginDoctor", Doctor.class);
             q.setParameter("email", email);
             q.setParameter("pin", pin);
+            q.setMaxResults(1);
             Doctor r = (Doctor) q.getSingleResult();
-            DoctorDTO rdto = new DoctorDTO(r);           
+            DoctorDTO rdto = new DoctorDTO(r);
             
+            log.log(Level.INFO, "Login{0}",r.getDoctorID());
+            dTO.setAndroidVersion(d.getAndroidVersion());
+            dTO.setDateRegistered(new Date().getTime());
+            dTO.setManufacturer(d.getManufacturer());
+            dTO.setModel(d.getModel());
+            dTO.setProduct(d.getProduct());
+            dTO.setSerialNumber(d.getSerialNumber());
+            dTO.setRegistrationID(d.getRegistrationID());
+            dTO.setDoctorID(r.getDoctorID());
+            
+            addDevice(dTO);
+
+            try {
+                CloudMessagingRegistrar.sendRegistration(dTO.getRegistrationID(), platformUtil);
+            } catch (IOException ex) {
+                Logger.getLogger(DataUtil.class.getName()).log(Level.SEVERE, null, ex);
+            }
             resp.setDoctor(rdto);
             log.log(Level.INFO, "Login");
         } catch (NoResultException e) {
@@ -88,6 +111,30 @@ public class DataUtil {
             platformUtil.addServerError(301, getErrorString(e), "DataUtil");
         }
         return resp;
+    }
+
+    public void addDevice(GcmdeviceDTO d) throws DataException {
+        try {
+            Gcmdevice g = new Gcmdevice();
+            if (d.getDoctorID() != null && d.getDoctorID() > 0) {
+                g.setDoctor(em.find(Doctor.class, d.getDoctorID()));
+            }
+
+            g.setDateRegistered(new Date());
+            g.setManufacturer(d.getManufacturer());
+            g.setModel(d.getModel());
+            g.setRegistrationID(d.getRegistrationID());
+            g.setSerialNumber(d.getSerialNumber());
+            g.setProduct(d.getProduct());
+            g.setAndroidVersion(d.getAndroidVersion());
+
+            em.persist(g);
+            log.log(Level.WARNING, "New device loaded");
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Failed", e);
+            throw new DataException("Failed to add device\n" + getErrorString(e));
+
+        }
     }
 
     public ResponseDTO registerClient(ClientDTO a, PlatformUtil platformUtil) throws DataException {
@@ -249,7 +296,7 @@ public class DataUtil {
             Patientfile c = new Patientfile();
             c.setClient(em.find(Client.class, a.getClientID()));
             c.setDateMade(new Date());
-            c.setDoctor(em.find(Doctor.class, a.getDoctorID()));            
+            c.setDoctor(em.find(Doctor.class, a.getDoctorID()));
             c.setFileUrl(a.getFileUrl());
 
             em.persist(c);
@@ -267,7 +314,7 @@ public class DataUtil {
         return resp;
     }
 
-    public ResponseDTO addVisit(VisitDTO a, PlatformUtil platformUtil) throws DataException {
+    public ResponseDTO addVisit(VisitDTO a, CloudMsgUtil cloudMsgUtil, PlatformUtil platformUtil) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
             Visit c = new Visit();
@@ -281,6 +328,15 @@ public class DataUtil {
 
             em.persist(c);
             em.flush();
+
+            VisitDTO dTO = new VisitDTO(c);
+            resp.setVisit(dTO);
+            Doctor d = c.getDoctor();
+            List<String> registrationIDs = new ArrayList<>();
+            for (Gcmdevice g : d.getGcmdeviceList()) {
+                registrationIDs.add(g.getRegistrationID());
+            }
+            cloudMsgUtil.sendMessage(gson.toJson(resp), registrationIDs, platformUtil);
             resp.getVisitList().add(new VisitDTO(c));
             resp.setMessage("Doctor Type Registered");
 
@@ -293,8 +349,10 @@ public class DataUtil {
         }
         return resp;
     }
+    Gson gson = new Gson();
 
     //update method
+
     public void updateVisit(VisitDTO a) throws DataException {
         try {
             Visit ps = em.find(Visit.class, a.getVisitID());

@@ -21,7 +21,7 @@ import javax.persistence.PersistenceContext;
 public class TrafficCop {
 
     public ResponseDTO processRequest(RequestDTO req,
-            DataUtil dataUtil, ListUtil listUtil, PlatformUtil platformUtil) {
+            DataUtil dataUtil, ListUtil listUtil,CloudMsgUtil cloudMsgUtil, PlatformUtil platformUtil) {
         ResponseDTO resp = new ResponseDTO();
         try {
             switch (req.getRequestType()) {
@@ -29,7 +29,7 @@ public class TrafficCop {
                     resp = dataUtil.loginReception(req.getEmail(), req.getPin(), listUtil, platformUtil);
                     break;
                 case RequestDTO.LOGIN_DOCTOR:
-                    resp = dataUtil.loginDoctor(req.getEmail(), req.getPin(), listUtil, platformUtil);
+                    resp = dataUtil.loginDoctor(req.getEmail(), req.getPin(),req.getGcmdevice(), listUtil, platformUtil);
                     break;
 
                 // register
@@ -57,7 +57,7 @@ public class TrafficCop {
                     resp = dataUtil.addPatientFile(req.getPatientfile(), platformUtil);
                     break;
                 case RequestDTO.ADD_VISIT:
-                    resp = dataUtil.addVisit(req.getVisit(), platformUtil);
+                    resp = dataUtil.addVisit(req.getVisit(),cloudMsgUtil, platformUtil);
                     break;
 
                 //update
@@ -68,6 +68,9 @@ public class TrafficCop {
                 //gets
                 case RequestDTO.GET_CLIENT_FILES:
                     resp = listUtil.getClientDataByStand(req.getStandNumber(), req.getDoctorID(), req.getSurgeryID());
+                    break;
+                case RequestDTO.GET_DOCTOR_DATA:
+                    resp = listUtil.getDoctorData(req.getDoctorID());
                     break;
             }
         } catch (DataException e) {

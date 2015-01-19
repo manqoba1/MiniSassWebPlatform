@@ -17,6 +17,8 @@ import com.sifiso.dvs.dto.VisitDTO;
 import com.sifiso.dvs.gate.dto.ResponseDTO;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -51,6 +53,7 @@ public class ListUtil {
         List<Visit> visits = q.getResultList();
         for (Visit v : visits) {
             list.add(new VisitDTO(v));
+            logger.log(Level.INFO, "Visit", v);
         }
         return list;
     }
@@ -144,4 +147,6 @@ public class ListUtil {
         resp.setPatientfileList(patientfileList);
         return resp;
     }
+    static final Logger logger = Logger.getLogger(ListUtil.class.getSimpleName());
+
 }

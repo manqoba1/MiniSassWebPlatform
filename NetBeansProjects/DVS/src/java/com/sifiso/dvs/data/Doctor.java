@@ -41,6 +41,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Doctor.findByTell", query = "SELECT d FROM Doctor d WHERE d.tell = :tell"),
     @NamedQuery(name = "Doctor.findByPin", query = "SELECT d FROM Doctor d WHERE d.pin = :pin")})
 public class Doctor implements Serializable {
+    @OneToMany(mappedBy = "doctor")
+    private List<Gcmdevice> gcmdeviceList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
     private List<Deviceerror> deviceerrorList;
 
@@ -213,6 +215,14 @@ public class Doctor implements Serializable {
 
     public void setDeviceerrorList(List<Deviceerror> deviceerrorList) {
         this.deviceerrorList = deviceerrorList;
+    }
+
+    public List<Gcmdevice> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
+
+    public void setGcmdeviceList(List<Gcmdevice> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
     }
 
 }

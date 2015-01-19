@@ -8,6 +8,7 @@ package com.sifiso.dvs.gateway;
 import com.google.gson.Gson;
 import com.sifiso.dvs.gate.dto.RequestDTO;
 import com.sifiso.dvs.gate.dto.ResponseDTO;
+import com.sifiso.dvs.util.CloudMsgUtil;
 import com.sifiso.dvs.util.DataUtil;
 import com.sifiso.dvs.util.GZipUtility;
 import com.sifiso.dvs.util.ListUtil;
@@ -45,11 +46,22 @@ public class DVSWebSocket {
     PlatformUtil platformUtil;
     @EJB
     TrafficCop trafficCop;
+    @EJB
+    CloudMsgUtil cloudMsgUtil;
 
     static final String SOURCE = "DVSWebSocket";
 
     public static final Set<Session> peers
             = Collections.synchronizedSet(new HashSet<Session>());
+
+    public void sendData(ResponseDTO resp, String sessionID)
+            throws IOException, Exception {
+        for (Session session : peers) {
+            if (sessionID.equals(session.getId())) {
+                session.getBasicRemote().sendBinary(GZipUtility.getZippedResponse(resp));
+            }
+        }
+    }
 
     @OnMessage
     public ByteBuffer onMessage(String message) {
@@ -58,7 +70,7 @@ public class DVSWebSocket {
         ByteBuffer bb = null;
         try {
             RequestDTO dto = gson.fromJson(message, RequestDTO.class);
-            resp = trafficCop.processRequest(dto, dataUtil, listUtil, platformUtil);
+            resp = trafficCop.processRequest(dto, dataUtil, listUtil, cloudMsgUtil, platformUtil);
             bb = GZipUtility.getZippedResponse(resp);
         } catch (IOException ex) {
             Logger.getLogger(DVSWebSocket.class.getName()).log(Level.SEVERE, null, ex);

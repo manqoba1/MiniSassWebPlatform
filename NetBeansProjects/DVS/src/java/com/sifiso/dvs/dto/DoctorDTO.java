@@ -26,6 +26,7 @@ public class DoctorDTO implements Serializable {
     private String pin;
     private SurgeryDTO surgery;
     private DoctortypeDTO doctorType;
+    private List<GcmdeviceDTO> gcmdeviceList = new ArrayList<>();
     private List<DeviceerrorDTO> deviceerrorList = new ArrayList<>();
     private List<VisitDTO> visitList = new ArrayList<>();
     private List<PatientfileDTO> patientfileList = new ArrayList<>();
@@ -160,6 +161,14 @@ public class DoctorDTO implements Serializable {
 
     public void setDeviceerrorList(List<DeviceerrorDTO> deviceerrorList) {
         this.deviceerrorList = deviceerrorList;
+    }
+
+    public List<GcmdeviceDTO> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
+
+    public void setGcmdeviceList(List<GcmdeviceDTO> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
     }
 
     @Override
