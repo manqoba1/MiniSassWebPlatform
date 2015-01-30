@@ -9,6 +9,8 @@ package com.boha.minisass.transfer;
 import com.boha.minisass.dto.CategoryDTO;
 import com.boha.minisass.dto.CommentDTO;
 import com.boha.minisass.dto.CountryDTO;
+import com.boha.minisass.dto.ErrorStoreAndroidDTO;
+import com.boha.minisass.dto.ErrorStoreDTO;
 import com.boha.minisass.dto.EvaluationDTO;
 import com.boha.minisass.dto.EvaluationSiteDTO;
 import com.boha.minisass.dto.InsectDTO;
@@ -27,6 +29,9 @@ import java.util.List;
 public class ResponseDTO {
     private int statusCode;
     private String message;
+    private Integer statusCountInPeriod, goodCount, badCount;
+    private String sessionID, GCMRegistrationID, fileString;
+    private double elapsedRequestTimeInSeconds;
     
     private List<TeamDTO> teamList;
     private List<TeamMemberDTO> teamMemberList;
@@ -40,6 +45,9 @@ public class ResponseDTO {
     private List<CountryDTO> countryList;
     private List<ProvinceDTO> provinceList;
     private List<TownDTO> townList;
+    
+     private List<ErrorStoreDTO> errorStoreList;
+    private List<ErrorStoreAndroidDTO> errorStoreAndroidList;
 
     public int getStatusCode() {
         return statusCode;
@@ -151,6 +159,78 @@ public class ResponseDTO {
 
     public void setTownList(List<TownDTO> townList) {
         this.townList = townList;
+    }
+
+    public Integer getStatusCountInPeriod() {
+        return statusCountInPeriod;
+    }
+
+    public void setStatusCountInPeriod(Integer statusCountInPeriod) {
+        this.statusCountInPeriod = statusCountInPeriod;
+    }
+
+    public Integer getGoodCount() {
+        return goodCount;
+    }
+
+    public void setGoodCount(Integer goodCount) {
+        this.goodCount = goodCount;
+    }
+
+    public Integer getBadCount() {
+        return badCount;
+    }
+
+    public void setBadCount(Integer badCount) {
+        this.badCount = badCount;
+    }
+
+    public String getSessionID() {
+        return sessionID;
+    }
+
+    public void setSessionID(String sessionID) {
+        this.sessionID = sessionID;
+    }
+
+    public String getGCMRegistrationID() {
+        return GCMRegistrationID;
+    }
+
+    public void setGCMRegistrationID(String GCMRegistrationID) {
+        this.GCMRegistrationID = GCMRegistrationID;
+    }
+
+    public String getFileString() {
+        return fileString;
+    }
+
+    public void setFileString(String fileString) {
+        this.fileString = fileString;
+    }
+
+    public double getElapsedRequestTimeInSeconds() {
+        return elapsedRequestTimeInSeconds;
+    }
+
+    public void setElapsedRequestTimeInSeconds(double elapsedRequestTimeInSeconds) {
+        this.elapsedRequestTimeInSeconds = elapsedRequestTimeInSeconds;
+    }
+
+    public List<ErrorStoreDTO> getErrorStoreList() {
+        return errorStoreList;
+    }
+
+    public void setErrorStoreList(List<ErrorStoreDTO> errorStoreList) {
+        this.errorStoreList = errorStoreList;
+    }
+
+    public List<ErrorStoreAndroidDTO> getErrorStoreAndroidList() {
+        return errorStoreAndroidList;
+    }
+
+    public void setErrorStoreAndroidList(List<ErrorStoreAndroidDTO> errorStoreAndroidList) {
+        this.errorStoreAndroidList = errorStoreAndroidList;
     }
     
     
