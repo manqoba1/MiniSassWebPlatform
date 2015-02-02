@@ -25,17 +25,19 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author CodeTribe1
  */
-@WebServlet(name = "TestServlet", urlPatterns = {"/test"})
-public class TestServlet extends HttpServlet {
-        @EJB
-        DataUtil dataUtil;
+@WebServlet(name = "Test", urlPatterns = {"/test1"})
+public class Test extends HttpServlet {
 
-        @EJB
-        ListUtil listUtil;
+    @EJB
+    DataUtil dataUtil;
 
+    @EJB
+    ListUtil listUtil;
+
+    Gson gson = new Gson();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       response.setContentType("application/json;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         log.log(Level.OFF, "Servlet starting ...");
         PrintWriter out = response.getWriter();
         String json;
@@ -63,13 +65,13 @@ public class TestServlet extends HttpServlet {
                     ur = dataUtil.addEvaluationSite(req.getEvaluationSite());
                     break;
                 case RequestDTO.ADD_INSECT_IMAGE:
-                   ur = dataUtil.addInsertImage(req.getInsectImage());
+                    ur = dataUtil.addInsertImage(req.getInsectImage());
                     break;
                 case RequestDTO.ADD_PROVINCE:
-                   ur = dataUtil.addProvince(req.getProvince());
+                    ur = dataUtil.addProvince(req.getProvince());
                     break;
                 case RequestDTO.ADD_RIVER:
-                  //  ur = dataUtil.
+                    //  ur = dataUtil.
                     break;
                 case RequestDTO.ADD_RIVER_TOWN:
                     ur = dataUtil.addRiverTown(req.getRiverTown());
@@ -84,7 +86,7 @@ public class TestServlet extends HttpServlet {
                     ur = listUtil.getEvaluationList(req.getEvaluationSite().getEvaluationSiteID());
                     break;
                 case RequestDTO.LIST_INSECTS:
-                   ur = listUtil.getInsectList();
+                    ur = listUtil.getInsectList();
                     break;
                 case RequestDTO.LIST_RIVER_TOWNS:
                     ur = listUtil.getRiverTownList(req.getRiverTown().getRiverTownID());
@@ -95,14 +97,28 @@ public class TestServlet extends HttpServlet {
                 case RequestDTO.LIST_RIVERS_IN_COUNTRY:
                     ur = listUtil.getRiverList(req.getRiver().getRiverID());
                     break;
-                    
-                    
-                     default:
-                      ur.setStatusCode(444);
-                      ur.setMessage("#### Unknown Request");
-                      log.log(Level.SEVERE, "Couldn't find request,you fool");
-                      break;
-                  
+                case RequestDTO.LIST_ALL_PROVINCES:
+                    ur = listUtil.getAllProvince();
+                    break;
+                     
+                case RequestDTO.LIST_ROVINCE_COUNTRY:
+                    log.log(Level.OFF, "ProvinceID checking in progress.....");
+                    if (req.getProvince().getProvinceID() == null) {
+                        log.log(Level.OFF, "ProvinceID is null....why???");
+                        ur.setStatusCode(777);
+                        ur.setMessage("Debugging ProvinceID - is NULL!!");
+                        
+                    } else {
+                    ur = listUtil.getProvinceByCountry(req.getCountry().getCountryID());
+                    }
+                    break;
+
+                default:
+                    ur.setStatusCode(444);
+                    ur.setMessage("#### Unknown Request");
+                    log.log(Level.SEVERE, "Couldn't find request,you fool");
+                    break;
+
             }
         } catch (Exception ex) {
             log.log(Level.OFF, "Failed.....{0}", ex);
@@ -155,19 +171,19 @@ public class TestServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-private RequestDTO getRequest(HttpServletRequest req) {
+    private RequestDTO getRequest(HttpServletRequest req) {
         String json = req.getParameter("JSON");
-          RequestDTO re = null;
-        if(json == null){
+        RequestDTO re = null;
+        if (json == null) {
             log.log(Level.OFF, "Json parameter not found...");
             re = new RequestDTO();
-            re.setRequestType(0);            
+            re.setRequestType(0);
             return re;
         }
-      
+
         try {
-         re = gson.fromJson(json, RequestDTO.class);
-         log.log(Level.INFO, "JSON okay. ...");
+            re = gson.fromJson(json, RequestDTO.class);
+            log.log(Level.INFO, "JSON okay. ...");
         } catch (Exception e) {
             log.log(Level.OFF, "JSON is not okay. ...");
             re = new RequestDTO();
@@ -175,7 +191,6 @@ private RequestDTO getRequest(HttpServletRequest req) {
         }
         return re;
     }
-    private Gson gson = new Gson();
-    static final Logger log = Logger.getLogger(TestServlet.class.getSimpleName());
+    
+    static final Logger log = Logger.getLogger(Test.class.getSimpleName());
 }
-
