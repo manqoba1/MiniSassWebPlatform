@@ -18,41 +18,35 @@ import com.boha.minisass.dto.TownDTO;
  * @author aubreyM
  */
 public class RequestDTO {
-    
+
     private int requestType;
     private String email, password;
-    
-    
-    
-    public static final int 
-            REGISTER_TEAM = 1,
+    private Integer countryID;
+
+    public static final int REGISTER_TEAM = 1,
             REGISTER_TEAM_MEMBER = 2,
             SIGN_IN_MEMBER = 3,
             IMPORT_MEMBERS = 4;
-    
-    public static final int 
-            ADD_RIVER = 10,
+
+    public static final int ADD_RIVER = 10,
             ADD_RIVER_TOWN = 11,
             ADD_EVALUATION_SITE = 12,
             ADD_INSECT = 13,
             ADD_INSECT_IMAGE = 14,
             ADD_EVALUATION = 15,
             ADD_COMMENT = 16;
-    
-    public static final int 
-            ADD_COUNTRY = 21,
+
+    public static final int ADD_COUNTRY = 21,
             ADD_PROVINCE = 22,
             ADD_TOWN = 23;
-    
-    public static final int 
-            UPDATE_RIVER = 30,
+
+    public static final int UPDATE_RIVER = 30,
             UPDATE_RIVER_TOWN = 31,
             UPDATE_EVALUATION_SITE = 32,
             UPDATE_INSECT = 33,
             UPDATE_INSECT_IMAGE = 34;
-    
-    public static final int 
-            LIST_RIVERS_IN_COUNTRY = 40,
+
+    public static final int LIST_RIVERS_IN_COUNTRY = 40,
             LIST_RIVER_TOWNS = 41,
             LIST_EVALUATION_SITES = 42,
             LIST_INSECTS = 43,
@@ -60,7 +54,7 @@ public class RequestDTO {
             LIST_EVALUATIONS_BY_RIVER = 45,
             LIST_ROVINCE_COUNTRY = 46,
             LIST_ALL_PROVINCES = 50;
-    
+
     private EvaluationDTO evaluation;
     private TeamDTO team;
     private TeamMemberDTO teamMember;
@@ -94,6 +88,14 @@ public class RequestDTO {
         this.town = town;
     }
 
+    public Integer getCountryID() {
+        return countryID;
+    }
+
+    public void setCountryID(Integer countryID) {
+        this.countryID = countryID;
+    }
+
     public ProvinceDTO getProvince() {
         return province;
     }
@@ -101,7 +103,7 @@ public class RequestDTO {
     public void setProvince(ProvinceDTO province) {
         this.province = province;
     }
-    
+
     public int getRequestType() {
         return requestType;
     }
@@ -137,8 +139,6 @@ public class RequestDTO {
     public void setInsectImage(InsectImageDTO insectImage) {
         this.insectImage = insectImage;
     }
-    
-    
 
     public void setEmail(String email) {
         this.email = email;
@@ -199,5 +199,5 @@ public class RequestDTO {
     public void setEvaluationSite(EvaluationSiteDTO evaluationSite) {
         this.evaluationSite = evaluationSite;
     }
-    
+
 }

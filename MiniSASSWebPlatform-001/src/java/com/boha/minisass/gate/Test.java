@@ -102,15 +102,8 @@ public class Test extends HttpServlet {
                     break;
                      
                 case RequestDTO.LIST_ROVINCE_COUNTRY:
-                    log.log(Level.OFF, "ProvinceID checking in progress.....");
-                    if (req.getProvince() == null) {
-                        log.log(Level.OFF, "ProvinceID is null....why???");
-                        ur.setStatusCode(777);
-                        ur.setMessage("Debugging ProvinceID - is NULL!!");
-                        
-                    } else {
-                    ur = listUtil.getProvinceByCountry(req.getCountry().getCountryID());
-                    }
+                    log.log(Level.INFO, "Province:\n{0}", req.getCountryID());
+                    ur = listUtil.getProvinceByCountry(req.getCountryID());
                     break;
 
                 default:

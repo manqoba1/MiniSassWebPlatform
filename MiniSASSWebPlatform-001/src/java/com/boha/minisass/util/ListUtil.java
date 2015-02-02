@@ -41,17 +41,16 @@ import javax.persistence.Query;
  *
  * @author CodeTribe1
  */
-
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class ListUtil {
-    
-     @PersistenceContext
+
+    @PersistenceContext
     EntityManager em;
-    
+
     public ResponseDTO getCountryList() {
         ResponseDTO resp = new ResponseDTO();
-        
+
         Query q = em.createNamedQuery("Country.findAll", Country.class);
         List<Country> list = q.getResultList();
         resp.setCountryList(new ArrayList<CountryDTO>());
@@ -68,11 +67,11 @@ public class ListUtil {
             }
             resp.getCountryList().add(cn);
         }
-        
+
         return resp;
     }
-    
-     public ResponseDTO getInsectList() {
+
+    public ResponseDTO getInsectList() {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Insect.findAll", Insect.class);
         //q.setParameter("", );
@@ -83,8 +82,8 @@ public class ListUtil {
 
         return resp;
     }
-   
-      public ResponseDTO getAllProvince() throws DataException {
+
+    public ResponseDTO getAllProvince() throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
             Query q = em.createNamedQuery("Province.findAll", Province.class);
@@ -100,15 +99,15 @@ public class ListUtil {
         }
         return resp;
     }
-     
-     public ResponseDTO getProvinceByCountry(Integer countryID) throws DataException {
+
+    public ResponseDTO getProvinceByCountry(Integer countryID) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
-            Query q = em.createNamedQuery("Province.findByCountry", Province.class);
+            Query q = em.createNamedQuery("Province.findByCountryID", Province.class);
             q.setParameter("countryID", countryID);
             List<Province> list = q.getResultList();
             resp.setProvinceList(new ArrayList<ProvinceDTO>());
-            for(Province p : list) {
+            for (Province p : list) {
                 resp.getProvinceList().add(new ProvinceDTO(p));
             }
             log.log(Level.OFF, "Found Provinces : {0}", resp.getProvinceList().size());
@@ -118,7 +117,8 @@ public class ListUtil {
         }
         return resp;
     }
-public ResponseDTO getTeamList(Integer teamID) {
+
+    public ResponseDTO getTeamList(Integer teamID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Team.findByTeamID", Team.class);
         q.setParameter("teamID", teamID);
@@ -129,7 +129,8 @@ public ResponseDTO getTeamList(Integer teamID) {
 
         return resp;
     }
-public ResponseDTO getTeamMemberList(Integer teamMemberID) {
+
+    public ResponseDTO getTeamMemberList(Integer teamMemberID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("TeamMember.findByTeamMemberID", Teammember.class);
         q.setParameter("teamMemberID", teamMemberID);
@@ -139,8 +140,9 @@ public ResponseDTO getTeamMemberList(Integer teamMemberID) {
         }
 
         return resp;
-}
-public ResponseDTO getRiverList(Integer riverID) {
+    }
+
+    public ResponseDTO getRiverList(Integer riverID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("River.findByRiverID", River.class);
         q.setParameter("riverID", riverID);
@@ -151,7 +153,8 @@ public ResponseDTO getRiverList(Integer riverID) {
 
         return resp;
     }
-public ResponseDTO getRiverTownList(Integer riverID) {
+
+    public ResponseDTO getRiverTownList(Integer riverID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("River.findByRiverID", Rivertown.class);
         q.setParameter("riverID", riverID);
@@ -162,7 +165,8 @@ public ResponseDTO getRiverTownList(Integer riverID) {
 
         return resp;
     }
-public ResponseDTO getCommentList(Integer commentID) {
+
+    public ResponseDTO getCommentList(Integer commentID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Comment.findByCommentID", Comment.class);
         q.setParameter("commentID", commentID);
@@ -173,7 +177,8 @@ public ResponseDTO getCommentList(Integer commentID) {
 
         return resp;
     }
-public ResponseDTO getEvaluationList(Integer evaluationID) {
+
+    public ResponseDTO getEvaluationList(Integer evaluationID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Evaluation.findByEvaluationID", Evaluation.class);
         q.setParameter("evaluationID", evaluationID);
@@ -185,7 +190,7 @@ public ResponseDTO getEvaluationList(Integer evaluationID) {
         return resp;
     }
 
-public ResponseDTO getEvaluationSiteList(Integer evaluationSiteID) {
+    public ResponseDTO getEvaluationSiteList(Integer evaluationSiteID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("EvaluationSite.findByEvaluationSiteID", Evaluationsite.class);
         q.setParameter("evaluationSiteID", evaluationSiteID);
@@ -196,7 +201,8 @@ public ResponseDTO getEvaluationSiteList(Integer evaluationSiteID) {
 
         return resp;
     }
-public ResponseDTO getCategoryList(Integer categoryID) {
+
+    public ResponseDTO getCategoryList(Integer categoryID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Category.findByCategoryId", Category.class);
         q.setParameter("categoryID", categoryID);
@@ -207,11 +213,12 @@ public ResponseDTO getCategoryList(Integer categoryID) {
 
         return resp;
     }
- public Evaluationsite getEvaluationSite(Integer id) {
+
+    public Evaluationsite getEvaluationSite(Integer id) {
         Evaluationsite es = em.find(Evaluationsite.class, id);
         return es;
     }
-    
+
     private String getRandomPin() {
         StringBuilder sb = new StringBuilder();
         Random rand = new Random(System.currentTimeMillis());
@@ -227,5 +234,5 @@ public ResponseDTO getCategoryList(Integer categoryID) {
         sb.append(rand.nextInt(9));
         return sb.toString();
     }
-    
+
 }

@@ -31,11 +31,13 @@ import javax.validation.constraints.Size;
 @Table(name = "province")
 @NamedQueries({
     @NamedQuery(name = "Province.findAll", query = "SELECT p FROM Province p"),
+    @NamedQuery(name = "Province.findByCountryID", query = "SELECT p FROM Province p WHERE p.country.countryID = :countryID"),
     @NamedQuery(name = "Province.findByProvinceID", query = "SELECT p FROM Province p WHERE p.provinceID = :provinceID"),
     @NamedQuery(name = "Province.findByProvinceName", query = "SELECT p FROM Province p WHERE p.provinceName = :provinceName"),
     @NamedQuery(name = "Province.findByLattitude", query = "SELECT p FROM Province p WHERE p.lattitude = :lattitude"),
     @NamedQuery(name = "Province.findByLongitude", query = "SELECT p FROM Province p WHERE p.longitude = :longitude")})
 public class Province implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -142,5 +144,5 @@ public class Province implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.Province[ provinceID=" + provinceID + " ]";
     }
-    
+
 }
