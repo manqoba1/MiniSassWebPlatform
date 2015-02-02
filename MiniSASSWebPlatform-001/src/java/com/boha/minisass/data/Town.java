@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.data;
 
 import java.io.Serializable;
@@ -26,7 +25,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author aubreyM
+ * @author CodeTribe1
  */
 @Entity
 @Table(name = "town")
@@ -57,9 +56,9 @@ public class Town implements Serializable {
     @ManyToOne(optional = false)
     private Province province;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "town")
-    private List<RiverTown> riverTownList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "town")
     private List<Team> teamList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "town")
+    private List<Rivertown> rivertownList;
 
     public Town() {
     }
@@ -113,14 +112,7 @@ public class Town implements Serializable {
         this.province = province;
     }
 
-  
-    public List<RiverTown> getRiverTownList() {
-        return riverTownList;
-    }
-
-    public void setRiverTownList(List<RiverTown> riverTownList) {
-        this.riverTownList = riverTownList;
-    }
+   
 
     public List<Team> getTeamList() {
         return teamList;
@@ -128,6 +120,14 @@ public class Town implements Serializable {
 
     public void setTeamList(List<Team> teamList) {
         this.teamList = teamList;
+    }
+
+    public List<Rivertown> getRivertownList() {
+        return rivertownList;
+    }
+
+    public void setRivertownList(List<Rivertown> rivertownList) {
+        this.rivertownList = rivertownList;
     }
 
     @Override

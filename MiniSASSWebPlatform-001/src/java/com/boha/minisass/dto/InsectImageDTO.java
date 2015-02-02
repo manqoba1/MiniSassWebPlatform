@@ -23,7 +23,7 @@ public class InsectImageDTO implements Serializable {
 
     public InsectImageDTO() {
     }
-    public InsectImageDTO(InsectImage a) {
+    public InsectImageDTO(Insectimage a) {
         this.insectImageID = a.getInsectImageID();
         this.uri = a.getUri();
         this.dateRegistered = a.getDateRegistered();

@@ -4,7 +4,7 @@
  */
 package com.boha.minisass.util;
 
-import com.boha.minisass.data.ErrorStore;
+import com.boha.minisass.data.Errorstore;
 import com.boha.minisass.transfer.RequestDTO;
 import java.util.Date;
 import java.util.logging.Level;
@@ -43,7 +43,7 @@ public class PlatformUtil {
     public void addErrorStore(int statusCode, String message, String origin) {
         log.log(Level.OFF, "------ adding errorStore, message: {0} origin: {1}", new Object[]{message, origin});
         try {
-            ErrorStore t = new ErrorStore();
+            Errorstore t = new Errorstore();
             t.setDateOccured(new Date());
             t.setMessage(message);
             t.setStatusCode(statusCode);

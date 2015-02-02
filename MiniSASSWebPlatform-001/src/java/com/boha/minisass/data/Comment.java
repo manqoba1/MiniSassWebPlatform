@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author aubreyM
+ * @author CodeTribe1
  */
 @Entity
 @Table(name = "comment")
@@ -32,7 +32,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
     @NamedQuery(name = "Comment.findByCommentID", query = "SELECT c FROM Comment c WHERE c.commentID = :commentID")})
 public class Comment implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,12 +44,8 @@ public class Comment implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "remarks")
     private String remarks;
-    
-    @OneToMany(mappedBy = "comment")
-    private List<EvaluationInsect> evaluationInsectList;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment")
-    private List<EvaluationComment> evaluationCommentList;
+    private List<Evaluationcomment> evaluationcommentList;
 
     public Comment() {
     }
@@ -59,9 +54,9 @@ public class Comment implements Serializable {
         this.commentID = commentID;
     }
 
-    public Comment(Integer commentID, String comment) {
+    public Comment(Integer commentID, String remarks) {
         this.commentID = commentID;
-        this.remarks = comment;
+        this.remarks = remarks;
     }
 
     public Integer getCommentID() {
@@ -80,14 +75,12 @@ public class Comment implements Serializable {
         this.remarks = remarks;
     }
 
-  
-
-    public List<EvaluationInsect> getEvaluationInsectList() {
-        return evaluationInsectList;
+    public List<Evaluationcomment> getEvaluationcommentList() {
+        return evaluationcommentList;
     }
 
-    public void setEvaluationInsectList(List<EvaluationInsect> evaluationInsectList) {
-        this.evaluationInsectList = evaluationInsectList;
+    public void setEvaluationcommentList(List<Evaluationcomment> evaluationcommentList) {
+        this.evaluationcommentList = evaluationcommentList;
     }
 
     @Override
@@ -114,13 +107,5 @@ public class Comment implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.Comment[ commentID=" + commentID + " ]";
     }
-
-    public List<EvaluationComment> getEvaluationCommentList() {
-        return evaluationCommentList;
-    }
-
-    public void setEvaluationCommentList(List<EvaluationComment> evaluationCommentList) {
-        this.evaluationCommentList = evaluationCommentList;
-    }
-
+    
 }

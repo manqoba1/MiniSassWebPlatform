@@ -4,13 +4,13 @@ import com.boha.minisass.data.Category;
 import com.boha.minisass.data.Comment;
 import com.boha.minisass.data.Country;
 import com.boha.minisass.data.Evaluation;
-import com.boha.minisass.data.EvaluationSite;
+import com.boha.minisass.data.Evaluationsite;
 import com.boha.minisass.data.Insect;
 import com.boha.minisass.data.Province;
 import com.boha.minisass.data.River;
-import com.boha.minisass.data.RiverTown;
+import com.boha.minisass.data.Rivertown;
 import com.boha.minisass.data.Team;
-import com.boha.minisass.data.TeamMember;
+import com.boha.minisass.data.Teammember;
 import com.boha.minisass.data.Town;
 import com.boha.minisass.dto.CategoryDTO;
 import com.boha.minisass.dto.CommentDTO;
@@ -131,10 +131,10 @@ public ResponseDTO getTeamList(Integer teamID) {
     }
 public ResponseDTO getTeamMemberList(Integer teamMemberID) {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("TeamMember.findByTeamMemberID", TeamMember.class);
+        Query q = em.createNamedQuery("TeamMember.findByTeamMemberID", Teammember.class);
         q.setParameter("teamMemberID", teamMemberID);
-        List<TeamMember> list = q.getResultList();
-        for (TeamMember tm : list) {
+        List<Teammember> list = q.getResultList();
+        for (Teammember tm : list) {
             resp.getTeamMemberList().add(new TeamMemberDTO(tm));
         }
 
@@ -153,7 +153,7 @@ public ResponseDTO getRiverList(Integer riverID) {
     }
 public ResponseDTO getRiverTownList(Integer riverID) {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("River.findByRiverID", RiverTown.class);
+        Query q = em.createNamedQuery("River.findByRiverID", Rivertown.class);
         q.setParameter("riverID", riverID);
         List<River> list = q.getResultList();
         for (River riv : list) {
@@ -187,10 +187,10 @@ public ResponseDTO getEvaluationList(Integer evaluationID) {
 
 public ResponseDTO getEvaluationSiteList(Integer evaluationSiteID) {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("EvaluationSite.findByEvaluationSiteID", EvaluationSite.class);
+        Query q = em.createNamedQuery("EvaluationSite.findByEvaluationSiteID", Evaluationsite.class);
         q.setParameter("evaluationSiteID", evaluationSiteID);
-        List<EvaluationSite> list = q.getResultList();
-        for (EvaluationSite es : list) {
+        List<Evaluationsite> list = q.getResultList();
+        for (Evaluationsite es : list) {
             resp.getEvaluationSiteList().add(new EvaluationSiteDTO(es));
         }
 
@@ -207,8 +207,8 @@ public ResponseDTO getCategoryList(Integer categoryID) {
 
         return resp;
     }
- public EvaluationSite getEvaluationSite(Integer id) {
-        EvaluationSite es = em.find(EvaluationSite.class, id);
+ public Evaluationsite getEvaluationSite(Integer id) {
+        Evaluationsite es = em.find(Evaluationsite.class, id);
         return es;
     }
     

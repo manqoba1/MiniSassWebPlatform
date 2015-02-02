@@ -7,7 +7,7 @@
 package com.boha.minisass.gate;
 
 
-import com.boha.minisass.data.ErrorStoreAndroid;
+import com.boha.minisass.data.Errorstoreandroid;
 import com.boha.minisass.util.DataException;
 import com.boha.minisass.util.DataUtil;
 import com.boha.minisass.util.PlatformUtil;
@@ -56,7 +56,7 @@ public class CrashReporterServlet extends HttpServlet {
     PlatformUtil platformUtil;
 
     private void getErrorData(HttpServletRequest request) throws DataException {
-        ErrorStoreAndroid e = new ErrorStoreAndroid();
+        Errorstoreandroid e = new Errorstoreandroid();
         e.setAndroidVersion(request.getParameter("ANDROID_VERSION"));
         e.setBrand(request.getParameter("BRAND"));
         e.setPackageName(request.getParameter("PACKAGE_NAME"));

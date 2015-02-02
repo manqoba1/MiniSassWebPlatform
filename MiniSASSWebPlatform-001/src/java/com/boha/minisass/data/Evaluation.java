@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.data;
 
 import java.io.Serializable;
@@ -30,7 +29,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author aubreyM
+ * @author CodeTribe1
  */
 @Entity
 @Table(name = "evaluation")
@@ -46,23 +45,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Evaluation.findByLatitude", query = "SELECT e FROM Evaluation e WHERE e.latitude = :latitude"),
     @NamedQuery(name = "Evaluation.findByLongitude", query = "SELECT e FROM Evaluation e WHERE e.longitude = :longitude")})
 public class Evaluation implements Serializable {
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "latitude")
-    private double latitude;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "longitude")
-    private double longitude;
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "remarks")
-    private String remarks;
-    @JoinColumn(name = "conditionID", referencedColumnName = "conditionID")
-    @ManyToOne
-    private Condition conditionID;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evaluation")
-    private List<EvaluationComment> evaluationCommentList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,8 +58,9 @@ public class Evaluation implements Serializable {
     private Date evaluationDate;
     @Lob
     @Size(max = 65535)
-    @Column(name = "comment")
-    private String comment;
+    @Column(name = "remarks")
+    private String remarks;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "score")
     private Double score;
     @Column(name = "pH")
@@ -88,17 +71,29 @@ public class Evaluation implements Serializable {
     private Double oxygen;
     @Column(name = "waterClarity")
     private Double waterClarity;
-    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "latitude")
+    private double latitude;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "longitude")
+    private double longitude;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "evaluation")
-    private List<EvaluationImage> evaluationImageList;
+    private List<Evaluationimage> evaluationimageList;
     @JoinColumn(name = "teamMemberID", referencedColumnName = "teamMemberID")
     @ManyToOne(optional = false)
-    private TeamMember teamMember;
+    private Teammember teamMember;
     @JoinColumn(name = "evaluationSiteID", referencedColumnName = "evaluationSiteID")
     @ManyToOne(optional = false)
-    private EvaluationSite evaluationSite;
+    private Evaluationsite evaluationSite;
+    @JoinColumn(name = "conditionID", referencedColumnName = "conditionID")
+    @ManyToOne
+    private Condition condition;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "evaluation")
-    private List<EvaluationInsect> evaluationInsectList;
+    private List<Evaluationinsect> evaluationinsectList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evaluation")
+    private List<Evaluationcomment> evaluationcommentList;
 
     public Evaluation() {
     }
@@ -107,7 +102,7 @@ public class Evaluation implements Serializable {
         this.evaluationID = evaluationID;
     }
 
-    public Evaluation(Integer evaluationID, Date evaluationDate, Double latitude, Double longitude) {
+    public Evaluation(Integer evaluationID, Date evaluationDate, double latitude, double longitude) {
         this.evaluationID = evaluationID;
         this.evaluationDate = evaluationDate;
         this.latitude = latitude;
@@ -130,12 +125,12 @@ public class Evaluation implements Serializable {
         this.evaluationDate = evaluationDate;
     }
 
-    public String getComment() {
-        return comment;
+    public String getRemarks() {
+        return remarks;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public Double getScore() {
@@ -178,15 +173,28 @@ public class Evaluation implements Serializable {
         this.waterClarity = waterClarity;
     }
 
-
-
-    
-    public List<EvaluationImage> getEvaluationImageList() {
-        return evaluationImageList;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setEvaluationImageList(List<EvaluationImage> evaluationImageList) {
-        this.evaluationImageList = evaluationImageList;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public List<Evaluationimage> getEvaluationimageList() {
+        return evaluationimageList;
+    }
+
+    public void setEvaluationimageList(List<Evaluationimage> evaluationimageList) {
+        this.evaluationimageList = evaluationimageList;
     }
 
     public Double getpH() {
@@ -197,28 +205,44 @@ public class Evaluation implements Serializable {
         this.pH = pH;
     }
 
-    public TeamMember getTeamMember() {
+    public Teammember getTeamMember() {
         return teamMember;
     }
 
-    public void setTeamMember(TeamMember teamMember) {
+    public void setTeamMember(Teammember teamMember) {
         this.teamMember = teamMember;
     }
 
-    public EvaluationSite getEvaluationSite() {
+    public Evaluationsite getEvaluationSite() {
         return evaluationSite;
     }
 
-    public void setEvaluationSite(EvaluationSite evaluationSite) {
+    public void setEvaluationSite(Evaluationsite evaluationSite) {
         this.evaluationSite = evaluationSite;
     }
 
-    public List<EvaluationInsect> getEvaluationInsectList() {
-        return evaluationInsectList;
+    public Condition getCondition() {
+        return condition;
     }
 
-    public void setEvaluationInsectList(List<EvaluationInsect> evaluationInsectList) {
-        this.evaluationInsectList = evaluationInsectList;
+    public void setCondition(Condition condition) {
+        this.condition = condition;
+    }
+
+    public List<Evaluationinsect> getEvaluationinsectList() {
+        return evaluationinsectList;
+    }
+
+    public void setEvaluationinsectList(List<Evaluationinsect> evaluationinsectList) {
+        this.evaluationinsectList = evaluationinsectList;
+    }
+
+    public List<Evaluationcomment> getEvaluationcommentList() {
+        return evaluationcommentList;
+    }
+
+    public void setEvaluationcommentList(List<Evaluationcomment> evaluationcommentList) {
+        this.evaluationcommentList = evaluationcommentList;
     }
 
     @Override
@@ -244,48 +268,6 @@ public class Evaluation implements Serializable {
     @Override
     public String toString() {
         return "com.boha.minisass.data.Evaluation[ evaluationID=" + evaluationID + " ]";
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-
-
-
-    public Condition getConditionID() {
-        return conditionID;
-    }
-
-    public void setConditionID(Condition conditionID) {
-        this.conditionID = conditionID;
-    }
-
-    public List<EvaluationComment> getEvaluationCommentList() {
-        return evaluationCommentList;
-    }
-
-    public void setEvaluationCommentList(List<EvaluationComment> evaluationCommentList) {
-        this.evaluationCommentList = evaluationCommentList;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
     
 }

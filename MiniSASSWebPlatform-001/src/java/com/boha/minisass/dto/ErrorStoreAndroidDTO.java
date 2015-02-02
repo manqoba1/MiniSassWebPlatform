@@ -5,7 +5,7 @@
  */
 package com.boha.minisass.dto;
 
-import com.boha.minisass.data.ErrorStoreAndroid;
+import com.boha.minisass.data.Errorstoreandroid;
 
 
 
@@ -20,7 +20,7 @@ public class ErrorStoreAndroidDTO {
             brand, appVersionCode, appVersionName, packageName, phoneModel;
     private long errorDate;
 
-    public ErrorStoreAndroidDTO(ErrorStoreAndroid a) {
+    public ErrorStoreAndroidDTO(Errorstoreandroid a) {
         errorDate = a.getErrorDate().getTime();
         errorStoreAndroidID = a.getErrorStoreAndroidID();
         logCat = a.getLogCat();

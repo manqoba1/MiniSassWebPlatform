@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.data;
 
 import java.io.Serializable;
@@ -24,7 +23,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author aubreyM
+ * @author CodeTribe1
  */
 @Entity
 @Table(name = "country")
@@ -53,10 +52,10 @@ public class Country implements Serializable {
     private Double longitude;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
     private List<Province> provinceList;
-    @OneToMany(mappedBy = "country")
-    private List<River> originRiverList;
-    @OneToMany(mappedBy = "country")
-    private List<River> endRiverList;
+    @OneToMany(mappedBy = "originCountry")
+    private List<River> riverList;
+    @OneToMany(mappedBy = "endCountry")
+    private List<River> riverList1;
 
     public Country() {
     }
@@ -110,23 +109,21 @@ public class Country implements Serializable {
         this.provinceList = provinceList;
     }
 
-    public List<River> getOriginRiverList() {
-        return originRiverList;
+    public List<River> getRiverList() {
+        return riverList;
     }
 
-    public void setOriginRiverList(List<River> originRiverList) {
-        this.originRiverList = originRiverList;
+    public void setRiverList(List<River> riverList) {
+        this.riverList = riverList;
     }
 
-    public List<River> getEndRiverList() {
-        return endRiverList;
+    public List<River> getRiverList1() {
+        return riverList1;
     }
 
-    public void setEndRiverList(List<River> endRiverList) {
-        this.endRiverList = endRiverList;
+    public void setRiverList1(List<River> riverList1) {
+        this.riverList1 = riverList1;
     }
-
-    
 
     @Override
     public int hashCode() {

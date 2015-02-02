@@ -26,7 +26,7 @@ public class EvaluationInsectDTO implements Serializable {
     }
 
    
-    public EvaluationInsectDTO(EvaluationInsect a) {
+    public EvaluationInsectDTO(Evaluationinsect a) {
         this.evaluationInsectID = a.getEvaluationInsectID();
         this.evaluationFlag = a.getEvaluationFlag();
         this.evaluationColor = a.getEvaluationColor();

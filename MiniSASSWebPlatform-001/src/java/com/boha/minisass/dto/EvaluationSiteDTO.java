@@ -29,14 +29,14 @@ public class EvaluationSiteDTO implements Serializable {
     public EvaluationSiteDTO() {
     }
 
-    public EvaluationSiteDTO(EvaluationSite a) {
+    public EvaluationSiteDTO(Evaluationsite a) {
         this.evaluationSiteID = a.getEvaluationSiteID();
         this.latitude = a.getLatitude();
         this.longitude = a.getLongitude();
         this.dateRegistered = a.getDateRegistered();
         this.riverID = a.getRiver().getRiverID();
         this.riverName = a.getRiver().getRiverName();
-        this.categoryID = a.getCategory().getCategoryID();
+        this.categoryID = a.getCategory().getCategoryId();
         this.categoryName = a.getCategory().getCategoryName();
     }
 

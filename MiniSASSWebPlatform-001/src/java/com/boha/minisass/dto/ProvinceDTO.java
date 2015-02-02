@@ -30,7 +30,7 @@ public class ProvinceDTO implements Serializable {
         this.provinceID = a.getProvinceID();
         this.provinceName = a.getProvinceName();
         this.countryID = a.getCountry().getCountryID();
-        this.latitude = a.getLatitude();
+        this.latitude = a.getLattitude();
         this.longitude = a.getLongitude();
         
     }

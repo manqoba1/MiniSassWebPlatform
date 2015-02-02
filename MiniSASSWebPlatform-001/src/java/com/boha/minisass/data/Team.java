@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.data;
 
 import java.io.Serializable;
@@ -29,7 +28,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author aubreyM
+ * @author CodeTribe1
  */
 @Entity
 @Table(name = "team")
@@ -55,11 +54,13 @@ public class Team implements Serializable {
     @Column(name = "dateRegistered")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistered;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
+    private List<Gcmdevice> gcmdeviceList;
     @JoinColumn(name = "townID", referencedColumnName = "townID")
     @ManyToOne(optional = false)
     private Town town;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
-    private List<TeamMember> teamMemberList;
+    private List<Teammember> teammemberList;
 
     public Team() {
     }
@@ -98,6 +99,14 @@ public class Team implements Serializable {
         this.dateRegistered = dateRegistered;
     }
 
+    public List<Gcmdevice> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
+
+    public void setGcmdeviceList(List<Gcmdevice> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
+    }
+
     public Town getTown() {
         return town;
     }
@@ -106,12 +115,12 @@ public class Team implements Serializable {
         this.town = town;
     }
 
-    public List<TeamMember> getTeamMemberList() {
-        return teamMemberList;
+    public List<Teammember> getTeammemberList() {
+        return teammemberList;
     }
 
-    public void setTeamMemberList(List<TeamMember> teamMemberList) {
-        this.teamMemberList = teamMemberList;
+    public void setTeammemberList(List<Teammember> teammemberList) {
+        this.teammemberList = teammemberList;
     }
 
     @Override

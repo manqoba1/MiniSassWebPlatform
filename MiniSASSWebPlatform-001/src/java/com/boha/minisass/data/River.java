@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.data;
 
 import java.io.Serializable;
@@ -29,7 +28,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author aubreyM
+ * @author CodeTribe1
  */
 @Entity
 @Table(name = "river")
@@ -69,9 +68,9 @@ public class River implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistered;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "river")
-    private List<RiverTown> riverTownList;
+    private List<Evaluationsite> evaluationsiteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "river")
-    private List<EvaluationSite> evaluationSiteList;
+    private List<Rivertown> rivertownList;
     @JoinColumn(name = "originCountryID", referencedColumnName = "countryID")
     @ManyToOne
     private Country originCountry;
@@ -148,20 +147,20 @@ public class River implements Serializable {
         this.dateRegistered = dateRegistered;
     }
 
-    public List<RiverTown> getRiverTownList() {
-        return riverTownList;
+    public List<Evaluationsite> getEvaluationsiteList() {
+        return evaluationsiteList;
     }
 
-    public void setRiverTownList(List<RiverTown> riverTownList) {
-        this.riverTownList = riverTownList;
+    public void setEvaluationsiteList(List<Evaluationsite> evaluationsiteList) {
+        this.evaluationsiteList = evaluationsiteList;
     }
 
-    public List<EvaluationSite> getEvaluationSiteList() {
-        return evaluationSiteList;
+    public List<Rivertown> getRivertownList() {
+        return rivertownList;
     }
 
-    public void setEvaluationSiteList(List<EvaluationSite> evaluationSiteList) {
-        this.evaluationSiteList = evaluationSiteList;
+    public void setRivertownList(List<Rivertown> rivertownList) {
+        this.rivertownList = rivertownList;
     }
 
     public Country getOriginCountry() {
@@ -179,7 +178,8 @@ public class River implements Serializable {
     public void setEndCountry(Country endCountry) {
         this.endCountry = endCountry;
     }
-    
+
+   
     @Override
     public int hashCode() {
         int hash = 0;

@@ -5,8 +5,8 @@
  */
 package com.boha.minisass.util;
 
-import com.boha.minisass.data.ErrorStore;
-import com.boha.minisass.data.TeamMember;
+import com.boha.minisass.data.Errorstore;
+import com.boha.minisass.data.Teammember;
 import com.boha.minisass.transfer.RequestDTO;
 import com.boha.minisass.transfer.ResponseDTO;
 import com.google.gson.Gson;
@@ -37,7 +37,7 @@ public class TrafficCop {
         
 public ResponseDTO processRequest(RequestDTO req,
             DataUtil dataUtil, ListUtil listUtil,
-            TeamMember team) {
+            Teammember team) {
         long start = System.currentTimeMillis();
         ResponseDTO ur = new ResponseDTO();
         try{
@@ -123,7 +123,7 @@ public ResponseDTO processRequest(RequestDTO req,
     public void addErrorStore(int statusCode, String message, String origin) {
         logger.log(Level.OFF, "------ adding errorStore, message: {0} origin: {1}", new Object[]{message, origin});
         try {
-            ErrorStore t = new ErrorStore();
+            Errorstore t = new Errorstore();
             t.setDateOccured(new Date());
             t.setMessage(message);
             t.setStatusCode(statusCode);

@@ -18,7 +18,7 @@ public class RiverTownDTO implements Serializable {
     private Integer riverTownID, riverID, townID;
     private String riverName, townName;
 
-    public RiverTownDTO(RiverTown a) {
+    public RiverTownDTO(Rivertown a) {
         riverTownID = a.getRiverTownID();
         riverID = a.getRiver().getRiverID();
         townID = a.getTown().getTownID();

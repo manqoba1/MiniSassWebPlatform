@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.data;
 
 import java.io.Serializable;
@@ -24,7 +23,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author aubreyM
+ * @author CodeTribe1
  */
 @Entity
 @Table(name = "insect")
@@ -50,9 +49,9 @@ public class Insect implements Serializable {
     @Column(name = "sensitivityScore")
     private int sensitivityScore;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "insect")
-    private List<InsectImage> insectImageList;
+    private List<Evaluationinsect> evaluationinsectList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "insect")
-    private List<EvaluationInsect> evaluationInsectList;
+    private List<Insectimage> insectimageList;
 
     public Insect() {
     }
@@ -91,20 +90,20 @@ public class Insect implements Serializable {
         this.sensitivityScore = sensitivityScore;
     }
 
-    public List<InsectImage> getInsectImageList() {
-        return insectImageList;
+    public List<Evaluationinsect> getEvaluationinsectList() {
+        return evaluationinsectList;
     }
 
-    public void setInsectImageList(List<InsectImage> insectImageList) {
-        this.insectImageList = insectImageList;
+    public void setEvaluationinsectList(List<Evaluationinsect> evaluationinsectList) {
+        this.evaluationinsectList = evaluationinsectList;
     }
 
-    public List<EvaluationInsect> getEvaluationInsectList() {
-        return evaluationInsectList;
+    public List<Insectimage> getInsectimageList() {
+        return insectimageList;
     }
 
-    public void setEvaluationInsectList(List<EvaluationInsect> evaluationInsectList) {
-        this.evaluationInsectList = evaluationInsectList;
+    public void setInsectimageList(List<Insectimage> insectimageList) {
+        this.insectimageList = insectimageList;
     }
 
     @Override

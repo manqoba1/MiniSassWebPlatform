@@ -28,6 +28,7 @@ public class RiverDTO implements Serializable {
     private List<EvaluationSiteDTO> evaluationSiteList;
     private Integer originCountryID;
     private Integer endCountryID;
+    private RiverTownDTO river;
 
     public RiverDTO() {
     }
@@ -47,6 +48,13 @@ public class RiverDTO implements Serializable {
         endLongitude = a.getEndLongitude();
     }
 
+    public RiverTownDTO getRiver() {
+        return river;
+    }
+
+    public void setRiver(RiverTownDTO river) {
+        this.river = river;
+    }
     public String getOriginCountryName() {
         return originCountryName;
     }

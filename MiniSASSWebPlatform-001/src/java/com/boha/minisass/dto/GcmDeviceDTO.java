@@ -4,7 +4,9 @@
  */
 package com.boha.minisass.dto;
 
-import com.boha.minisass.data.GcmDevice;
+import com.boha.minisass.data.Gcmdevice;
+import com.boha.minisass.data.Team;
+import com.boha.minisass.data.Teammember;
 
 
 /**
@@ -22,9 +24,11 @@ public class GcmDeviceDTO {
     private long dateRegistered;
     private String serialNumber, androidVersion;
     private Integer companyStaffID, companyID, projectSiteID;
+     private TeamMemberDTO teamMember;
+    private TeamDTO team;
    
     
-    public GcmDeviceDTO(GcmDevice a) {
+    public GcmDeviceDTO(Gcmdevice a) {
         gcmDeviceID = a.getGcmDeviceID();
         registrationID = a.getRegistrationID();
         manufacturer = a.getManufacturer();
@@ -35,6 +39,22 @@ public class GcmDeviceDTO {
         serialNumber = a.getSerialNumber();
         androidVersion = a.getAndroidVersion();
         
+    }
+
+    public TeamMemberDTO getTeamMember() {
+        return teamMember;
+    }
+
+    public void setTeamMember(TeamMemberDTO teamMember) {
+        this.teamMember = teamMember;
+    }
+
+    public TeamDTO getTeam() {
+        return team;
+    }
+
+    public void setTeam(TeamDTO team) {
+        this.team = team;
     }
 
     public Integer getCompanyID() {

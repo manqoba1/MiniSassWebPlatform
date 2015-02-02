@@ -5,7 +5,7 @@
  */
 package com.boha.minisass.gate;
 
-import com.boha.minisass.data.TeamMember;
+import com.boha.minisass.data.Teammember;
 import com.boha.minisass.transfer.RequestDTO;
 import com.boha.minisass.transfer.RequestList;
 import com.boha.minisass.transfer.ResponseDTO;
@@ -49,7 +49,7 @@ public class CachedRequestWebSocket {
     @EJB
     TrafficCop trafficCop;
     @EJB
-    TeamMember member;
+    Teammember member;
     static final String SOURCE = "CachedRequestWebSocket";
     //TODO - clean up expired sessions!!!!
     public static final Set<Session> peers

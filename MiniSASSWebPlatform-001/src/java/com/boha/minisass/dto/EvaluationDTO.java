@@ -42,7 +42,6 @@ public class EvaluationDTO implements Serializable {
         this.evaluationDate = a.getEvaluationDate();
         this.latitude = a.getLatitude();
         this.longitude = a.getLongitude();
-        this.comment = a.getComment();
         this.score = a.getScore();
         this.pH = a.getPH();
         this.waterClarity = a.getWaterClarity();

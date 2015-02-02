@@ -4,7 +4,7 @@
  */
 package com.boha.minisass.dto;
 
-import com.boha.minisass.data.ErrorStore;
+import com.boha.minisass.data.Errorstore;
 
 
 /**
@@ -18,7 +18,7 @@ public class ErrorStoreDTO {
     private String message, origin;
     private long dateOccured;
 
-    public ErrorStoreDTO(ErrorStore a) {
+    public ErrorStoreDTO(Errorstore a) {
         errorStoreID = a.getErrorStoreID();
         statusCode = a.getStatusCode();
         message = a.getMessage();

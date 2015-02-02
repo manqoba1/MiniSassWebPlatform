@@ -24,7 +24,7 @@ public class EvaluationImageDTO implements Serializable {
     public EvaluationImageDTO() {
     }
 
-    public EvaluationImageDTO(EvaluationImage a) {
+    public EvaluationImageDTO(Evaluationimage a) {
         this.evaluationImageID = a.getEvaluationImageID();
         this.dateTaken = a.getDateTaken();
         this.fileName = a.getFileName();

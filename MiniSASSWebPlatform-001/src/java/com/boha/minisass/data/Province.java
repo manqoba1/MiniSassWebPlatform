@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.data;
 
-import com.boha.minisass.dto.TownDTO;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -27,7 +25,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author aubreyM
+ * @author CodeTribe1
  */
 @Entity
 @Table(name = "province")
@@ -35,11 +33,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Province.findAll", query = "SELECT p FROM Province p"),
     @NamedQuery(name = "Province.findByProvinceID", query = "SELECT p FROM Province p WHERE p.provinceID = :provinceID"),
     @NamedQuery(name = "Province.findByProvinceName", query = "SELECT p FROM Province p WHERE p.provinceName = :provinceName"),
-    @NamedQuery(name = "Province.findByLatitude", query = "SELECT p FROM Province p WHERE p.latitude = :latitude"),
+    @NamedQuery(name = "Province.findByLattitude", query = "SELECT p FROM Province p WHERE p.lattitude = :lattitude"),
     @NamedQuery(name = "Province.findByLongitude", query = "SELECT p FROM Province p WHERE p.longitude = :longitude")})
 public class Province implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "provinceID")
-    private List<TownDTO> townDTOList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,8 +48,8 @@ public class Province implements Serializable {
     @Column(name = "provinceName")
     private String provinceName;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "latitude")
-    private Double latitude;
+    @Column(name = "lattitude")
+    private Double lattitude;
     @Column(name = "longitude")
     private Double longitude;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "province")
@@ -90,12 +86,12 @@ public class Province implements Serializable {
         this.provinceName = provinceName;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public Double getLattitude() {
+        return lattitude;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setLattitude(Double lattitude) {
+        this.lattitude = lattitude;
     }
 
     public Double getLongitude() {
@@ -122,8 +118,6 @@ public class Province implements Serializable {
         this.country = country;
     }
 
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -147,14 +141,6 @@ public class Province implements Serializable {
     @Override
     public String toString() {
         return "com.boha.minisass.data.Province[ provinceID=" + provinceID + " ]";
-    }
-
-    public List<TownDTO> getTownDTOList() {
-        return townDTOList;
-    }
-
-    public void setTownDTOList(List<TownDTO> townDTOList) {
-        this.townDTOList = townDTOList;
     }
     
 }

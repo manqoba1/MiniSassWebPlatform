@@ -4,8 +4,8 @@
  */
 package com.boha.minisass.util;
 
-import com.boha.minisass.data.ErrorStore;
-import com.boha.minisass.data.GcmDevice;
+import com.boha.minisass.data.Errorstore;
+import com.boha.minisass.data.Gcmdevice;
 import com.boha.minisass.transfer.ResponseDTO;
 import com.google.android.gcm.server.Constants;
 import com.google.android.gcm.server.Message;
@@ -48,11 +48,11 @@ public class CloudMsgUtil {
                 .addData("message", "refresh class activities")
                 .addData("dateStamp", "" + new Date().getTime()).build();
 
-        Query q = em.createNamedQuery("GcmDevice.findInstructorDevices", GcmDevice.class);
+        Query q = em.createNamedQuery("GcmDevice.findInstructorDevices", Gcmdevice.class);
         q.setParameter("id", companyID);
-        List<GcmDevice> gList = q.getResultList();
+        List<Gcmdevice> gList = q.getResultList();
         List<String> registrationIDs = new ArrayList<>();
-        for (GcmDevice m : gList) {
+        for (Gcmdevice m : gList) {
             registrationIDs.add(m.getRegistrationID());
         }
         if (registrationIDs.isEmpty()) {
@@ -85,7 +85,7 @@ public class CloudMsgUtil {
     }
     
 
-    private  List<GcmDevice> getDevices(int companyID) {
+    private  List<Gcmdevice> getDevices(int companyID) {
         Query q = em.createNamedQuery("GcmDevice.findInstructorDevices");
         q.setParameter("id", companyID);
         return q.getResultList();
@@ -201,7 +201,7 @@ public class CloudMsgUtil {
      public void addErrorStore(int statusCode, String message, String origin) {
         log.log(Level.OFF, "------ adding errorStore, message: {0} origin: {1}", new Object[]{message, origin});
         try {
-            ErrorStore t = new ErrorStore();
+            Errorstore t = new Errorstore();
             t.setDateOccured(new Date());
             t.setMessage(message);
             t.setStatusCode(statusCode);

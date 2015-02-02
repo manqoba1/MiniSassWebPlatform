@@ -6,7 +6,7 @@
 
 package com.boha.minisass.dto;
 
-import com.boha.minisass.data.EvaluationComment;
+import com.boha.minisass.data.Evaluationcomment;
 import java.io.Serializable;
 
 /**
@@ -22,7 +22,7 @@ public class EvaluationCommentDTO implements Serializable {
     public EvaluationCommentDTO() {
     }
 
-    public EvaluationCommentDTO(EvaluationComment a) {
+    public EvaluationCommentDTO(Evaluationcomment a) {
         this.evaluationCommentID = a.getEvaluationCommentID();
         this.evaluationID = a.getEvaluation().getEvaluationID();
         this.comment = new CommentDTO(a.getComment());

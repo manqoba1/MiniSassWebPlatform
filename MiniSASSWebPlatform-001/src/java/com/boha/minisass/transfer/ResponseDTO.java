@@ -6,6 +6,7 @@
 
 package com.boha.minisass.transfer;
 
+import com.boha.minisass.data.Evaluationinsect;
 import com.boha.minisass.dto.CategoryDTO;
 import com.boha.minisass.dto.CommentDTO;
 import com.boha.minisass.dto.CountryDTO;
@@ -33,6 +34,9 @@ public class ResponseDTO {
     private String sessionID, GCMRegistrationID, fileString;
     private double elapsedRequestTimeInSeconds;
     
+    private TeamDTO team;
+    private TeamMemberDTO teamMember;
+    
     private List<TeamDTO> teamList;
     private List<TeamMemberDTO> teamMemberList;
     private List<RiverDTO> riverList;
@@ -45,10 +49,27 @@ public class ResponseDTO {
     private List<CountryDTO> countryList;
     private List<ProvinceDTO> provinceList;
     private List<TownDTO> townList;
+    private List<Evaluationinsect> evaluationInsectList;
     
      private List<ErrorStoreDTO> errorStoreList;
     private List<ErrorStoreAndroidDTO> errorStoreAndroidList;
 
+    public TeamDTO getTeam() {
+        return team;
+    }
+
+    public void setTeam(TeamDTO team) {
+        this.team = team;
+    }
+
+    public TeamMemberDTO getTeamMember() {
+        return teamMember;
+    }
+
+    public void setTeamMember(TeamMemberDTO teamMember) {
+        this.teamMember = teamMember;
+    }
+    
     public int getStatusCode() {
         return statusCode;
     }
@@ -101,6 +122,14 @@ public class ResponseDTO {
         return insectList;
     }
 
+    public List<Evaluationinsect> getEvaluationInsectList() {
+        return evaluationInsectList;
+    }
+
+    public void setEvaluationInsectList(List<Evaluationinsect> evaluationInsectList) {
+        this.evaluationInsectList = evaluationInsectList;
+    }
+    
     public void setInsectList(List<InsectDTO> insectList) {
         this.insectList = insectList;
     }

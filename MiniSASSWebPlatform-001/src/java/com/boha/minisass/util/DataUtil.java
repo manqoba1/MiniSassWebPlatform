@@ -3,17 +3,17 @@ package com.boha.minisass.util;
 import com.boha.minisass.data.Category;
 import com.boha.minisass.data.Comment;
 import com.boha.minisass.data.Country;
-import com.boha.minisass.data.ErrorStore;
-import com.boha.minisass.data.ErrorStoreAndroid;
+import com.boha.minisass.data.Errorstore;
+import com.boha.minisass.data.Errorstoreandroid;
 import com.boha.minisass.data.Evaluation;
-import com.boha.minisass.data.EvaluationSite;
+import com.boha.minisass.data.Evaluationsite;
 import com.boha.minisass.data.Insect;
-import com.boha.minisass.data.InsectImage;
+import com.boha.minisass.data.Insectimage;
 import com.boha.minisass.data.Province;
 import com.boha.minisass.data.River;
-import com.boha.minisass.data.RiverTown;
+import com.boha.minisass.data.Rivertown;
 import com.boha.minisass.data.Team;
-import com.boha.minisass.data.TeamMember;
+import com.boha.minisass.data.Teammember;
 import com.boha.minisass.data.Town;
 import com.boha.minisass.dto.CategoryDTO;
 import com.boha.minisass.dto.CommentDTO;
@@ -21,6 +21,7 @@ import com.boha.minisass.dto.CountryDTO;
 import com.boha.minisass.dto.ErrorStoreDTO;
 import com.boha.minisass.dto.EvaluationDTO;
 import com.boha.minisass.dto.EvaluationSiteDTO;
+import com.boha.minisass.dto.GcmDeviceDTO;
 import com.boha.minisass.dto.InsectDTO;
 import com.boha.minisass.dto.InsectImageDTO;
 import com.boha.minisass.dto.ProvinceDTO;
@@ -30,6 +31,7 @@ import com.boha.minisass.dto.TeamDTO;
 import com.boha.minisass.dto.TeamMemberDTO;
 import com.boha.minisass.dto.TownDTO;
 import com.boha.minisass.transfer.ResponseDTO;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +41,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.joda.time.DateTime;
@@ -57,10 +60,48 @@ public class DataUtil {
         return em;
     }
      
+     public ResponseDTO login(GcmDeviceDTO device, String email,
+            String pin, ListUtil listUtil) throws DataException {
+        ResponseDTO resp = new ResponseDTO();
+        Query q = null;
+        try {
+            q = em.createNamedQuery("TeamMember.signin", Teammember.class);
+            q.setParameter("email", email);
+            q.setParameter("pin", pin);
+            q.setMaxResults(1);
+            Teammember cs = (Teammember) q.getSingleResult();
+            Team team = cs.getTeam();
+            resp.setTeamMember(new TeamMemberDTO(cs));
+            resp.setTeam(new TeamDTO(team));
+
+           /* device(team.getTeamID());
+            device.setTeamMemberID(cs.getTeamMemberID());
+            addDevice(device);*/
+
+            try {
+                CloudMessagingRegistrar.sendRegistration(device.getRegistrationID(), this);
+            } catch (IOException ex) {
+                Logger.getLogger(DataUtil.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (team.getTeamName()== null) {
+                resp = listUtil.getTeamList(team.getTeamID());
+            } else {
+                resp = listUtil.getTeamList(team.getTown().getTownID());
+            }
+            resp.setTeamMember(new TeamMemberDTO(cs));
+
+        } catch (NoResultException e) {
+            log.log(Level.WARNING, "Invalid login attempt: " + email + " pin: " + pin, e);
+            resp.setStatusCode(301);
+            resp.setMessage("Email address or PIN are invalid. Please try again.");
+        }
+        return resp;
+    }
+     
       public ResponseDTO registerTeamMember(TeamMemberDTO member) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
-            TeamMember tm = new TeamMember();
+            Teammember tm = new Teammember();
             if (member != null | member.getTeamMemberID() != null) {
                 tm.setTeam(em.find(Team.class, member.getTeamID()));
             }
@@ -117,7 +158,7 @@ public class DataUtil {
      public ResponseDTO addEvaluationSite(EvaluationSiteDTO site) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
-            EvaluationSite ts = new EvaluationSite();
+            Evaluationsite ts = new Evaluationsite();
             if (site != null | site.getEvaluationSiteID() != null) {
                 ts.setRiver(em.find(River.class, site.getRiverID()));
             }
@@ -171,7 +212,7 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Category c = new Category();
-            c.setCategoryID(category.getCategoryID());
+            c.setCategoryId(category.getCategoryID());
             c.setCategoryName(category.getCategoryName());
             
             em.persist(c);
@@ -192,7 +233,7 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Province p = new Province();
-            p.setLatitude(province.getLatitude());
+            p.setLattitude(province.getLatitude());
             p.setLongitude(province.getLongitude());
             p.setProvinceName(province.getProvinceName());
 
@@ -215,7 +256,7 @@ public class DataUtil {
       public ResponseDTO addRiverTown(RiverTownDTO rivert) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
-            RiverTown rt = new RiverTown();
+            Rivertown rt = new Rivertown();
             if (rivert != null | rivert.getRiverTownID()!= null) {
                 rt.setRiver(em.find(River.class, rt.getRiverTownID()));
                 rt.setTown(em.find(Town.class, rt.getRiverTownID()));
@@ -264,11 +305,11 @@ public class DataUtil {
         try {
             Evaluation e = new Evaluation();
              if (evaluation != null | evaluation.getEvaluationID()!= null) {
-                 e.setTeamMember(em.find(TeamMember.class, e.getTeamMember()));
-                 e.setEvaluationSite(em.find(EvaluationSite.class, e.getEvaluationSite()));
+                 e.setTeamMember(em.find(Teammember.class, e.getTeamMember()));
+                 e.setEvaluationSite(em.find(Evaluationsite.class, e.getEvaluationSite()));
                 
             }
-            e.setConditionID(e.getConditionID());
+            e.setCondition(e.getCondition());
            
             em.persist(e);
             em.flush();
@@ -334,7 +375,7 @@ public class DataUtil {
  public ResponseDTO addInsertImage(InsectImageDTO image) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
-            InsectImage i = new InsectImage();
+            Insectimage i = new Insectimage();
             
              if (image != null | image.getInsectImageID()!= null) {
                  i.setInsect(em.find(Insect.class,i.getInsect()));
@@ -399,7 +440,7 @@ public class DataUtil {
     public void updateRiverTown(RiverTownDTO dto) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
-            RiverTown rt = em.find(RiverTown.class, dto.getRiverTownID());
+            Rivertown rt = em.find(Rivertown.class, dto.getRiverTownID());
             if (rt != null) {
                 if (dto.getRiverID() != null) {
                     rt.setRiver(new River());
@@ -422,7 +463,7 @@ public class DataUtil {
      public void updateEvaluationSite(EvaluationSiteDTO dto) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
-            EvaluationSite ev = em.find(EvaluationSite.class, dto.getEvaluationSiteID());
+            Evaluationsite ev = em.find(Evaluationsite.class, dto.getEvaluationSiteID());
             if (ev != null) {
                 if (dto.getEvaluationSiteID() != null) {
                     ev.setEvaluationSiteID(dto.getEvaluationSiteID());
@@ -461,7 +502,7 @@ public class DataUtil {
      public ResponseDTO updateInsertImage(InsectImageDTO dto) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
-            InsectImage ii = em.find(InsectImage.class, dto.getInsectImageID());
+            Insectimage ii = em.find(Insectimage.class, dto.getInsectImageID());
             if (ii != null) {
                 if (dto.getDateRegistered() != null) {
                     ii.setDateRegistered(dto.getDateRegistered());
@@ -487,7 +528,7 @@ public class DataUtil {
      
     
      
-     public void addAndroidError(ErrorStoreAndroid err) throws DataException {
+     public void addAndroidError(Errorstoreandroid err) throws DataException {
         try {
             em.persist(err);
             log.log(Level.INFO, "Android error added");
@@ -509,12 +550,12 @@ public class DataUtil {
             endDate = ed.getMillis();
         }
         try {
-            Query q = em.createNamedQuery("ErrorStore.findByPeriod", ErrorStore.class);
+            Query q = em.createNamedQuery("ErrorStore.findByPeriod", Errorstore.class);
             q.setParameter("startDate", new Date(startDate));
             q.setParameter("endDate", new Date(endDate));
-            List<ErrorStore> list = q.getResultList();
+            List<Errorstore> list = q.getResultList();
             List<ErrorStoreDTO> dList = new ArrayList();
-            for (ErrorStore e : list) {
+            for (Errorstore e : list) {
                 dList.add(new ErrorStoreDTO(e));
             }
             r.setErrorStoreList(dList);
@@ -552,7 +593,7 @@ public class DataUtil {
      public void addErrorStore(int statusCode, String message, String origin) {
         log.log(Level.OFF, "------ adding errorStore, message: {0} origin: {1}", new Object[]{message, origin});
         try {
-            ErrorStore t = new ErrorStore();
+            Errorstore t = new Errorstore();
             t.setDateOccured(new Date());
             t.setMessage(message);
             t.setStatusCode(statusCode);

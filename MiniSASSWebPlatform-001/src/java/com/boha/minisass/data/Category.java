@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.data;
 
 import java.io.Serializable;
@@ -24,7 +23,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author aubreyM
+ * @author CodeTribe1
  */
 @Entity
 @Table(name = "category")
@@ -33,43 +32,42 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Category.findByCategoryId", query = "SELECT c FROM Category c WHERE c.categoryId = :categoryId"),
     @NamedQuery(name = "Category.findByCategoryName", query = "SELECT c FROM Category c WHERE c.categoryName = :categoryName")})
 public class Category implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryID")
-    private List<Condition> conditionList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "categoryId")
-    private Integer categoryID;
+    private Integer categoryId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "categoryName")
     private String categoryName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
-    private List<EvaluationSite> evaluationSiteList;
+    private List<Evaluationsite> evaluationsiteList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    private List<Condition> conditionList;
 
     public Category() {
     }
 
     public Category(Integer categoryId) {
-        this.categoryID = categoryId;
+        this.categoryId = categoryId;
     }
 
     public Category(Integer categoryId, String categoryName) {
-        this.categoryID = categoryId;
+        this.categoryId = categoryId;
         this.categoryName = categoryName;
     }
 
-    public Integer getCategoryID() {
-        return categoryID;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoryID(Integer categoryID) {
-        this.categoryID = categoryID;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
-   
     public String getCategoryName() {
         return categoryName;
     }
@@ -78,18 +76,26 @@ public class Category implements Serializable {
         this.categoryName = categoryName;
     }
 
-    public List<EvaluationSite> getEvaluationSiteList() {
-        return evaluationSiteList;
+    public List<Evaluationsite> getEvaluationsiteList() {
+        return evaluationsiteList;
     }
 
-    public void setEvaluationSiteList(List<EvaluationSite> evaluationSiteList) {
-        this.evaluationSiteList = evaluationSiteList;
+    public void setEvaluationsiteList(List<Evaluationsite> evaluationsiteList) {
+        this.evaluationsiteList = evaluationsiteList;
+    }
+
+    public List<Condition> getConditionList() {
+        return conditionList;
+    }
+
+    public void setConditionList(List<Condition> conditionList) {
+        this.conditionList = conditionList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (categoryID != null ? categoryID.hashCode() : 0);
+        hash += (categoryId != null ? categoryId.hashCode() : 0);
         return hash;
     }
 
@@ -100,7 +106,7 @@ public class Category implements Serializable {
             return false;
         }
         Category other = (Category) object;
-        if ((this.categoryID == null && other.categoryID != null) || (this.categoryID != null && !this.categoryID.equals(other.categoryID))) {
+        if ((this.categoryId == null && other.categoryId != null) || (this.categoryId != null && !this.categoryId.equals(other.categoryId))) {
             return false;
         }
         return true;
@@ -108,15 +114,7 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return "com.boha.minisass.data.Category[ categoryId=" + categoryID + " ]";
-    }
-
-    public List<Condition> getConditionList() {
-        return conditionList;
-    }
-
-    public void setConditionList(List<Condition> conditionList) {
-        this.conditionList = conditionList;
+        return "com.boha.minisass.data.Category[ categoryId=" + categoryId + " ]";
     }
     
 }

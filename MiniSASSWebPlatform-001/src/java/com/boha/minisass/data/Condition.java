@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.data;
 
 import java.io.Serializable;
@@ -25,7 +24,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author aubreyM
+ * @author CodeTribe1
  */
 @Entity
 @Table(name = "condition")
@@ -55,7 +54,7 @@ public class Condition implements Serializable {
     @NotNull
     @Column(name = "high")
     private double high;
-    @OneToMany(mappedBy = "condition")
+    @OneToMany(mappedBy = "conditionID")
     private List<Evaluation> evaluationList;
     @JoinColumn(name = "categoryID", referencedColumnName = "categoryId")
     @ManyToOne(optional = false)
@@ -122,8 +121,6 @@ public class Condition implements Serializable {
     public void setCategory(Category category) {
         this.category = category;
     }
-
-   
 
     @Override
     public int hashCode() {
