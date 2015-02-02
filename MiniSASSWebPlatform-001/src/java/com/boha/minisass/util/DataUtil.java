@@ -144,43 +144,30 @@ public class DataUtil {
         }
         return resp;
     }
-      
-      public ResponseDTO getAllProvince() throws DataException {
-        ResponseDTO resp = new ResponseDTO();
+     
+     public ResponseDTO addInsect(InsectDTO insect) throws DataException{
+         ResponseDTO resp = new ResponseDTO();
         try {
-            Query q = em.createNamedQuery("Province.findAll", Province.class);
-            List<Province> list = q.getResultList();
-            resp.setProvinceList(new ArrayList<ProvinceDTO>());
-            for (Province p : list) {
-                resp.getProvinceList().add(new ProvinceDTO(p));
-            }
-            log.log(Level.OFF, "Provinces failed: {0}", resp.getProvinceList().size());
+            Insect i = new Insect();
+            i.setGroupName(insect.getGroupName());
+            i.setInsectID(insect.getInsectID());
+            i.setSensitivityScore(insect.getSensitivityScore());
+            
+            em.persist(i);
+            em.flush();
+
+            resp.getInsectList().add(new InsectDTO(i));
+
+            log.log(Level.OFF, "province has been added for: {0} ",
+                    new Object[]{i.getGroupName()});
+
         } catch (Exception e) {
-            log.log(Level.OFF, "failed to get provinces", e);
-            throw new DataException("failed ........");
+            log.log(Level.SEVERE, "Failed", e);
+            throw new DataException("Failed");
         }
         return resp;
-    }
-     
-     public ResponseDTO getProvinceByCountry(Integer countryID) throws DataException {
-        ResponseDTO resp = new ResponseDTO();
-        try {
-            Query q = em.createNamedQuery("Province.findByCountry", Province.class);
-            q.setParameter("countryID", countryID);
-            List<Province> list = q.getResultList();
-            resp.setProvinceList(new ArrayList<ProvinceDTO>());
-            for (Province p : list) {
-                resp.getProvinceList().add(new ProvinceDTO(p));
-            }
-            log.log(Level.OFF, "Found Provinces : {0}", resp.getProvinceList().size());
-        } catch (Exception e) {
-            log.log(Level.OFF, "failed to get provinces", e);
-            throw new DataException("failed ........");
-        }
-        return resp;
-    }
-     
-    public ResponseDTO addCtategory(CategoryDTO category) throws DataException {
+     }
+      public ResponseDTO addCtategory(CategoryDTO category) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
             Category c = new Category();

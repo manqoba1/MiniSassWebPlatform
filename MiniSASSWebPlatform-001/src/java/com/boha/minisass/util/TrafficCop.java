@@ -3,21 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.boha.minisass.gate;
+package com.boha.minisass.util;
 
+import com.boha.minisass.data.ErrorStore;
+import com.boha.minisass.data.TeamMember;
 import com.boha.minisass.transfer.RequestDTO;
 import com.boha.minisass.transfer.ResponseDTO;
-import com.boha.minisass.util.DataUtil;
-import com.boha.minisass.util.ListUtil;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,25 +27,21 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author CodeTribe1
  */
-@WebServlet(name = "TestServlet", urlPatterns = {"/test"})
-public class TestServlet extends HttpServlet {
-        @EJB
+@Stateless
+public class TrafficCop {
+      @EJB
         DataUtil dataUtil;
 
         @EJB
         ListUtil listUtil;
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-       response.setContentType("application/json;charset=UTF-8");
-        log.log(Level.OFF, "Servlet starting ...");
-        PrintWriter out = response.getWriter();
-        String json;
+        
+public ResponseDTO processRequest(RequestDTO req,
+            DataUtil dataUtil, ListUtil listUtil,
+            TeamMember team) {
+        long start = System.currentTimeMillis();
         ResponseDTO ur = new ResponseDTO();
-        try {
-            RequestDTO req = getRequest(request);
-
-            switch (req.getRequestType()) {
+        try{
+        switch (req.getRequestType()) {
                 case RequestDTO.REGISTER_TEAM:
                     ur = dataUtil.registerTeam(req.getTeam());
                     break;
@@ -100,82 +98,44 @@ public class TestServlet extends HttpServlet {
                      default:
                       ur.setStatusCode(444);
                       ur.setMessage("#### Unknown Request");
-                      log.log(Level.SEVERE, "Couldn't find request,you fool");
+                      logger.log(Level.SEVERE, "Couldn't find request,you fool");
                       break;
                   
             }
-        } catch (Exception ex) {
-            log.log(Level.OFF, "Failed.....{0}", ex);
-            ur.setStatusCode(10);
-            ur.setMessage("broken sasa u r nt a geek");
-        } finally {
-            json = gson.toJson(ur);
-            out.println(json);
-            out.close();
-            log.log(Level.OFF, "Servlet ending");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
-private RequestDTO getRequest(HttpServletRequest req) {
-        String json = req.getParameter("JSON");
-          RequestDTO re = null;
-        if(json == null){
-            log.log(Level.OFF, "Json parameter not found...");
-            re = new RequestDTO();
-            re.setRequestType(0);            
-            return re;
-        }
-      
-        try {
-         re = gson.fromJson(json, RequestDTO.class);
-         log.log(Level.INFO, "JSON okay. ...");
+        } catch (DataException e) {
+            ur.setStatusCode(101);
+            ur.setMessage("Data service failed to process your request");
+            logger.log(Level.SEVERE, "Database related failure", e);
+            addErrorStore(19, e.getDescription(), "TrafficCop");
         } catch (Exception e) {
-            log.log(Level.OFF, "JSON is not okay. ...");
-            re = new RequestDTO();
-            re.setRequestType(0);
+            ur.setStatusCode(102);
+            ur.setMessage("Server process failed to process your request");
+            logger.log(Level.SEVERE, "Generic server related failure", e);
+            addErrorStore(19, "Server Error \n" + dataUtil.getErrorString(e), "TrafficCop");
         }
-        return re;
+        long end = System.currentTimeMillis();
+        double elapsed = Elapsed.getElapsed(start, end);
+        ur.setElapsedRequestTimeInSeconds(elapsed);
+        logger.log(Level.WARNING, "*********** request elapsed time: {0} seconds", elapsed);
+        return ur;
     }
-    private Gson gson = new Gson();
-    static final Logger log = Logger.getLogger(TestServlet.class.getSimpleName());
-}
 
+    public void addErrorStore(int statusCode, String message, String origin) {
+        logger.log(Level.OFF, "------ adding errorStore, message: {0} origin: {1}", new Object[]{message, origin});
+        try {
+            ErrorStore t = new ErrorStore();
+            t.setDateOccured(new Date());
+            t.setMessage(message);
+            t.setStatusCode(statusCode);
+            t.setOrigin(origin);
+            em.persist(t);
+            logger.log(Level.INFO, "####### ErrorStore row added, origin {0} \nmessage: {1}",
+                    new Object[]{origin, message});
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "####### Failed to add errorStore from " + origin + "\n" + message, e);
+        }
+    }
+    @PersistenceContext
+    EntityManager em;
+    static final Logger logger = Logger.getLogger(TrafficCop.class.getSimpleName());
+}

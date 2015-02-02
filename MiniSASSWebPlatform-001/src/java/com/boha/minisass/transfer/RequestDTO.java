@@ -1,14 +1,17 @@
 package com.boha.minisass.transfer;
 
 import com.boha.minisass.dto.CommentDTO;
+import com.boha.minisass.dto.CountryDTO;
 import com.boha.minisass.dto.EvaluationDTO;
 import com.boha.minisass.dto.EvaluationSiteDTO;
 import com.boha.minisass.dto.InsectDTO;
 import com.boha.minisass.dto.InsectImageDTO;
+import com.boha.minisass.dto.ProvinceDTO;
 import com.boha.minisass.dto.RiverDTO;
 import com.boha.minisass.dto.RiverTownDTO;
 import com.boha.minisass.dto.TeamDTO;
 import com.boha.minisass.dto.TeamMemberDTO;
+import com.boha.minisass.dto.TownDTO;
 
 /**
  *
@@ -65,8 +68,37 @@ public class RequestDTO {
     private CommentDTO comment;
     private InsectDTO insect;
     private InsectImageDTO insectImage;
+    private CountryDTO country;
+    private TownDTO town;
+    private ProvinceDTO province;
 
     public static final String SAMPLE_DIR = "company";
+    public static final String INSECTS_DIR = "insert";
+    public static final String TEAM_DIR = "team";
+
+    public CountryDTO getCountry() {
+        return country;
+    }
+
+    public void setCountry(CountryDTO country) {
+        this.country = country;
+    }
+
+    public TownDTO getTown() {
+        return town;
+    }
+
+    public void setTown(TownDTO town) {
+        this.town = town;
+    }
+
+    public ProvinceDTO getProvince() {
+        return province;
+    }
+
+    public void setProvince(ProvinceDTO province) {
+        this.province = province;
+    }
     
     public int getRequestType() {
         return requestType;
@@ -79,6 +111,32 @@ public class RequestDTO {
     public String getEmail() {
         return email;
     }
+
+    public CommentDTO getComment() {
+        return comment;
+    }
+
+    public void setComment(CommentDTO comment) {
+        this.comment = comment;
+    }
+
+    public InsectDTO getInsect() {
+        return insect;
+    }
+
+    public void setInsect(InsectDTO insect) {
+        this.insect = insect;
+    }
+
+    public InsectImageDTO getInsectImage() {
+        return insectImage;
+    }
+
+    public void setInsectImage(InsectImageDTO insectImage) {
+        this.insectImage = insectImage;
+    }
+    
+    
 
     public void setEmail(String email) {
         this.email = email;

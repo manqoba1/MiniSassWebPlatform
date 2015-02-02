@@ -25,9 +25,11 @@ import com.boha.minisass.dto.TeamDTO;
 import com.boha.minisass.dto.TeamMemberDTO;
 import com.boha.minisass.dto.TownDTO;
 import com.boha.minisass.transfer.ResponseDTO;
+import static com.boha.minisass.util.DataUtil.log;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -82,7 +84,41 @@ public class ListUtil {
         return resp;
     }
    
-     public ResponseDTO getTeamList(Integer teamID) {
+      public ResponseDTO getAllProvince() throws DataException {
+        ResponseDTO resp = new ResponseDTO();
+        try {
+            Query q = em.createNamedQuery("Province.findAll", Province.class);
+            List<Province> list = q.getResultList();
+            resp.setProvinceList(new ArrayList<ProvinceDTO>());
+            for (Province p : list) {
+                resp.getProvinceList().add(new ProvinceDTO(p));
+            }
+            log.log(Level.OFF, "Provinces failed: {0}", resp.getProvinceList().size());
+        } catch (Exception e) {
+            log.log(Level.OFF, "failed to get provinces", e);
+            throw new DataException("failed ........");
+        }
+        return resp;
+    }
+     
+     public ResponseDTO getProvinceByCountry(Integer countryID) throws DataException {
+        ResponseDTO resp = new ResponseDTO();
+        try {
+            Query q = em.createNamedQuery("Province.findByCountry", Province.class);
+            q.setParameter("countryID", countryID);
+            List<Province> list = q.getResultList();
+            resp.setProvinceList(new ArrayList<ProvinceDTO>());
+            for(Province p : list) {
+                resp.getProvinceList().add(new ProvinceDTO(p));
+            }
+            log.log(Level.OFF, "Found Provinces : {0}", resp.getProvinceList().size());
+        } catch (Exception e) {
+            log.log(Level.OFF, "failed to get provinces", e);
+            throw new DataException("failed ........");
+        }
+        return resp;
+    }
+public ResponseDTO getTeamList(Integer teamID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Team.findByTeamID", Team.class);
         q.setParameter("teamID", teamID);
@@ -93,7 +129,6 @@ public class ListUtil {
 
         return resp;
     }
-
 public ResponseDTO getTeamMemberList(Integer teamMemberID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("TeamMember.findByTeamMemberID", TeamMember.class);
@@ -104,8 +139,7 @@ public ResponseDTO getTeamMemberList(Integer teamMemberID) {
         }
 
         return resp;
-    }
-
+}
 public ResponseDTO getRiverList(Integer riverID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("River.findByRiverID", River.class);
@@ -117,7 +151,6 @@ public ResponseDTO getRiverList(Integer riverID) {
 
         return resp;
     }
-
 public ResponseDTO getRiverTownList(Integer riverID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("River.findByRiverID", RiverTown.class);
@@ -129,7 +162,6 @@ public ResponseDTO getRiverTownList(Integer riverID) {
 
         return resp;
     }
-
 public ResponseDTO getCommentList(Integer commentID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Comment.findByCommentID", Comment.class);
@@ -141,7 +173,6 @@ public ResponseDTO getCommentList(Integer commentID) {
 
         return resp;
     }
-
 public ResponseDTO getEvaluationList(Integer evaluationID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Evaluation.findByEvaluationID", Evaluation.class);
@@ -165,7 +196,6 @@ public ResponseDTO getEvaluationSiteList(Integer evaluationSiteID) {
 
         return resp;
     }
-
 public ResponseDTO getCategoryList(Integer categoryID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Category.findByCategoryId", Category.class);
@@ -177,10 +207,7 @@ public ResponseDTO getCategoryList(Integer categoryID) {
 
         return resp;
     }
-
-
-    
-    public EvaluationSite getEvaluationSite(Integer id) {
+ public EvaluationSite getEvaluationSite(Integer id) {
         EvaluationSite es = em.find(EvaluationSite.class, id);
         return es;
     }
