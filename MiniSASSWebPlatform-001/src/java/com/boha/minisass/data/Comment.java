@@ -44,8 +44,6 @@ public class Comment implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "remarks")
     private String remarks;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment")
-    private List<Evaluationcomment> evaluationcommentList;
 
     public Comment() {
     }
@@ -73,14 +71,6 @@ public class Comment implements Serializable {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
-    }
-
-    public List<Evaluationcomment> getEvaluationcommentList() {
-        return evaluationcommentList;
-    }
-
-    public void setEvaluationcommentList(List<Evaluationcomment> evaluationcommentList) {
-        this.evaluationcommentList = evaluationcommentList;
     }
 
     @Override

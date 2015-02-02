@@ -415,7 +415,7 @@ public class DataUtil {
                 
                 if(dto.getEndCountryID() !=null)
                 {
-                    //r.setEndCountry(dto.getEndCountry());
+                    //r.setEndCountry(dto.getEndCountryName());
                 }
                 if(dto.getEndLatitude() !=null){
                     r.setEndLatitude(dto.getEndLatitude());

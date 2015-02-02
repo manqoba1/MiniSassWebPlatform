@@ -18,7 +18,6 @@ public class CommentDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer commentID;
     private String remarks;
-    private List<EvaluationInsectDTO> evaluationInsectList;
 
     public CommentDTO() {
     }
@@ -42,16 +41,6 @@ public class CommentDTO implements Serializable {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
-    }
-
-   
-
-    public List<EvaluationInsectDTO> getEvaluationInsectList() {
-        return evaluationInsectList;
-    }
-
-    public void setEvaluationInsectList(List<EvaluationInsectDTO> evaluationInsectList) {
-        this.evaluationInsectList = evaluationInsectList;
     }
 
     @Override

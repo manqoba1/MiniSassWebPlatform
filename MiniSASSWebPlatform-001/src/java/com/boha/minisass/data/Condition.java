@@ -54,7 +54,7 @@ public class Condition implements Serializable {
     @NotNull
     @Column(name = "high")
     private double high;
-    @OneToMany(mappedBy = "conditionID")
+    @OneToMany(mappedBy = "condition")
     private List<Evaluation> evaluationList;
     @JoinColumn(name = "categoryID", referencedColumnName = "categoryId")
     @ManyToOne(optional = false)

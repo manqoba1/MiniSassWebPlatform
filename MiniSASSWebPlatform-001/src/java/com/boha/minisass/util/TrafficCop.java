@@ -9,9 +9,6 @@ import com.boha.minisass.data.Errorstore;
 import com.boha.minisass.data.Teammember;
 import com.boha.minisass.transfer.RequestDTO;
 import com.boha.minisass.transfer.ResponseDTO;
-import com.google.gson.Gson;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,9 +16,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
