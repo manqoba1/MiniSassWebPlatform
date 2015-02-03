@@ -44,6 +44,7 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import org.joda.time.DateTime;
 
@@ -111,15 +112,15 @@ public class DataUtil {
             tm.setEmail(member.getEmail());
             tm.setCellphone(member.getCellphone());
             tm.setActiveFlag(member.getActiveFlag());
+            tm.setDateRegistered(new Date());
             tm.setPin(member.getPin());
-            tm.setTeamMemberID(member.getTeamMemberID());
 
             em.persist(tm);
             em.flush();
 
             resp.getTeamMemberList().add(new TeamMemberDTO(tm));
 
-            log.log(Level.OFF, "Citizen has been registered for: {0} ",
+            log.log(Level.OFF, "Team Member has been registered for: {0} ",
                     new Object[]{tm.getFirstName()});
 
         } catch (Exception e) {
@@ -129,6 +130,37 @@ public class DataUtil {
         return resp;
     }
     
+      public ResponseDTO addRiver(RiverDTO riv) throws DataException {
+        ResponseDTO resp = new ResponseDTO();
+        try {
+            River ri = new River();
+            Country cou = em.find(Country.class, riv.getOriginCountryID());
+            ri.setDateRegistered(new Date());
+            ri.setEndLongitude(riv.getEndLongitude());
+            ri.setEndLatitude(riv.getEndLatitude());
+            ri.setEndCountry(cou);
+            ri.setRiverName(riv.getRiverName());
+            ri.setOriginLatitude(riv.getOriginLatitude());
+            ri.setOriginLongitude(riv.getOriginLongitude());
+            ri.setOriginCountry(cou);
+                      
+            em.persist(ri);
+            em.flush();
+            resp.getRiverList().add(new RiverDTO(ri));
+            log.log(Level.OFF, " River has been successfully added: {0}", ri.getRiverName());
+
+        } catch (PersistenceException e) {
+            log.log(Level.SEVERE, "Failed to add river", e);
+            resp.setStatusCode(301);
+            resp.setMessage("Duplicate detected, request ignored./nPlease try again");
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Failed to add river", e);
+            throw new DataException("Failed\n");
+        }
+        return resp;
+    }
+      
       public ResponseDTO registerTeam(TeamDTO team) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
@@ -139,7 +171,6 @@ public class DataUtil {
             
             t.setTeamName(team.getTeamName());
             t.setDateRegistered(new Date());
-            t.setTeamID(team.getTeamID());
 
             em.persist(t);
             em.flush();
@@ -192,7 +223,6 @@ public class DataUtil {
         try {
             Insect i = new Insect();
             i.setGroupName(insect.getGroupName());
-            i.setInsectID(insect.getInsectID());
             i.setSensitivityScore(insect.getSensitivityScore());
             
             em.persist(i);
@@ -262,8 +292,6 @@ public class DataUtil {
                 rt.setRiver(em.find(River.class, rt.getRiverTownID()));
                 rt.setTown(em.find(Town.class, rt.getRiverTownID()));
             }
-            
-            rt.setRiverTownID(rivert.getRiverTownID());
            
             em.persist(rt);
             em.flush();
@@ -284,7 +312,6 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Comment cm = new Comment();
-            cm.setCommentID(comment.getCommentID());
             cm.setRemarks(comment.getRemarks());
            
             em.persist(cm);
@@ -331,14 +358,16 @@ public class DataUtil {
         try {
             Town tw = new Town();
             tw.setTownName(town.getTownName());
-            tw.setTownID(town.getTownID());
+            tw.setProvince(em.find(Province.class, town.getProvinceID()));
             tw.setLatitude(town.getLatitude());
             tw.setLongitude(town.getLongitude());
-            tw.setProvince(em.find(Province.class, town.getProvinceID()));
+           
 
             em.persist(tw);
             em.flush();
-            resp.getTownList().add(new TownDTO(tw));
+            List<TownDTO> list = new ArrayList<>();
+            list.add(new TownDTO(tw));
+            resp.setTownList(list);
 
             log.log(Level.OFF, "Township has been added for: {0} ",
                     new Object[]{tw.getTownName()});

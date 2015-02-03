@@ -21,6 +21,7 @@ import com.boha.minisass.dto.RiverTownDTO;
 import com.boha.minisass.dto.TeamDTO;
 import com.boha.minisass.dto.TeamMemberDTO;
 import com.boha.minisass.dto.TownDTO;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,22 +38,22 @@ public class ResponseDTO {
     private TeamDTO team;
     private TeamMemberDTO teamMember;
     
-    private List<TeamDTO> teamList;
-    private List<TeamMemberDTO> teamMemberList;
-    private List<RiverDTO> riverList;
-    private List<RiverTownDTO> riverTownList;
-    private List<InsectDTO> insectList;
-    private List<CommentDTO> commentList;
-    private List<EvaluationDTO> evaluationList;
-    private List<EvaluationSiteDTO> evaluationSiteList;
-    private List<CategoryDTO> categoryList;
-    private List<CountryDTO> countryList;
-    private List<ProvinceDTO> provinceList;
-    private List<TownDTO> townList;
-    private List<Evaluationinsect> evaluationInsectList;
+    private List<TeamDTO> teamList = new ArrayList<>();
+    private List<TeamMemberDTO> teamMemberList = new ArrayList<>();
+    private List<RiverDTO> riverList = new ArrayList<>();
+    private List<RiverTownDTO> riverTownList = new ArrayList<>();
+    private List<InsectDTO> insectList = new ArrayList<>();
+    private List<CommentDTO> commentList = new ArrayList<>();
+    private List<EvaluationDTO> evaluationList = new ArrayList<>();
+    private List<EvaluationSiteDTO> evaluationSiteList = new ArrayList<>();
+    private List<CategoryDTO> categoryList = new ArrayList<>();
+    private List<CountryDTO> countryList = new ArrayList<>();
+    private List<ProvinceDTO> provinceList = new ArrayList<>();
+    private List<TownDTO> townList = new ArrayList<>();
+    private List<Evaluationinsect> evaluationInsectList = new ArrayList<>();
     
-     private List<ErrorStoreDTO> errorStoreList;
-    private List<ErrorStoreAndroidDTO> errorStoreAndroidList;
+    private List<ErrorStoreDTO> errorStoreList = new ArrayList<>();
+    private List<ErrorStoreAndroidDTO> errorStoreAndroidList = new ArrayList<>();
 
     public TeamDTO getTeam() {
         return team;

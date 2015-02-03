@@ -71,7 +71,7 @@ public class Test extends HttpServlet {
                     ur = dataUtil.addProvince(req.getProvince());
                     break;
                 case RequestDTO.ADD_RIVER:
-                    //  ur = dataUtil.
+                    ur = dataUtil.addRiver(req.getRiver());
                     break;
                 case RequestDTO.ADD_RIVER_TOWN:
                     ur = dataUtil.addRiverTown(req.getRiverTown());
