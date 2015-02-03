@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
@@ -16,23 +15,26 @@ import java.util.List;
  * @author aubreyM
  */
 public class TeamDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer teamID, townID;
     private String teamName;
     private Date dateRegistered;
     private String townName;
+    private String teamImage;
+    private List<GcmDeviceDTO> gcmdeviceList;
     private List<TeamMemberDTO> teamMemberList;
 
     public TeamDTO() {
     }
 
-   
     public TeamDTO(Team a) {
         this.teamID = a.getTeamID();
         this.teamName = a.getTeamName();
         this.dateRegistered = a.getDateRegistered();
         this.townID = a.getTown().getTownID();
         this.townName = a.getTown().getTownName();
+        teamImage = a.getTeamImage();
     }
 
     public Integer getTownID() {
@@ -41,6 +43,22 @@ public class TeamDTO implements Serializable {
 
     public void setTownID(Integer townID) {
         this.townID = townID;
+    }
+
+    public String getTeamImage() {
+        return teamImage;
+    }
+
+    public void setTeamImage(String teamImage) {
+        this.teamImage = teamImage;
+    }
+
+    public List<GcmDeviceDTO> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
+
+    public void setGcmdeviceList(List<GcmDeviceDTO> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
     }
 
     public String getTownName() {
@@ -107,5 +125,5 @@ public class TeamDTO implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.Team[ teamID=" + teamID + " ]";
     }
-    
+
 }

@@ -43,6 +43,11 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Teammember.findByPin", query = "SELECT t FROM Teammember t WHERE t.pin = :pin"),
     @NamedQuery(name = "Teammember.findByActiveFlag", query = "SELECT t FROM Teammember t WHERE t.activeFlag = :activeFlag")})
 public class Teammember implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1000)
+    @Column(name = "teamMemberImage")
+    private String teamMemberImage;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -213,6 +218,14 @@ public class Teammember implements Serializable {
     @Override
     public String toString() {
         return "com.boha.minisass.data.Teammember[ teamMemberID=" + teamMemberID + " ]";
+    }
+
+    public String getTeamMemberImage() {
+        return teamMemberImage;
+    }
+
+    public void setTeamMemberImage(String teamMemberImage) {
+        this.teamMemberImage = teamMemberImage;
     }
     
 }

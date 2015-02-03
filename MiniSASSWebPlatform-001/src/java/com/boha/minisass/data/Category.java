@@ -32,6 +32,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Category.findByCategoryId", query = "SELECT c FROM Category c WHERE c.categoryId = :categoryId"),
     @NamedQuery(name = "Category.findByCategoryName", query = "SELECT c FROM Category c WHERE c.categoryName = :categoryName")})
 public class Category implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    private List<Conditions> conditionsList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,8 +47,7 @@ public class Category implements Serializable {
     private String categoryName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private List<Evaluationsite> evaluationsiteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
-    private List<Condition> conditionList;
+
 
     public Category() {
     }
@@ -84,13 +85,7 @@ public class Category implements Serializable {
         this.evaluationsiteList = evaluationsiteList;
     }
 
-    public List<Condition> getConditionList() {
-        return conditionList;
-    }
-
-    public void setConditionList(List<Condition> conditionList) {
-        this.conditionList = conditionList;
-    }
+    
 
     @Override
     public int hashCode() {
@@ -115,6 +110,14 @@ public class Category implements Serializable {
     @Override
     public String toString() {
         return "com.boha.minisass.data.Category[ categoryId=" + categoryId + " ]";
+    }
+
+    public List<Conditions> getConditionsList() {
+        return conditionsList;
+    }
+
+    public void setConditionsList(List<Conditions> conditionsList) {
+        this.conditionsList = conditionsList;
     }
     
 }

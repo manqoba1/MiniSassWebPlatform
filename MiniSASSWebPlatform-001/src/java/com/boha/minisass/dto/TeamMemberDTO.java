@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
@@ -16,6 +15,7 @@ import java.util.List;
  * @author aubreyM
  */
 public class TeamMemberDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer teamMemberID;
     private String firstName;
@@ -27,11 +27,13 @@ public class TeamMemberDTO implements Serializable {
     private Integer activeFlag;
     private List<EvaluationDTO> evaluationList;
     private Integer teamID;
+    private String teamMemberImage;
+    private List<GcmDeviceDTO> gcmdeviceList;
 
     public TeamMemberDTO() {
     }
 
-      public TeamMemberDTO(Teammember a) {
+    public TeamMemberDTO(Teammember a) {
         this.teamMemberID = a.getTeamMemberID();
         this.firstName = a.getFirstName();
         this.lastName = a.getLastName();
@@ -39,6 +41,23 @@ public class TeamMemberDTO implements Serializable {
         this.pin = a.getPin();
         this.activeFlag = a.getActiveFlag();
         this.teamID = a.getTeam().getTeamID();
+        teamMemberImage = a.getTeamMemberImage();
+    }
+
+    public String getTeamMemberImage() {
+        return teamMemberImage;
+    }
+
+    public void setTeamMemberImage(String teamMemberImage) {
+        this.teamMemberImage = teamMemberImage;
+    }
+
+    public List<GcmDeviceDTO> getGcmdeviceList() {
+        return gcmdeviceList;
+    }
+
+    public void setGcmdeviceList(List<GcmDeviceDTO> gcmdeviceList) {
+        this.gcmdeviceList = gcmdeviceList;
     }
 
     public Integer getTeamID() {
@@ -145,5 +164,5 @@ public class TeamMemberDTO implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.TeamMember[ teamMemberID=" + teamMemberID + " ]";
     }
-    
+
 }

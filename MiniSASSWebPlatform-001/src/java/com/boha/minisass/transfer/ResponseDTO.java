@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.transfer;
 
 import com.boha.minisass.data.Evaluationinsect;
 import com.boha.minisass.dto.CategoryDTO;
 import com.boha.minisass.dto.CommentDTO;
+import com.boha.minisass.dto.ConditionsDTO;
 import com.boha.minisass.dto.CountryDTO;
 import com.boha.minisass.dto.ErrorStoreAndroidDTO;
 import com.boha.minisass.dto.ErrorStoreDTO;
@@ -29,15 +29,16 @@ import java.util.List;
  * @author aubreyM
  */
 public class ResponseDTO {
+
     private int statusCode;
     private String message;
     private Integer statusCountInPeriod, goodCount, badCount;
     private String sessionID, GCMRegistrationID, fileString;
     private double elapsedRequestTimeInSeconds;
-    
+
     private TeamDTO team;
     private TeamMemberDTO teamMember;
-    
+
     private List<TeamDTO> teamList = new ArrayList<>();
     private List<TeamMemberDTO> teamMemberList = new ArrayList<>();
     private List<RiverDTO> riverList = new ArrayList<>();
@@ -51,7 +52,8 @@ public class ResponseDTO {
     private List<ProvinceDTO> provinceList = new ArrayList<>();
     private List<TownDTO> townList = new ArrayList<>();
     private List<Evaluationinsect> evaluationInsectList = new ArrayList<>();
-    
+    private List<ConditionsDTO> conditionsList;
+
     private List<ErrorStoreDTO> errorStoreList = new ArrayList<>();
     private List<ErrorStoreAndroidDTO> errorStoreAndroidList = new ArrayList<>();
 
@@ -70,7 +72,7 @@ public class ResponseDTO {
     public void setTeamMember(TeamMemberDTO teamMember) {
         this.teamMember = teamMember;
     }
-    
+
     public int getStatusCode() {
         return statusCode;
     }
@@ -130,7 +132,7 @@ public class ResponseDTO {
     public void setEvaluationInsectList(List<Evaluationinsect> evaluationInsectList) {
         this.evaluationInsectList = evaluationInsectList;
     }
-    
+
     public void setInsectList(List<InsectDTO> insectList) {
         this.insectList = insectList;
     }
@@ -191,6 +193,14 @@ public class ResponseDTO {
         this.townList = townList;
     }
 
+    public List<ConditionsDTO> getConditionsList() {
+        return conditionsList;
+    }
+
+    public void setConditionsList(List<ConditionsDTO> conditionsList) {
+        this.conditionsList = conditionsList;
+    }
+
     public Integer getStatusCountInPeriod() {
         return statusCountInPeriod;
     }
@@ -247,7 +257,6 @@ public class ResponseDTO {
         this.elapsedRequestTimeInSeconds = elapsedRequestTimeInSeconds;
     }
 
-    
     public List<ErrorStoreDTO> getErrorStoreList() {
         return errorStoreList;
     }
@@ -263,6 +272,5 @@ public class ResponseDTO {
     public void setErrorStoreAndroidList(List<ErrorStoreAndroidDTO> errorStoreAndroidList) {
         this.errorStoreAndroidList = errorStoreAndroidList;
     }
-    
-    
+
 }

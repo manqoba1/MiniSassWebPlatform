@@ -32,6 +32,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
     @NamedQuery(name = "Comment.findByCommentID", query = "SELECT c FROM Comment c WHERE c.commentID = :commentID")})
 public class Comment implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment")
+    private List<Evaluationcomment> evaluationcommentList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -96,6 +98,14 @@ public class Comment implements Serializable {
     @Override
     public String toString() {
         return "com.boha.minisass.data.Comment[ commentID=" + commentID + " ]";
+    }
+
+    public List<Evaluationcomment> getEvaluationcommentList() {
+        return evaluationcommentList;
+    }
+
+    public void setEvaluationcommentList(List<Evaluationcomment> evaluationcommentList) {
+        this.evaluationcommentList = evaluationcommentList;
     }
     
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
@@ -15,9 +14,11 @@ import java.util.List;
  * @author aubreyM
  */
 public class CommentDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer commentID;
     private String remarks;
+    private List<EvaluationCommentDTO> evaluationcommentList;
 
     public CommentDTO() {
     }
@@ -25,6 +26,14 @@ public class CommentDTO implements Serializable {
     public CommentDTO(Comment a) {
         this.commentID = a.getCommentID();
         this.remarks = a.getRemarks();
+    }
+
+    public List<EvaluationCommentDTO> getEvaluationcommentList() {
+        return evaluationcommentList;
+    }
+
+    public void setEvaluationcommentList(List<EvaluationCommentDTO> evaluationcommentList) {
+        this.evaluationcommentList = evaluationcommentList;
     }
 
     public Integer getCommentID() {
@@ -67,5 +76,5 @@ public class CommentDTO implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.Comment[ commentID=" + commentID + " ]";
     }
-    
+
 }

@@ -38,6 +38,11 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Team.findByTeamName", query = "SELECT t FROM Team t WHERE t.teamName = :teamName"),
     @NamedQuery(name = "Team.findByDateRegistered", query = "SELECT t FROM Team t WHERE t.dateRegistered = :dateRegistered")})
 public class Team implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1000)
+    @Column(name = "teamImage")
+    private String teamImage;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -146,6 +151,14 @@ public class Team implements Serializable {
     @Override
     public String toString() {
         return "com.boha.minisass.data.Team[ teamID=" + teamID + " ]";
+    }
+
+    public String getTeamImage() {
+        return teamImage;
+    }
+
+    public void setTeamImage(String teamImage) {
+        this.teamImage = teamImage;
     }
     
 }

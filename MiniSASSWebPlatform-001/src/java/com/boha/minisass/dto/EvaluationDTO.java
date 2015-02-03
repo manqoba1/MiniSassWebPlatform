@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
@@ -16,9 +15,10 @@ import java.util.List;
  * @author aubreyM
  */
 public class EvaluationDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    private Integer evaluationID;
-    private Date evaluationDate;
+    private Integer evaluationID, teamMemberID, conditionsID, evaluationSiteID;
+    private long evaluationDate;
     private String comment;
     private Double score;
     private Double pH;
@@ -31,16 +31,16 @@ public class EvaluationDTO implements Serializable {
     private List<EvaluationImageDTO> evaluationImageList;
     private TeamMemberDTO teamMember;
     private EvaluationSiteDTO evaluationSite;
+    private ConditionsDTO conditions;
     private List<EvaluationInsectDTO> evaluationInsectList;
     private List<EvaluationCommentDTO> evaluationCommentList;
 
     public EvaluationDTO() {
     }
 
-  
     public EvaluationDTO(Evaluation a) {
         this.evaluationID = a.getEvaluationID();
-        this.evaluationDate = a.getEvaluationDate();
+        this.evaluationDate = a.getEvaluationDate().getTime();
         this.latitude = a.getLatitude();
         this.longitude = a.getLongitude();
         this.score = a.getScore();
@@ -49,7 +49,10 @@ public class EvaluationDTO implements Serializable {
         this.waterClarity = a.getWaterClarity();
         this.oxygen = a.getOxygen();
         this.waterTemperature = a.getWaterTemperature();
+        conditionsID = a.getConditions().getConditionsID();
+        teamMemberID = a.getTeamMember().getTeamMemberID();
         this.teamMember = new TeamMemberDTO(a.getTeamMember());
+        evaluationSiteID = a.getEvaluationSite().getEvaluationSiteID();
         this.evaluationSite = new EvaluationSiteDTO(a.getEvaluationSite());
     }
 
@@ -68,7 +71,7 @@ public class EvaluationDTO implements Serializable {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
-   
+
     public Integer getEvaluationID() {
         return evaluationID;
     }
@@ -77,11 +80,27 @@ public class EvaluationDTO implements Serializable {
         this.evaluationID = evaluationID;
     }
 
-    public Date getEvaluationDate() {
+    public Integer getTeamMemberID() {
+        return teamMemberID;
+    }
+
+    public void setTeamMemberID(Integer teamMemberID) {
+        this.teamMemberID = teamMemberID;
+    }
+
+    public Integer getEvaluationSiteID() {
+        return evaluationSiteID;
+    }
+
+    public void setEvaluationSiteID(Integer evaluationSiteID) {
+        this.evaluationSiteID = evaluationSiteID;
+    }
+
+    public long getEvaluationDate() {
         return evaluationDate;
     }
 
-    public void setEvaluationDate(Date evaluationDate) {
+    public void setEvaluationDate(long evaluationDate) {
         this.evaluationDate = evaluationDate;
     }
 
@@ -149,8 +168,6 @@ public class EvaluationDTO implements Serializable {
         this.longitude = longitude;
     }
 
-    
-
     public List<EvaluationImageDTO> getEvaluationImageList() {
         return evaluationImageList;
     }
@@ -191,6 +208,22 @@ public class EvaluationDTO implements Serializable {
         this.evaluationInsectList = evaluationInsectList;
     }
 
+    public Integer getConditionsID() {
+        return conditionsID;
+    }
+
+    public void setConditionsID(Integer conditionsID) {
+        this.conditionsID = conditionsID;
+    }
+
+    public ConditionsDTO getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(ConditionsDTO conditions) {
+        this.conditions = conditions;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -215,5 +248,5 @@ public class EvaluationDTO implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.Evaluation[ evaluationID=" + evaluationID + " ]";
     }
-    
+
 }

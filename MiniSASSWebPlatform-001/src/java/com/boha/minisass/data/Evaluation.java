@@ -45,6 +45,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Evaluation.findByLatitude", query = "SELECT e FROM Evaluation e WHERE e.latitude = :latitude"),
     @NamedQuery(name = "Evaluation.findByLongitude", query = "SELECT e FROM Evaluation e WHERE e.longitude = :longitude")})
 public class Evaluation implements Serializable {
+    @JoinColumn(name = "conditionsID", referencedColumnName = "conditionsID")
+    @ManyToOne
+    private Conditions conditions;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,9 +90,7 @@ public class Evaluation implements Serializable {
     @JoinColumn(name = "evaluationSiteID", referencedColumnName = "evaluationSiteID")
     @ManyToOne(optional = false)
     private Evaluationsite evaluationSite;
-    @JoinColumn(name = "conditionID", referencedColumnName = "conditionID")
-    @ManyToOne
-    private Condition condition;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "evaluation")
     private List<Evaluationinsect> evaluationinsectList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "evaluation")
@@ -221,13 +222,15 @@ public class Evaluation implements Serializable {
         this.evaluationSite = evaluationSite;
     }
 
-    public Condition getCondition() {
-        return condition;
+    public Conditions getConditions() {
+        return conditions;
     }
 
-    public void setCondition(Condition condition) {
-        this.condition = condition;
+    public void setConditions(Conditions conditions) {
+        this.conditions = conditions;
     }
+
+   
 
     public List<Evaluationinsect> getEvaluationinsectList() {
         return evaluationinsectList;
@@ -271,5 +274,7 @@ public class Evaluation implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.Evaluation[ evaluationID=" + evaluationID + " ]";
     }
+
+   
     
 }
