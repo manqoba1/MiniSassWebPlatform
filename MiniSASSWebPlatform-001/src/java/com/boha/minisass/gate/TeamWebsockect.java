@@ -2,7 +2,6 @@
 package com.boha.minisass.gate;
 
 import com.boha.minisass.data.Teammember;
-import static com.boha.minisass.gate.CachedRequestWebSocket.log;
 import com.boha.minisass.transfer.RequestDTO;
 import com.boha.minisass.transfer.ResponseDTO;
 import com.boha.minisass.util.DataUtil;

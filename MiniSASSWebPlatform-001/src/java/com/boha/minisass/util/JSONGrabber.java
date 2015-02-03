@@ -3,6 +3,10 @@ package com.boha.minisass.util;
 import com.boha.minisass.dto.EvaluationDTO;
 import com.boha.minisass.transfer.RequestDTO;
 import com.google.gson.Gson;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -39,6 +43,45 @@ public class JSONGrabber {
         String json = gson.toJson(req);
 
         System.out.println("JSON created\n" + json);
+        JSONGrabber grabber = new JSONGrabber();
+        grabber.run();
+    }
+
+    public void run() {
+
+        String csvFile = "C:/Users/CodeTribe1/Downloads/RiversExcel.csv";
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+
+        try {
+
+            br = new BufferedReader(new FileReader(csvFile));
+            while ((line = br.readLine()) != null) {
+
+                // use comma as separator
+                String[] country = line.split(cvsSplitBy);
+
+                System.out.println("Country [code= " + country[0]
+                        + " , name=" + country[2] + "]");
+
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        System.out.println("Done");
     }
 }
 
