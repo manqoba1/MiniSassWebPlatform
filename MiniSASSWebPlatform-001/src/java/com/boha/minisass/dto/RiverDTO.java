@@ -47,7 +47,7 @@ public class RiverDTO implements Serializable {
         endLatitude = a.getEndLatitude();
         endLongitude = a.getEndLongitude();
     }
-
+    
     public RiverTownDTO getRiver() {
         return river;
     }

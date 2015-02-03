@@ -3,10 +3,11 @@ package com.boha.minisass.util;
 import com.boha.minisass.data.Category;
 import com.boha.minisass.data.Comment;
 import com.boha.minisass.data.Country;
-import com.boha.minisass.data.Errorstore;
+import com.boha.minisass.data.Errorstore; 
 import com.boha.minisass.data.Errorstoreandroid;
 import com.boha.minisass.data.Evaluation;
 import com.boha.minisass.data.Evaluationsite;
+import com.boha.minisass.data.Gcmdevice;
 import com.boha.minisass.data.Insect;
 import com.boha.minisass.data.Insectimage;
 import com.boha.minisass.data.Province;
@@ -56,7 +57,7 @@ public class DataUtil {
     @PersistenceContext
     EntityManager em;
     
-     public EntityManager getEm() {
+     public EntityManager getEm(){
         return em;
     }
      
@@ -74,9 +75,9 @@ public class DataUtil {
             resp.setTeamMember(new TeamMemberDTO(cs));
             resp.setTeam(new TeamDTO(team));
 
-           /* device(team.getTeamID());
-            device.setTeamMemberID(cs.getTeamMemberID());
-            addDevice(device);*/
+            device.setTeamID(team.getTeamID());
+            device.setTeammemberID(cs.getTeamMemberID());
+            addDevice(device);
 
             try {
                 CloudMessagingRegistrar.sendRegistration(device.getRegistrationID(), this);
@@ -412,20 +413,13 @@ public class DataUtil {
                 if(dto.getDateRegistered() !=null){
                     r.setDateRegistered(dto.getDateRegistered());
                 }
-                
-                if(dto.getEndCountryID() !=null)
-                {
-                    //r.setEndCountry(dto.getEndCountryName());
-                }
+           
                 if(dto.getEndLatitude() !=null){
                     r.setEndLatitude(dto.getEndLatitude());
                 }
                 
                 if(dto.getEndLongitude() !=null){
                     r.setEndLongitude(dto.getEndLongitude());
-                }
-                if(dto.getOriginCountryName() !=null){
-                   // r.setOriginCountryName(dto.getOriginCountryName());
                 }
                 em.merge(r);
                 log.log(Level.INFO, "River updated");
@@ -539,7 +533,34 @@ public class DataUtil {
         }
     }
       
-      
+      public void addDevice(GcmDeviceDTO d) throws DataException {
+        try {
+            Gcmdevice g = new Gcmdevice();
+            g.setTeam(em.find(Team.class, d.getTeam().getTeamID()));
+            g.setTeamMember(em.find(Teammember.class, d.getTeamMember().getTeamMemberID()));
+           /* if (d.setEvaluationSiteID()) != null
+                    && d.getEvaluationSiteID() > 0) {
+                g.set.find(Evaluationsite.class, d.getEvaluationSiteID()));
+            }*/
+            g.setDateRegistered(new Date());
+            g.setManufacturer(d.getManufacturer());
+            g.setMessageCount(0);
+            g.setModel(d.getModel());
+            g.setRegistrationID(d.getRegistrationID());
+            g.setSerialNumber(d.getSerialNumber());
+            g.setProduct(d.getProduct());
+            g.setAndroidVersion(d.getAndroidVersion());
+
+            em.persist(g);
+            log.log(Level.WARNING, "New device loaded");
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Failed", e);
+            throw new DataException("Failed to add device\n" + getErrorString(e));
+
+        }
+    } 
+     
+     
       public ResponseDTO getServerErrors(
             long startDate, long endDate) throws DataException {
         ResponseDTO r = new ResponseDTO();
@@ -588,6 +609,23 @@ public class DataUtil {
         }
 
         return sb.toString();
+    }
+      
+       public void confirmLocation(Integer EvaluationSiteID, double latitude, double longitude, Float accuracy) throws DataException {
+        try {
+            Evaluationsite ps = em.find(Evaluationsite.class, EvaluationSiteID);
+            if (ps != null) {
+               // ps.setLocationConfirmed(1);
+                ps.setLatitude(latitude);
+                ps.setLongitude(longitude);
+               // ps.setAccuracy(accuracy);
+                em.merge(ps);
+                log.log(Level.INFO, "Evaluation Site location confirmed");
+            }
+        } catch (Exception e) {
+            log.log(Level.OFF, null, e);
+            throw new DataException("Failed to confirm location\n" + getErrorString(e));
+        }
     }
 
      public void addErrorStore(int statusCode, String message, String origin) {

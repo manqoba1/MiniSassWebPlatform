@@ -46,13 +46,14 @@ public class RequestDTO {
             UPDATE_INSECT = 33,
             UPDATE_INSECT_IMAGE = 34;
 
-    public static final int LIST_RIVERS_IN_COUNTRY = 40,
+    public static final int
+            LIST_RIVERS_IN_COUNTRY = 40,
             LIST_RIVER_TOWNS = 41,
             LIST_EVALUATION_SITES = 42,
             LIST_INSECTS = 43,
             LIST_TEAMS = 44,
             LIST_EVALUATIONS_BY_RIVER = 45,
-            LIST_ROVINCE_COUNTRY = 46,
+            LIST_PROVINCE_COUNTRY = 46,
             LIST_ALL_PROVINCES = 50;
 
     private EvaluationDTO evaluation;

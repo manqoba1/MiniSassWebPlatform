@@ -39,7 +39,7 @@ public class CloudMsgUtil {
     private static final int RETRIES = 5;
     public static final String API_KEY = "AIzaSyCJIUMPXsL-GVAfNAl1i-fDy6qf7g5TtCU";
 
-    public  ResponseDTO sendRequestUpdateToProjectSite(int companyID) throws
+    public  ResponseDTO sendRequestUpdateToEvaluationSite(int teamID) throws
             Exception, DataException {
         ResponseDTO resp = new ResponseDTO();
         //send message to Google servers
@@ -49,7 +49,7 @@ public class CloudMsgUtil {
                 .addData("dateStamp", "" + new Date().getTime()).build();
 
         Query q = em.createNamedQuery("GcmDevice.findInstructorDevices", Gcmdevice.class);
-        q.setParameter("id", companyID);
+        q.setParameter("id", teamID);
         List<Gcmdevice> gList = q.getResultList();
         List<String> registrationIDs = new ArrayList<>();
         for (Gcmdevice m : gList) {
@@ -85,9 +85,9 @@ public class CloudMsgUtil {
     }
     
 
-    private  List<Gcmdevice> getDevices(int companyID) {
+    private  List<Gcmdevice> getDevices(int teamID) {
         Query q = em.createNamedQuery("GcmDevice.findInstructorDevices");
-        q.setParameter("id", companyID);
+        q.setParameter("id", teamID);
         return q.getResultList();
     }
 

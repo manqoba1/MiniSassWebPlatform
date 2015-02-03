@@ -101,7 +101,7 @@ public class Test extends HttpServlet {
                     ur = listUtil.getAllProvince();
                     break;
                      
-                case RequestDTO.LIST_ROVINCE_COUNTRY:
+                case RequestDTO.LIST_PROVINCE_COUNTRY:
                     log.log(Level.INFO, "Province:\n{0}", req.getCountryID());
                     ur = listUtil.getProvinceByCountry(req.getCountryID());
                     break;

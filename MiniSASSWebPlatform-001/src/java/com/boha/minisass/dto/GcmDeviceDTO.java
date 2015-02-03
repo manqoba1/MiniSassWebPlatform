@@ -5,8 +5,6 @@
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.Gcmdevice;
-import com.boha.minisass.data.Team;
-import com.boha.minisass.data.Teammember;
 
 
 /**
@@ -23,9 +21,10 @@ public class GcmDeviceDTO {
     private Integer messageCount;
     private long dateRegistered;
     private String serialNumber, androidVersion;
-    private Integer companyStaffID, companyID, projectSiteID;
+    private Integer TeammemberID, teamID, EvaluationSiteID;
      private TeamMemberDTO teamMember;
     private TeamDTO team;
+    private EvaluationSiteDTO site;
    
     
     public GcmDeviceDTO(Gcmdevice a) {
@@ -39,6 +38,14 @@ public class GcmDeviceDTO {
         serialNumber = a.getSerialNumber();
         androidVersion = a.getAndroidVersion();
         
+    }
+
+    public EvaluationSiteDTO getSite() {
+        return site;
+    }
+
+    public void setSite(EvaluationSiteDTO site) {
+        this.site = site;
     }
 
     public TeamMemberDTO getTeamMember() {
@@ -57,28 +64,12 @@ public class GcmDeviceDTO {
         this.team = team;
     }
 
-    public Integer getCompanyID() {
-        return companyID;
-    }
-
     public String getAndroidVersion() {
         return androidVersion;
     }
 
     public void setAndroidVersion(String androidVersion) {
         this.androidVersion = androidVersion;
-    }
-
-    public void setCompanyID(Integer companyID) {
-        this.companyID = companyID;
-    }
-
-    public Integer getProjectSiteID() {
-        return projectSiteID;
-    }
-
-    public void setProjectSiteID(Integer projectSiteID) {
-        this.projectSiteID = projectSiteID;
     }
 
     public Integer getGcmDeviceID() {
@@ -145,12 +136,30 @@ public class GcmDeviceDTO {
         this.serialNumber = serialNumber;
     }
 
-    public Integer getCompanyStaffID() {
-        return companyStaffID;
+    public Integer getTeammemberID() {
+        return TeammemberID;
     }
 
-    public void setCompanyStaffID(Integer companyStaffID) {
-        this.companyStaffID = companyStaffID;
+    public void setTeammemberID(Integer TeammemberID) {
+        this.TeammemberID = TeammemberID;
     }
+
+    public Integer getTeamID() {
+        return teamID;
+    }
+
+    public void setTeamID(Integer teamID) {
+        this.teamID = teamID;
+    }
+
+    public Integer getEvaluationSiteID() {
+        return EvaluationSiteID;
+    }
+
+    public void setEvaluationSiteID(Integer EvaluationSiteID) {
+        this.EvaluationSiteID = EvaluationSiteID;
+    }
+    
+    
 
 }
