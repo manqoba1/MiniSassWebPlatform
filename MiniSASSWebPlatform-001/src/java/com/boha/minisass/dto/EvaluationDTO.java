@@ -22,6 +22,7 @@ public class EvaluationDTO implements Serializable {
     private String comment;
     private Double score;
     private Double pH;
+    private String remarks;
     private Double waterTemperature;
     private Double oxygen;
     private Double waterClarity;
@@ -44,6 +45,7 @@ public class EvaluationDTO implements Serializable {
         this.longitude = a.getLongitude();
         this.score = a.getScore();
         this.pH = a.getPH();
+        this.remarks = a.getRemarks();
         this.waterClarity = a.getWaterClarity();
         this.oxygen = a.getOxygen();
         this.waterTemperature = a.getWaterTemperature();
@@ -59,6 +61,13 @@ public class EvaluationDTO implements Serializable {
         this.evaluationCommentList = evaluationCommentList;
     }
 
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
    
     public Integer getEvaluationID() {
         return evaluationID;
@@ -140,6 +149,7 @@ public class EvaluationDTO implements Serializable {
         this.longitude = longitude;
     }
 
+    
 
     public List<EvaluationImageDTO> getEvaluationImageList() {
         return evaluationImageList;

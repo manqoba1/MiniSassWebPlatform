@@ -244,6 +244,8 @@ public class Evaluation implements Serializable {
     public void setEvaluationcommentList(List<Evaluationcomment> evaluationcommentList) {
         this.evaluationcommentList = evaluationcommentList;
     }
+    
+    
 
     @Override
     public int hashCode() {

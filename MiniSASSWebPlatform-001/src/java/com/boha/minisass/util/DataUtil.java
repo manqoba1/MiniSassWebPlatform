@@ -2,6 +2,7 @@ package com.boha.minisass.util;
 
 import com.boha.minisass.data.Category;
 import com.boha.minisass.data.Comment;
+import com.boha.minisass.data.Condition;
 import com.boha.minisass.data.Country;
 import com.boha.minisass.data.Errorstore; 
 import com.boha.minisass.data.Errorstoreandroid;
@@ -193,9 +194,6 @@ public class DataUtil {
             Evaluationsite ts = new Evaluationsite();
             if (site != null | site.getEvaluationSiteID() != null) {
                 ts.setRiver(em.find(River.class, site.getRiverID()));
-            }
-            else
-                if (site != null | site.getEvaluationSiteID() != null) {
                 ts.setCategory(em.find(Category.class, site.getCategoryID()));
             }
             
@@ -333,11 +331,21 @@ public class DataUtil {
         try {
             Evaluation e = new Evaluation();
              if (evaluation != null | evaluation.getEvaluationID()!= null) {
-                 e.setTeamMember(em.find(Teammember.class, e.getTeamMember()));
-                 e.setEvaluationSite(em.find(Evaluationsite.class, e.getEvaluationSite()));
-                
+                 e.setTeamMember(em.find(Teammember.class, e.getTeamMember().getTeamMemberID()));
+                 e.setEvaluationSite(em.find(Evaluationsite.class, e.getEvaluationSite().getEvaluationSiteID()));
+                 e.setCondition(em.find(Condition.class, e.getCondition().getConditionID()));    
             }
-            e.setCondition(e.getCondition());
+             
+             e.setLatitude(evaluation.getLatitude());
+             e.setLongitude(evaluation.getLongitude());
+             e.setOxygen(evaluation.getOxygen());
+             e.setPH(evaluation.getPH());
+             e.setRemarks(evaluation.getRemarks());
+             e.setScore(evaluation.getScore());
+             e.setWaterClarity(evaluation.getWaterClarity());
+             e.setWaterTemperature(evaluation.getWaterTemperature());
+             e.setEvaluationDate(new Date());
+            
            
             em.persist(e);
             em.flush();
