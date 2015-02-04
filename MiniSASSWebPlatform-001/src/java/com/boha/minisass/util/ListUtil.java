@@ -74,7 +74,6 @@ public class ListUtil {
     public ResponseDTO getInsectList() {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Insect.findAll", Insect.class);
-        //q.setParameter("", );
         List<Insect> list = q.getResultList();
         for (Insect ins : list) {
             resp.getInsectList().add(new InsectDTO(ins));

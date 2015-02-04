@@ -107,9 +107,9 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Teammember tm = new Teammember();
-            if (member != null | member.getTeamMemberID() != null) {
-                tm.setTeam(em.find(Team.class, member.getTeamID()));
-            }
+          
+            tm.setTeam(em.find(Team.class, member.getTeamID()));
+            
             tm.setFirstName(member.getFirstName());
             tm.setLastName(member.getLastName());
             tm.setEmail(member.getEmail());
@@ -168,10 +168,9 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Team t = new Team();
-            if (team != null | team.getTeamID() != null) {
-                t.setTown(em.find(Town.class, team.getTownID()));
-            }
-
+     
+            t.setTown(em.find(Town.class, team.getTownID()));
+ 
             t.setTeamName(team.getTeamName());
             t.setDateRegistered(new Date());
 
@@ -240,7 +239,7 @@ public class DataUtil {
         return resp;
     }
 
-    public ResponseDTO addCtategory(CategoryDTO category) throws DataException {
+    public ResponseDTO addCategory(CategoryDTO category) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
             Category c = new Category();
@@ -289,10 +288,10 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Rivertown rt = new Rivertown();
-            if (rivert != null | rivert.getRiverTownID() != null) {
-                rt.setRiver(em.find(River.class, rt.getRiverTownID()));
-                rt.setTown(em.find(Town.class, rt.getRiverTownID()));
-            }
+            
+                rt.setRiver(em.find(River.class, rivert.getRiverTownID()));
+                rt.setTown(em.find(Town.class, rivert.getRiverTownID()));
+            
 
             em.persist(rt);
             em.flush();
@@ -337,9 +336,9 @@ public class DataUtil {
            
             e.setTeamMember(em.find(Teammember.class, evaluation.getTeamMemberID()));
             e.setEvaluationSite(em.find(Evaluationsite.class, evaluation.getEvaluationSiteID()));
-             log.log(Level.WARNING, "Test{0}", 1);
+            log.log(Level.WARNING, "Test{0}", 1);
             e.setConditions(em.find(Conditions.class, evaluation.getConditionsID()));
- log.log(Level.WARNING, "Test{0}", 2);
+            log.log(Level.WARNING, "Test{0}", 2);
             e.setLatitude(evaluation.getLatitude());
             e.setLongitude(evaluation.getLongitude());
             e.setOxygen(evaluation.getOxygen());
@@ -442,11 +441,8 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Insectimage i = new Insectimage();
+            i.setInsect(em.find(Insect.class, image.getInsectID()));
 
-            if (image != null | image.getInsectImageID() != null) {
-                i.setInsect(em.find(Insect.class, i.getInsect()));
-
-            }
             i.setDateRegistered(new Date());
             i.setInsectImageID(image.getInsectImageID());
             i.setUri(image.getUri());
