@@ -33,6 +33,9 @@ public class Test extends HttpServlet {
 
     @EJB
     ListUtil listUtil;
+    
+    
+    
 
     Gson gson = new Gson();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

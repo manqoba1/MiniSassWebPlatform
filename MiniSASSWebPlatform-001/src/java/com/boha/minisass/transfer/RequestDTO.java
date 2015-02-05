@@ -24,9 +24,13 @@ public class RequestDTO {
     private Integer countryID;
 
     public static final int REGISTER_TEAM = 1,
+            GENERATE_TEAM = 100,
+            GENERATE_RIVER = 101,
             REGISTER_TEAM_MEMBER = 2,
             SIGN_IN_MEMBER = 3,
             IMPORT_MEMBERS = 4;
+    
+    
 
     public static final int ADD_RIVER = 10,
             ADD_RIVER_TOWN = 11,
