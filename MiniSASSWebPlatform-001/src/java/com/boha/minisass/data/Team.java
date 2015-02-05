@@ -39,7 +39,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Team.findByDateRegistered", query = "SELECT t FROM Team t WHERE t.dateRegistered = :dateRegistered")})
 public class Team implements Serializable {
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 1000)
     @Column(name = "teamImage")
     private String teamImage;
@@ -74,10 +73,11 @@ public class Team implements Serializable {
         this.teamID = teamID;
     }
 
-    public Team(Integer teamID, String teamName, Date dateRegistered) {
+    public Team(Integer teamID, String teamName, Date dateRegistered, String teamImage) {
         this.teamID = teamID;
         this.teamName = teamName;
         this.dateRegistered = dateRegistered;
+        this.teamImage = teamImage;
     }
 
     public Integer getTeamID() {
@@ -103,7 +103,7 @@ public class Team implements Serializable {
     public void setDateRegistered(Date dateRegistered) {
         this.dateRegistered = dateRegistered;
     }
-
+    
     public List<Gcmdevice> getGcmdeviceList() {
         return gcmdeviceList;
     }

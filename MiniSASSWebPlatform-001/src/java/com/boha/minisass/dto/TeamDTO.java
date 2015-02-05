@@ -34,7 +34,7 @@ public class TeamDTO implements Serializable {
         this.dateRegistered = a.getDateRegistered();
         this.townID = a.getTown().getTownID();
         this.townName = a.getTown().getTownName();
-        teamImage = a.getTeamImage();
+        this.teamImage = a.getTeamImage();
     }
 
     public Integer getTownID() {

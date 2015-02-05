@@ -168,9 +168,8 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Team t = new Team();
-     
             t.setTown(em.find(Town.class, team.getTownID()));
- 
+           // t.setTeamImage(team.getTeamImage());
             t.setTeamName(team.getTeamName());
             t.setDateRegistered(new Date());
 
@@ -596,10 +595,7 @@ public class DataUtil {
             Gcmdevice g = new Gcmdevice();
             g.setTeam(em.find(Team.class, d.getTeam().getTeamID()));
             g.setTeamMember(em.find(Teammember.class, d.getTeamMember().getTeamMemberID()));
-            /* if (d.setEvaluationSiteID()) != null
-             && d.getEvaluationSiteID() > 0) {
-             g.set.find(Evaluationsite.class, d.getEvaluationSiteID()));
-             }*/
+            
             g.setDateRegistered(new Date());
             g.setManufacturer(d.getManufacturer());
             g.setMessageCount(0);
