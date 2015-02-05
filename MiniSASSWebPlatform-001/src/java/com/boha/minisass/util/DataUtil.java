@@ -288,8 +288,8 @@ public class DataUtil {
         try {
             Rivertown rt = new Rivertown();
             
-                rt.setRiver(em.find(River.class, rivert.getRiverTownID()));
-                rt.setTown(em.find(Town.class, rivert.getRiverTownID()));
+                rt.setRiver(em.find(River.class, rivert.getRiverID()));
+                rt.setTown(em.find(Town.class, rivert.getTownID()));
             
 
             em.persist(rt);
@@ -443,7 +443,6 @@ public class DataUtil {
             i.setInsect(em.find(Insect.class, image.getInsectID()));
 
             i.setDateRegistered(new Date());
-            i.setInsectImageID(image.getInsectImageID());
             i.setUri(image.getUri());
 
             em.persist(i);

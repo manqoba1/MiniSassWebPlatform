@@ -14,16 +14,16 @@ import java.io.Serializable;
  * @author aubreyM
  */
 public class RiverTownDTO implements Serializable {
+    
     private static final long serialVersionUID = 1L;
     private Integer riverTownID, riverID, townID;
-    private String riverName, townName;
 
+    public RiverTownDTO(){
+}
     public RiverTownDTO(Rivertown a) {
         riverTownID = a.getRiverTownID();
         riverID = a.getRiver().getRiverID();
         townID = a.getTown().getTownID();
-        riverName = a.getRiver().getRiverName();
-        townName = a.getTown().getTownName();
     }
 
     public Integer getRiverID() {
@@ -41,23 +41,6 @@ public class RiverTownDTO implements Serializable {
     public void setTownID(Integer townID) {
         this.townID = townID;
     }
-
-    public String getRiverName() {
-        return riverName;
-    }
-
-    public void setRiverName(String riverName) {
-        this.riverName = riverName;
-    }
-
-    public String getTownName() {
-        return townName;
-    }
-
-    public void setTownName(String townName) {
-        this.townName = townName;
-    }
-
     
     public Integer getRiverTownID() {
         return riverTownID;
