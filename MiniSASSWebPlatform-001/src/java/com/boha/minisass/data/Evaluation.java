@@ -36,6 +36,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Evaluation.findAll", query = "SELECT e FROM Evaluation e"),
     @NamedQuery(name = "Evaluation.findByEvaluationID", query = "SELECT e FROM Evaluation e WHERE e.evaluationID = :evaluationID"),
+    @NamedQuery(name = "Evaluation.findByTeamMemberID", query = "SELECT e FROM Evaluation e WHERE e.teamMember = :teamMemberID"),
+    @NamedQuery(name = "Evaluation.findByConditionsID", query = "SELECT e FROM Evaluation e WHERE e.conditions = :condtionsID"),
     @NamedQuery(name = "Evaluation.findByEvaluationDate", query = "SELECT e FROM Evaluation e WHERE e.evaluationDate = :evaluationDate"),
     @NamedQuery(name = "Evaluation.findByScore", query = "SELECT e FROM Evaluation e WHERE e.score = :score"),
     @NamedQuery(name = "Evaluation.findByPH", query = "SELECT e FROM Evaluation e WHERE e.pH = :pH"),

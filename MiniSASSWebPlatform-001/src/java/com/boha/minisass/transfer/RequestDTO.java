@@ -1,6 +1,5 @@
 package com.boha.minisass.transfer;
 
-import com.boha.minisass.data.Category;
 import com.boha.minisass.dto.CategoryDTO;
 import com.boha.minisass.dto.CommentDTO;
 import com.boha.minisass.dto.ConditionsDTO;
@@ -30,7 +29,9 @@ public class RequestDTO {
 
     private int requestType;
     private String email, password;
-    private Integer countryID, teamID;
+    private Integer countryID, categoryID, commentID, conditionsID, evaluationID,  evaluationInsectID,
+            evaluationCommentID, evaluationSiteID, insectID, provinceID, riverID, teamID, townID, teamMemberID, 
+            evaluationImageID;
 
     public static final int REGISTER_TEAM = 1,
             GENERATE_TEAM = 100,
@@ -41,33 +42,61 @@ public class RequestDTO {
     
     
 
-    public static final int ADD_RIVER = 10,
+    public static final int 
+            ADD_RIVER = 10,
             ADD_RIVER_TOWN = 11,
             ADD_EVALUATION_SITE = 12,
             ADD_INSECT = 13,
             ADD_INSECT_IMAGE = 14,
             ADD_EVALUATION = 15,
-            ADD_COMMENT = 16;
-
+            ADD_COMMENT = 16,
+            
+            ADD_EVALUATION_INSECT = 17;
+                    
+                    
     public static final int ADD_COUNTRY = 21,
             ADD_PROVINCE = 22,
             ADD_TOWN = 23;
 
-    public static final int UPDATE_RIVER = 30,
+    public static final int 
+            UPDATE_RIVER = 30,
             UPDATE_RIVER_TOWN = 31,
             UPDATE_EVALUATION_SITE = 32,
             UPDATE_INSECT = 33,
-            UPDATE_INSECT_IMAGE = 34;
-
-    public static final int LIST_RIVERS_IN_COUNTRY = 40,
+            UPDATE_INSECT_IMAGE = 34,
+            
+            UPDATE_TOWN = 35,
+            UPDATE_TEAM = 36,
+            UPDATE_TEAM_MEMBER = 37,
+            UPDATE_COMMENT = 38,
+            UPDATE_CATEGORY = 39,
+            UPDATE_CONDITIONS = 55,
+            UPDATE_EVALUATION_IMAGE = 56;
+                    
+    public static final int
+            LIST_RIVERS_IN_COUNTRY = 40,
             LIST_RIVER_TOWNS = 41,
             LIST_EVALUATION_SITES = 42,
             LIST_INSECTS = 43,
             LIST_TEAMS = 44,
-            LIST_EVALUATIONS_BY_RIVER = 45,
-            LIST_PROVINCE_COUNTRY = 46,
-            LIST_ALL_PROVINCES = 50;
-
+            LIST_EVALUATION_SITE_BY_RIVER = 45,
+            LIST_PROVINCE_BY_COUNTRY = 46,
+            LIST_ALL_PROVINCES = 50,
+            
+            LIST_EVALUATION_BY_TEAM_MEMBER = 60,
+            LIST_EVALUATION_BY_CONDITIONS = 61,
+            LIST_EVALUATION_SITE_BY_CATEGORY = 62,
+            LIST_EVALUATION_INSECT_BY_EVALUATION = 63,
+            LIST_TEAMS_BY_TOWN = 64,
+            LIST_TEAM_MEMBERS = 65,
+            LIST_TOWN_BY_PROVINCE = 66,
+            LIST_CATEGORY = 67,
+            LIST_COMMENTS = 68,
+            LIST_COUNTRYS = 69,
+            LIST_EVALUATIONS = 70,
+            LIST_RIVERS = 71;
+                    
+                    
     private EvaluationDTO evaluation;
     private ImagesDTO images;
     private CategoryDTO category;
@@ -88,6 +117,9 @@ public class RequestDTO {
     private CountryDTO country;
     private TownDTO town;
     private ProvinceDTO province;
+    
+    
+    public static final String SAMPLE_DIR = "company";
 
     private List<TeamMemberDTO> members;
 
@@ -303,5 +335,109 @@ public class RequestDTO {
     public void setEvaluationSite(EvaluationSiteDTO evaluationSite) {
         this.evaluationSite = evaluationSite;
     }
+
+    public Integer getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(Integer categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    public Integer getCommentID() {
+        return commentID;
+    }
+
+    public void setCommentID(Integer commentID) {
+        this.commentID = commentID;
+    }
+
+    public Integer getConditionsID() {
+        return conditionsID;
+    }
+
+    public void setConditionsID(Integer conditionsID) {
+        this.conditionsID = conditionsID;
+    }
+
+    public Integer getEvaluationID() {
+        return evaluationID;
+    }
+
+    public void setEvaluationID(Integer evaluationID) {
+        this.evaluationID = evaluationID;
+    }
+
+    public Integer getEvaluationInsectID() {
+        return evaluationInsectID;
+    }
+
+    public void setEvaluationInsectID(Integer evaluationInsectID) {
+        this.evaluationInsectID = evaluationInsectID;
+    }
+
+    public Integer getEvaluationCommentID() {
+        return evaluationCommentID;
+    }
+
+    public void setEvaluationCommentID(Integer evaluationCommentID) {
+        this.evaluationCommentID = evaluationCommentID;
+    }
+
+    public Integer getEvaluationSiteID() {
+        return evaluationSiteID;
+    }
+
+    public void setEvaluationSiteID(Integer evaluationSiteID) {
+        this.evaluationSiteID = evaluationSiteID;
+    }
+
+    public Integer getInsectID() {
+        return insectID;
+    }
+
+    public void setInsectID(Integer insectID) {
+        this.insectID = insectID;
+    }
+
+    public Integer getProvinceID() {
+        return provinceID;
+    }
+
+    public void setProvinceID(Integer provinceID) {
+        this.provinceID = provinceID;
+    }
+
+    public Integer getRiverID() {
+        return riverID;
+    }
+
+    public void setRiverID(Integer riverID) {
+        this.riverID = riverID;
+    }
+
+    public Integer getTownID() {
+        return townID;
+    }
+
+    public void setTownID(Integer townID) {
+        this.townID = townID;
+    }
+
+    public Integer getTeamMemberID() {
+        return teamMemberID;
+    }
+
+    public void setTeamMemberID(Integer teamMemberID) {
+        this.teamMemberID = teamMemberID;
+    }
+
+    public Integer getEvaluationImageID() {
+        return evaluationImageID;
+    }
+
+    public void setEvaluationImageID(Integer evaluationImageID) {
+        this.evaluationImageID = evaluationImageID;
+    }      
 
 }

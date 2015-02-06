@@ -35,6 +35,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "River.findAll", query = "SELECT r FROM River r"),
     @NamedQuery(name = "River.findByRiverID", query = "SELECT r FROM River r WHERE r.riverID = :riverID"),
+    @NamedQuery(name = "River.findByCountryID", query = "SELECT r FROM River r WHERE r.country = :countryID"),
     @NamedQuery(name = "River.findByRiverName", query = "SELECT r FROM River r WHERE r.riverName = :riverName"),
     @NamedQuery(name = "River.findByOriginLatitude", query = "SELECT r FROM River r WHERE r.originLatitude = :originLatitude"),
     @NamedQuery(name = "River.findByOriginLongitude", query = "SELECT r FROM River r WHERE r.originLongitude = :originLongitude"),

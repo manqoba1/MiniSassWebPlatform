@@ -57,7 +57,7 @@ public class ResponseDTO {
     private List<CountryDTO> countryList = new ArrayList<>();
     private List<ProvinceDTO> provinceList = new ArrayList<>();
     private List<TownDTO> townList = new ArrayList<>();
-    private List<Evaluationinsect> evaluationInsectList = new ArrayList<>();
+    private List<EvaluationInsectDTO> evaluationInsectList = new ArrayList<>();
     private List<ConditionsDTO> conditionsList;
 
     private List<ErrorStoreDTO> errorStoreList = new ArrayList<>();
@@ -163,13 +163,14 @@ public class ResponseDTO {
         return insectList;
     }
 
-    public List<Evaluationinsect> getEvaluationInsectList() {
+    public List<EvaluationInsectDTO> getEvaluationInsectList() {
         return evaluationInsectList;
     }
 
-    public void setEvaluationInsectList(List<Evaluationinsect> evaluationInsectList) {
+    public void setEvaluationInsectList(List<EvaluationInsectDTO> evaluationInsectList) {
         this.evaluationInsectList = evaluationInsectList;
     }
+
 
     public void setInsectList(List<InsectDTO> insectList) {
         this.insectList = insectList;

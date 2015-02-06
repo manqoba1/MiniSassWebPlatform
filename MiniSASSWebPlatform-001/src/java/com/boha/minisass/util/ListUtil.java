@@ -2,8 +2,10 @@ package com.boha.minisass.util;
 
 import com.boha.minisass.data.Category;
 import com.boha.minisass.data.Comment;
+import com.boha.minisass.data.Conditions;
 import com.boha.minisass.data.Country;
 import com.boha.minisass.data.Evaluation;
+import com.boha.minisass.data.Evaluationinsect;
 import com.boha.minisass.data.Evaluationsite;
 import com.boha.minisass.data.Insect;
 import com.boha.minisass.data.Province;
@@ -14,8 +16,10 @@ import com.boha.minisass.data.Teammember;
 import com.boha.minisass.data.Town;
 import com.boha.minisass.dto.CategoryDTO;
 import com.boha.minisass.dto.CommentDTO;
+import com.boha.minisass.dto.ConditionsDTO;
 import com.boha.minisass.dto.CountryDTO;
 import com.boha.minisass.dto.EvaluationDTO;
+import com.boha.minisass.dto.EvaluationInsectDTO;
 import com.boha.minisass.dto.EvaluationSiteDTO;
 import com.boha.minisass.dto.InsectDTO;
 import com.boha.minisass.dto.ProvinceDTO;
@@ -82,6 +86,67 @@ public class ListUtil {
         return resp;
     }
 
+    public ResponseDTO getEvaluationByTeamMember(Integer teamMemberID) {
+        ResponseDTO resp = new ResponseDTO();
+        Query q = em.createNamedQuery("Evaluation.findByTeamMemberID", Evaluation.class);
+        q.setParameter("teamMemberID", teamMemberID);
+        List<Evaluation> list = q.getResultList();
+        for (Evaluation e : list) {
+            resp.getEvaluationList().add(new EvaluationDTO(e));
+        }
+
+        return resp;
+    }
+    
+    public ResponseDTO getTeamByTown(Integer townID) {
+        ResponseDTO resp = new ResponseDTO();
+        Query q = em.createNamedQuery("Team.findByTownID", Team.class);
+        q.setParameter("townID", townID);
+        List<Team> list = q.getResultList();
+        for (Team te : list) {
+            resp.getTeamList().add(new TeamDTO(te));
+        }
+
+        return resp;
+    }
+    
+    public ResponseDTO getEvaluationInsectByEvaluation(Integer evaluationID) {
+        ResponseDTO resp = new ResponseDTO();
+        Query q = em.createNamedQuery("Evaluationinsect.findByEvaluationID", Evaluationinsect.class);
+        q.setParameter("evaluationID", evaluationID);
+        List<Evaluationinsect> list = q.getResultList();
+        for (Evaluationinsect ei : list) {
+            resp.getEvaluationInsectList().add(new EvaluationInsectDTO(ei));
+        }
+
+        return resp;
+    }
+    
+    public ResponseDTO getEvaluationSiteByCategory(Integer categoryID) {
+        ResponseDTO resp = new ResponseDTO();
+        Query q = em.createNamedQuery("Evaluationsite.findByCategoryID", Evaluationsite.class);
+        q.setParameter("categoryID", categoryID);
+        List<Evaluationsite> list = q.getResultList();
+        for (Evaluationsite es : list) {
+            resp.getEvaluationSiteList().add(new EvaluationSiteDTO(es));
+        }
+
+        return resp;
+    }
+    
+    public ResponseDTO getEvaluationByCondtions(Integer conditionsID) {
+        ResponseDTO resp = new ResponseDTO();
+        Query q = em.createNamedQuery("Evaluation.findByConditionsID", Evaluation.class);
+        q.setParameter("conditionsID", conditionsID);
+        List<Evaluation> list = q.getResultList();
+        for (Evaluation e : list) {
+            resp.getEvaluationList().add(new EvaluationDTO(e));
+        }
+
+        return resp;
+    }
+    
+    
     public ResponseDTO getAllProvince() throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
@@ -129,10 +194,23 @@ public class ListUtil {
         return resp;
     }
 
-    public ResponseDTO getTeamMemberList(Integer teamMemberID) {
+    
+    
+    public ResponseDTO getTownByProvince(Integer provinceID) {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("TeamMember.findByTeamMemberID", Teammember.class);
-        q.setParameter("teamMemberID", teamMemberID);
+        Query q = em.createNamedQuery("Town.findByProvinceID", Town.class);
+        q.setParameter("provinceID", provinceID);
+        List<Town> list = q.getResultList();
+        for (Town to : list) {
+            resp.getTownList().add(new TownDTO(to));
+        }
+
+        return resp;
+    }
+    
+    public ResponseDTO getTeamMemberList() {
+        ResponseDTO resp = new ResponseDTO();
+        Query q = em.createNamedQuery("Teammember.findAll", Teammember.class);
         List<Teammember> list = q.getResultList();
         for (Teammember tm : list) {
             resp.getTeamMemberList().add(new TeamMemberDTO(tm));
@@ -141,10 +219,22 @@ public class ListUtil {
         return resp;
     }
 
-    public ResponseDTO getRiverList(Integer riverID) {
+    public ResponseDTO getRiverInCountry(Integer countryID) {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("River.findByRiverID", River.class);
-        q.setParameter("riverID", riverID);
+        Query q = em.createNamedQuery("River.findByCountryID", River.class);
+        q.setParameter("countryID", countryID);
+        List<River> list = q.getResultList();
+        for (River riv : list) {
+            resp.getRiverList().add(new RiverDTO(riv));
+        }
+
+        return resp;
+    }
+
+    
+    public ResponseDTO getRiverList() {
+        ResponseDTO resp = new ResponseDTO();
+        Query q = em.createNamedQuery("River.findAll", River.class);
         List<River> list = q.getResultList();
         for (River riv : list) {
             resp.getRiverList().add(new RiverDTO(riv));
@@ -165,10 +255,9 @@ public class ListUtil {
         return resp;
     }
 
-    public ResponseDTO getCommentList(Integer commentID) {
+    public ResponseDTO getCommentList() {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("Comment.findByCommentID", Comment.class);
-        q.setParameter("commentID", commentID);
+        Query q = em.createNamedQuery("Comment.findAll", Comment.class);
         List<Comment> list = q.getResultList();
         for (Comment com : list) {
             resp.getCommentList().add(new CommentDTO(com));
@@ -177,10 +266,9 @@ public class ListUtil {
         return resp;
     }
 
-    public ResponseDTO getEvaluationList(Integer evaluationID) {
+    public ResponseDTO getEvaluationList() {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("Evaluation.findByEvaluationID", Evaluation.class);
-        q.setParameter("evaluationID", evaluationID);
+        Query q = em.createNamedQuery("Evaluation.findAll", Evaluation.class);
         List<Evaluation> list = q.getResultList();
         for (Evaluation eva : list) {
             resp.getEvaluationList().add(new EvaluationDTO(eva));
@@ -201,10 +289,9 @@ public class ListUtil {
         return resp;
     }
 
-    public ResponseDTO getCategoryList(Integer categoryID) {
+    public ResponseDTO getCategoryList() {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("Category.findByCategoryId", Category.class);
-        q.setParameter("categoryID", categoryID);
+        Query q = em.createNamedQuery("Category.findAll", Category.class);
         List<Category> list = q.getResultList();
         for (Category cat : list) {
             resp.getCategoryList().add(new CategoryDTO(cat));
@@ -213,9 +300,25 @@ public class ListUtil {
         return resp;
     }
 
-    public Evaluationsite getEvaluationSite(Integer id) {
-        Evaluationsite es = em.find(Evaluationsite.class, id);
-        return es;
+    public ResponseDTO getTeamList() {
+        ResponseDTO resp = new ResponseDTO();
+        Query q = em.createNamedQuery("Team.findAll", Team.class);
+        List<Team> list = q.getResultList();
+        for (Team tea : list) {
+            resp.getTeamList().add(new TeamDTO(tea));
+        }
+    return resp;
+    }
+    
+    public ResponseDTO getEvaluationSiteList() {
+        ResponseDTO resp = new ResponseDTO();
+        Query q = em.createNamedQuery("Evaluatiosite.findAll", Evaluationsite.class);
+        List<Evaluationsite> list = q.getResultList();
+        for (Evaluationsite es : list) {
+            resp.getEvaluationSiteList().add(new EvaluationSiteDTO(es));
+        }
+
+        return resp;
     }
 
     private String getRandomPin() {

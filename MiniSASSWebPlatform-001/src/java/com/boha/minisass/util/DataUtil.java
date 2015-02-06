@@ -8,6 +8,7 @@ import com.boha.minisass.data.Errorstore;
 import com.boha.minisass.data.Errorstoreandroid;
 import com.boha.minisass.data.Evaluation;
 import com.boha.minisass.data.Evaluationimage;
+import com.boha.minisass.data.Evaluationinsect;
 import com.boha.minisass.data.Evaluationsite;
 import com.boha.minisass.data.Gcmdevice;
 import com.boha.minisass.data.Insect;
@@ -25,6 +26,7 @@ import com.boha.minisass.dto.CountryDTO;
 import com.boha.minisass.dto.ErrorStoreDTO;
 import com.boha.minisass.dto.EvaluationDTO;
 import com.boha.minisass.dto.EvaluationImageDTO;
+import com.boha.minisass.dto.EvaluationInsectDTO;
 import com.boha.minisass.dto.EvaluationSiteDTO;
 import com.boha.minisass.dto.GcmDeviceDTO;
 import com.boha.minisass.dto.InsectDTO;
@@ -196,10 +198,10 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Evaluationsite ts = new Evaluationsite();
-            if (site != null | site.getEvaluationSiteID() != null) {
+            
                 ts.setRiver(em.find(River.class, site.getRiverID()));
                 ts.setCategory(em.find(Category.class, site.getCategoryID()));
-            }
+            
 
             ts.setDateRegistered(new Date());
             ts.setLatitude(site.getLatitude());
@@ -242,6 +244,194 @@ public class DataUtil {
         return resp;
     }
 
+    public ResponseDTO addEvaluationInsect(EvaluationInsectDTO evi) throws DataException {
+        ResponseDTO resp = new ResponseDTO();
+        try {
+            
+            Evaluationinsect ei = new Evaluationinsect();
+            
+            ei.setEvaluation(em.find(Evaluation.class, evi.getEvaluationID()));
+            ei.setInsect(em.find(Insect.class, evi.getInsectID()));
+            
+            ei.setRemarks(evi.getRemarks());
+            em.persist(ei);
+            em.flush();
+
+            resp.getEvaluationInsectList().add(new EvaluationInsectDTO(ei));
+
+            log.log(Level.OFF, "evaluation insect hass been successfully  added",
+                    new Object[]{ei.getRemarks()});
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Failed to get evaluation insect", e);
+            throw new DataException("Failed");
+        }
+        return resp;
+    }
+    
+    public ResponseDTO updateTeam(TeamDTO tea) throws DataException {
+        ResponseDTO resp = new ResponseDTO();
+        try {
+            Team t = em.find(Team.class, tea.getTeamID());
+            
+                if (tea.getTeamName() != null) {
+                    t.setTeamName(tea.getTeamName());
+                            
+
+                em.merge(t);
+                log.log(Level.INFO, "Team updated");
+            }
+        } catch (Exception e) {
+            log.log(Level.OFF, null, e);
+            throw new DataException("Failed to update Team\n" + getErrorString(e));
+        }
+
+        return resp;
+    }
+
+    public ResponseDTO updateComment(CommentDTO com) throws DataException {
+        ResponseDTO resp = new ResponseDTO();
+        try {
+            Comment c = em.find(Comment.class, com.getCommentID());
+            
+            
+                if (com.getRemarks() != null) {
+                    c.setRemarks(com.getRemarks());
+                
+
+                em.merge(c);
+                log.log(Level.INFO, "Comment updated");
+            }
+        } catch (Exception e) {
+            log.log(Level.OFF, null, e);
+            throw new DataException("Failed to update comment\n" + getErrorString(e));
+        }
+
+        return resp;
+    }
+
+    public ResponseDTO updateEvaluationImage(EvaluationImageDTO evi) throws DataException {
+        ResponseDTO resp = new ResponseDTO();
+        try {
+            Evaluationimage ei = em.find(Evaluationimage.class, evi.getEvaluationImageID());
+            
+                if (evi.getFileName() != null) {
+                    ei.setFileName(evi.getFileName());
+            
+                em.merge(ei);
+                log.log(Level.INFO, "Evaluation image updated");
+            }
+        } catch (Exception e) {
+            log.log(Level.OFF, null, e);
+            throw new DataException("Failed to update evaluation image\n" + getErrorString(e));
+        }
+
+        return resp;
+    }
+
+    public ResponseDTO updateConditions(ConditionsDTO con) throws DataException {
+        ResponseDTO resp = new ResponseDTO();
+        try {
+            Conditions c = em.find(Conditions.class, con.getConditionsID());
+            
+            
+                if (con.getConditionName() != null) {
+                    c.setConditionName(con.getConditionName());
+             
+
+                em.merge(c);
+                log.log(Level.INFO, "Condition updated");
+            }
+        } catch (Exception e) {
+            log.log(Level.OFF, null, e);
+            throw new DataException("Failed to update condition\n" + getErrorString(e));
+        }
+
+        return resp;
+    }
+
+    public ResponseDTO updateCategory(CategoryDTO cat) throws DataException {
+        ResponseDTO resp = new ResponseDTO();
+        try {
+            Category c = em.find(Category.class, cat.getCategoryID());
+            
+            
+                if (cat.getCategoryName() != null) {
+                    c.setCategoryName(cat.getCategoryName());
+             
+
+                em.merge(c);
+                log.log(Level.INFO, "Category updated");
+            }
+        } catch (Exception e) {
+            log.log(Level.OFF, null, e);
+            throw new DataException("Failed to update category\n" + getErrorString(e));
+        }
+
+        return resp;
+    }
+    
+    public ResponseDTO updateTeamMember(TeamMemberDTO tem) throws DataException {
+        ResponseDTO resp = new ResponseDTO();
+        try {
+            Teammember tm = em.find(Teammember.class, tem.getTeamMemberID());
+                       
+                if (tem.getCellphone() != null) {
+                    tm.setCellphone(tem.getCellphone());
+                
+                if (tem.getEmail() != null){
+                    tm.setEmail(tem.getEmail());
+                }
+                if (tem.getFirstName() != null){
+                    tm.setFirstName(tem.getFirstName());
+                }
+                if (tem.getLastName() != null){
+                    tm.setLastName(tem.getLastName());
+                }
+                if (tem.getPin() != null){
+                    tm.setPin(tem.getPin());
+                }
+                
+                        
+                em.merge(tm);
+                log.log(Level.INFO, "Team member updated");
+            }
+        } catch (Exception e) {
+            log.log(Level.OFF, null, e);
+            throw new DataException("Failed to update team member\n" + getErrorString(e));
+        }
+
+        return resp;
+    }
+
+    public ResponseDTO updateTown(TownDTO tow) throws DataException {
+        ResponseDTO resp = new ResponseDTO();
+        try {
+            Town t = em.find(Town.class, tow.getTownID());
+            
+            
+                if (tow.getTownName() != null) {
+                    t.setTownName(tow.getTownName());
+                    
+                if (tow.getLatitude() != null){
+                    t.setLatitude(tow.getLatitude());
+                }
+                if (tow.getLongitude() != null){
+                    t.setLongitude(tow.getLongitude());
+                }
+
+                em.merge(t);
+                log.log(Level.INFO, "Town updated");
+            }
+        } catch (Exception e) {
+            log.log(Level.OFF, null, e);
+            throw new DataException("Failed to update Town\n" + getErrorString(e));
+        }
+
+        return resp;
+    }
+    
+    
     public ResponseDTO addCategory(CategoryDTO category) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {

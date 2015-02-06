@@ -7,7 +7,10 @@
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
                 <library dirs="200">
-                    <file>${libs.CALibrary.classpath}</file>
+                    <file>${&lt;&lt;&lt;&lt;&lt;&lt;&lt; Upstream, based on origin/master}</file>
+                </library>
+                <library dirs="200">
+                    <file>${libs.minisasslib.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

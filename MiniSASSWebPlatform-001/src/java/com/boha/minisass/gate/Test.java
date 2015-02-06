@@ -82,11 +82,8 @@ public class Test extends HttpServlet {
                 case RequestDTO.ADD_TOWN:
                     ur = dataUtil.addTown(req.getTown());
                     break;
-                case RequestDTO.LIST_EVALUATIONS_BY_RIVER:
-                    ur = listUtil.getEvaluationList(req.getRiver().getRiverID());
-                    break;
                 case RequestDTO.LIST_EVALUATION_SITES:
-                    ur = listUtil.getEvaluationList(req.getEvaluationSite().getEvaluationSiteID());
+                    ur = listUtil.getEvaluationSiteList();
                     break;
                 case RequestDTO.LIST_INSECTS:
                     ur = listUtil.getInsectList();
@@ -95,20 +92,88 @@ public class Test extends HttpServlet {
                     ur = listUtil.getRiverTownList(req.getRiverTown().getRiverTownID());
                     break;
                 case RequestDTO.LIST_TEAMS:
-                    ur = listUtil.getTeamList(req.getTeam().getTeamID());
+                    ur = listUtil.getTeamList();
                     break;
                 case RequestDTO.LIST_RIVERS_IN_COUNTRY:
-                    ur = listUtil.getRiverList(req.getRiver().getRiverID());
+                    ur = listUtil.getRiverInCountry(req.getCountryID());
                     break;
                 case RequestDTO.LIST_ALL_PROVINCES:
                     ur = listUtil.getAllProvince();
                     break;
                      
-                case RequestDTO.LIST_PROVINCE_COUNTRY:
-                    log.log(Level.INFO, "Province:\n{0}", req.getCountryID());
+                case RequestDTO.LIST_PROVINCE_BY_COUNTRY:
                     ur = listUtil.getProvinceByCountry(req.getCountryID());
                     break;
 
+                case RequestDTO.ADD_EVALUATION_INSECT:
+                    ur = dataUtil.addEvaluationInsect(req.getEvaluationInsect());
+                    break;
+                case RequestDTO.UPDATE_TOWN:
+                    ur = dataUtil.updateTown(req.getTown());
+                    break;
+                case RequestDTO.UPDATE_TEAM:
+                    ur = dataUtil.updateTeam(req.getTeam());
+                    break;
+                case RequestDTO.UPDATE_TEAM_MEMBER:
+                    ur = dataUtil.updateTeamMember(req.getTeamMember());
+                    break;
+                case RequestDTO.UPDATE_COMMENT:
+                    ur = dataUtil.updateComment(req.getComment());
+                    break;
+                case RequestDTO.UPDATE_CATEGORY:
+                    ur = dataUtil.updateCategory(req.getCategory());
+                    break;
+                case RequestDTO.UPDATE_CONDITIONS:
+                    ur = dataUtil.updateConditions(req.getConditions());
+                    break;
+                case RequestDTO.UPDATE_EVALUATION_IMAGE:
+                    ur = dataUtil.updateEvaluationImage(req.getEvaluationImage());
+                    break;
+                    
+                case RequestDTO.LIST_EVALUATION_BY_TEAM_MEMBER:
+                    ur = listUtil.getEvaluationByTeamMember(req.getTeamMemberID());
+                    break;
+                case RequestDTO.LIST_EVALUATION_BY_CONDITIONS:
+                    ur = listUtil.getEvaluationByCondtions(req.getConditionsID());
+                    break;
+                case RequestDTO.LIST_EVALUATION_SITE_BY_CATEGORY:
+                    ur = listUtil.getEvaluationSiteByCategory(req.getCategoryID());
+                    break;
+                case RequestDTO.LIST_EVALUATION_INSECT_BY_EVALUATION:
+                    ur = listUtil.getEvaluationInsectByEvaluation(req.getEvaluationID());
+                    break;
+                case RequestDTO.LIST_TEAMS_BY_TOWN:
+                    ur = listUtil.getTeamByTown(req.getTownID());
+                    break;
+                case RequestDTO.LIST_TEAM_MEMBERS:
+                    ur = listUtil.getTeamMemberList();
+                    break;
+                case RequestDTO.LIST_TOWN_BY_PROVINCE:
+                    ur = listUtil.getTownByProvince(req.getProvinceID());
+                    break;
+                case RequestDTO.LIST_CATEGORY:
+                    ur = listUtil.getCategoryList();
+                    break;
+                case RequestDTO.LIST_COMMENTS:
+                    ur = listUtil.getCommentList();
+                    break;
+                case RequestDTO.LIST_COUNTRYS:
+                    ur = listUtil.getCountryList();
+                    break;
+                case RequestDTO.LIST_EVALUATIONS:
+                    ur = listUtil.getEvaluationList();
+                    break;
+                case RequestDTO.LIST_RIVERS:
+                    ur = listUtil.getRiverList();
+                    break;
+               
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 default:
                     ur.setStatusCode(444);
                     ur.setMessage("#### Unknown Request");

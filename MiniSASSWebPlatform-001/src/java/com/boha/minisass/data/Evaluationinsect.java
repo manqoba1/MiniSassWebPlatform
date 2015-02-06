@@ -30,6 +30,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Evaluationinsect.findAll", query = "SELECT e FROM Evaluationinsect e"),
     @NamedQuery(name = "Evaluationinsect.findByEvaluationInsectID", query = "SELECT e FROM Evaluationinsect e WHERE e.evaluationInsectID = :evaluationInsectID"),
+    @NamedQuery(name = "Evaluationinsect.findByEvaluationID", query = "SELECT e FROM Evaluationinsect e WHERE e.evaluation = :evaluationID"),
     @NamedQuery(name = "Evaluationinsect.findByEvaluationFlag", query = "SELECT e FROM Evaluationinsect e WHERE e.evaluationFlag = :evaluationFlag"),
     @NamedQuery(name = "Evaluationinsect.findByEvaluationColor", query = "SELECT e FROM Evaluationinsect e WHERE e.evaluationColor = :evaluationColor")})
 public class Evaluationinsect implements Serializable {
