@@ -23,7 +23,7 @@ public class RiverDTO implements Serializable {
     private Double originLongitude;
     private Double endLatitude;
     private Double endLongitude;
-    private Date dateRegistered;
+    private long dateRegistered;
     private List<RiverTownDTO> riverTownList;
     private List<EvaluationSiteDTO> evaluationSiteList;
     private Integer originCountryID;
@@ -36,18 +36,18 @@ public class RiverDTO implements Serializable {
     public RiverDTO(River a) {
         this.riverID = a.getRiverID();
         this.riverName = a.getRiverName();
-        this.dateRegistered = a.getDateRegistered();
+        this.dateRegistered = a.getDateRegistered().getTime();
         originCountryID = a.getOriginCountry().getCountryID();
         endCountryID = a.getEndCountry().getCountryID();
         originCountryName = a.getOriginCountry().getCountryName();
         endCountryName = a.getEndCountry().getCountryName();
         originLatitude = a.getOriginLatitude();
         originLongitude = a.getOriginLongitude();
-        
+
         endLatitude = a.getEndLatitude();
         endLongitude = a.getEndLongitude();
     }
-    
+
     public RiverTownDTO getRiver() {
         return river;
     }
@@ -55,6 +55,7 @@ public class RiverDTO implements Serializable {
     public void setRiver(RiverTownDTO river) {
         this.river = river;
     }
+
     public String getOriginCountryName() {
         return originCountryName;
     }
@@ -135,11 +136,11 @@ public class RiverDTO implements Serializable {
         this.endLongitude = endLongitude;
     }
 
-    public Date getDateRegistered() {
+    public long getDateRegistered() {
         return dateRegistered;
     }
 
-    public void setDateRegistered(Date dateRegistered) {
+    public void setDateRegistered(long dateRegistered) {
         this.dateRegistered = dateRegistered;
     }
 
@@ -158,8 +159,6 @@ public class RiverDTO implements Serializable {
     public void setEvaluationSiteList(List<EvaluationSiteDTO> evaluationSiteList) {
         this.evaluationSiteList = evaluationSiteList;
     }
-
-
 
     @Override
     public int hashCode() {

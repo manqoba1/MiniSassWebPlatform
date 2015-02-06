@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
@@ -16,11 +15,12 @@ import java.util.List;
  * @author aubreyM
  */
 public class EvaluationSiteDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer evaluationSiteID;
     private double latitude;
     private double longitude;
-    private Date dateRegistered;
+    private long dateRegistered;
     private Integer categoryID;
     private Integer riverID;
     private String riverName, categoryName;
@@ -33,7 +33,7 @@ public class EvaluationSiteDTO implements Serializable {
         this.evaluationSiteID = a.getEvaluationSiteID();
         this.latitude = a.getLatitude();
         this.longitude = a.getLongitude();
-        this.dateRegistered = a.getDateRegistered();
+        this.dateRegistered = a.getDateRegistered().getTime();
         this.riverID = a.getRiver().getRiverID();
         this.riverName = a.getRiver().getRiverName();
         this.categoryID = a.getCategory().getCategoryId();
@@ -71,8 +71,6 @@ public class EvaluationSiteDTO implements Serializable {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-    
-    
 
     public Integer getEvaluationSiteID() {
         return evaluationSiteID;
@@ -98,11 +96,11 @@ public class EvaluationSiteDTO implements Serializable {
         this.longitude = longitude;
     }
 
-    public Date getDateRegistered() {
+    public long getDateRegistered() {
         return dateRegistered;
     }
 
-    public void setDateRegistered(Date dateRegistered) {
+    public void setDateRegistered(long dateRegistered) {
         this.dateRegistered = dateRegistered;
     }
 
@@ -138,5 +136,5 @@ public class EvaluationSiteDTO implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.EvaluationSite[ evaluationSiteID=" + evaluationSiteID + " ]";
     }
-    
+
 }

@@ -7,7 +7,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.MathContext;
 import java.util.Date;
+import java.util.Random;
 
 /**
  *
@@ -44,7 +46,29 @@ public class JSONGrabber {
 
         System.out.println("JSON created\n" + json);
         JSONGrabber grabber = new JSONGrabber();
-        grabber.run();
+
+        int[] A = {10000000, 900000000, 300000000, -100000000, 500000000};
+        System.out.println("fhds" + grabber.sun(A));
+    }
+
+    public int sun(int[] A) {
+        int sum = 0, Q, P, x = 0;
+        System.out.println("fhds" + A.length);
+
+        int len = A.length;
+        for (int i = 0; i < A.length; i++) {
+            Q = (int) (Math.random() * len);
+            P = (int) (Math.random() * len);
+            System.out.println("Q" + A[Q] + " " + "P" + A[P]);
+            sum = A[Q] + A[P];
+            if (sum > 1000000000) {
+                x = 2;
+                break;
+
+            }
+            System.out.println("break" + x);
+        }
+        return sum;
     }
 
     public void run() {

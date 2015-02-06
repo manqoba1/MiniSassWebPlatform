@@ -22,7 +22,7 @@ public class TeamMemberDTO implements Serializable {
     private String lastName;
     private String email;
     private String cellphone;
-    private Date dateRegistered;
+    private long dateRegistered;
     private String pin;
     private Integer activeFlag;
     private List<EvaluationDTO> evaluationList;
@@ -37,7 +37,7 @@ public class TeamMemberDTO implements Serializable {
         this.teamMemberID = a.getTeamMemberID();
         this.firstName = a.getFirstName();
         this.lastName = a.getLastName();
-        this.dateRegistered = a.getDateRegistered();
+        this.dateRegistered = a.getDateRegistered().getTime();
         this.pin = a.getPin();
         this.activeFlag = a.getActiveFlag();
         this.teamID = a.getTeam().getTeamID();
@@ -108,11 +108,11 @@ public class TeamMemberDTO implements Serializable {
         this.cellphone = cellphone;
     }
 
-    public Date getDateRegistered() {
+    public long getDateRegistered() {
         return dateRegistered;
     }
 
-    public void setDateRegistered(Date dateRegistered) {
+    public void setDateRegistered(long dateRegistered) {
         this.dateRegistered = dateRegistered;
     }
 

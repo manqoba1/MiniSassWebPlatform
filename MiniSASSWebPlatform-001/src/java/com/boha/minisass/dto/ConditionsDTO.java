@@ -17,16 +17,11 @@ public class ConditionsDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer conditionsID;
-
+    private Integer conditionsID, categoryID;
     private String conditionName;
-
     private double low;
-
     private double high;
-
     private List<EvaluationDTO> evaluationList;
-
     private CategoryDTO category;
 
     public ConditionsDTO() {
@@ -38,7 +33,16 @@ public class ConditionsDTO implements Serializable {
         this.conditionName = c.getConditionName();
         this.high = c.getHigh();
         this.low = c.getLow();
+        categoryID = c.getCategory().getCategoryId();
 
+    }
+
+    public Integer getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(Integer categoryID) {
+        this.categoryID = categoryID;
     }
 
     public Integer getConditionsID() {

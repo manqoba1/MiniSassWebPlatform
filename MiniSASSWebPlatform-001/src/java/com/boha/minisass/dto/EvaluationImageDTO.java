@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
@@ -15,9 +14,10 @@ import java.util.Date;
  * @author aubreyM
  */
 public class EvaluationImageDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer evaluationImageID;
-    private Date dateTaken;
+    private long dateTaken;
     private String fileName;
     private Integer evaluationID;
 
@@ -26,7 +26,7 @@ public class EvaluationImageDTO implements Serializable {
 
     public EvaluationImageDTO(Evaluationimage a) {
         this.evaluationImageID = a.getEvaluationImageID();
-        this.dateTaken = a.getDateTaken();
+        this.dateTaken = a.getDateTaken().getTime();
         this.fileName = a.getFileName();
         this.evaluationID = a.getEvaluation().getEvaluationID();
     }
@@ -39,7 +39,6 @@ public class EvaluationImageDTO implements Serializable {
         this.evaluationID = evaluationID;
     }
 
-    
     public Integer getEvaluationImageID() {
         return evaluationImageID;
     }
@@ -48,11 +47,11 @@ public class EvaluationImageDTO implements Serializable {
         this.evaluationImageID = evaluationImageID;
     }
 
-    public Date getDateTaken() {
+    public long getDateTaken() {
         return dateTaken;
     }
 
-    public void setDateTaken(Date dateTaken) {
+    public void setDateTaken(long dateTaken) {
         this.dateTaken = dateTaken;
     }
 
@@ -63,9 +62,6 @@ public class EvaluationImageDTO implements Serializable {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-
-  
-
 
     @Override
     public int hashCode() {
@@ -91,5 +87,5 @@ public class EvaluationImageDTO implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.EvaluationImage[ evaluationImageID=" + evaluationImageID + " ]";
     }
-    
+
 }

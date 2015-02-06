@@ -19,7 +19,7 @@ public class TeamDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer teamID, townID;
     private String teamName;
-    private Date dateRegistered;
+    private long dateRegistered;
     private String townName;
     private String teamImage;
     private List<GcmDeviceDTO> gcmdeviceList;
@@ -31,7 +31,7 @@ public class TeamDTO implements Serializable {
     public TeamDTO(Team a) {
         this.teamID = a.getTeamID();
         this.teamName = a.getTeamName();
-        this.dateRegistered = a.getDateRegistered();
+        this.dateRegistered = a.getDateRegistered().getTime();
         this.townID = a.getTown().getTownID();
         this.townName = a.getTown().getTownName();
         teamImage = a.getTeamImage();
@@ -85,11 +85,11 @@ public class TeamDTO implements Serializable {
         this.teamName = teamName;
     }
 
-    public Date getDateRegistered() {
+    public long getDateRegistered() {
         return dateRegistered;
     }
 
-    public void setDateRegistered(Date dateRegistered) {
+    public void setDateRegistered(long dateRegistered) {
         this.dateRegistered = dateRegistered;
     }
 

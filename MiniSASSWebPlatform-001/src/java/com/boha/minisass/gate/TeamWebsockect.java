@@ -31,7 +31,7 @@ import javax.websocket.server.ServerEndpoint;
  * @author CodeTribe1
  */
 
-@ServerEndpoint("/wsteam")
+@ServerEndpoint("/wsmini")
 @Stateless
 public class TeamWebsockect {
     
@@ -48,7 +48,7 @@ public class TeamWebsockect {
     @EJB
     Teammember teammember;
     
-    static final String SOURCE = "teamWebSocket";
+    static final String SOURCE = "TeamWebSocket";
     
      public static final Set<Session> peers
             = Collections.synchronizedSet(new HashSet<Session>());

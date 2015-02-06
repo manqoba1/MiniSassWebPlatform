@@ -5,10 +5,214 @@
  */
 package com.boha.minisass.util;
 
+import com.boha.minisass.dto.EvaluationImageDTO;
+import com.boha.minisass.transfer.ImagesDTO;
+import com.boha.minisass.transfer.RequestDTO;
+import com.boha.minisass.transfer.ResponseDTO;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.Stateless;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.fileupload.FileItemIterator;
+import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.util.Streams;
+import org.joda.time.DateTime;
+
 /**
  *
  * @author CodeTribe1
  */
+@Stateless
 public class PhotoUtil {
-    
+
+    public ResponseDTO downloadPhotos(HttpServletRequest request, DataUtil dataUtil, PlatformUtil platformUtil) throws FileUploadException {
+        logger.log(Level.INFO, "######### starting PHOTO DOWNLOAD process\n\n");
+        ResponseDTO resp = new ResponseDTO();
+        EvaluationImageDTO eidto = new EvaluationImageDTO();
+        InputStream stream = null;
+        File rootDir;
+        try {
+            rootDir = MinisassProperties.getImageDir();
+            logger.log(Level.INFO, "rootDir - {0}", rootDir.getAbsolutePath());
+            if (!rootDir.exists()) {
+                rootDir.mkdir();
+            }
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Properties file problem", ex);
+            resp.setMessage("Server file unavailable. Please try later");
+            resp.setStatusCode(114);
+
+            return resp;
+        }
+
+        ImagesDTO dto = null;
+
+        Gson gson = new Gson();
+        File evaluationDir = null, teamDir = null,
+                teamMemberDir = null;
+        try {
+            ServletFileUpload upload = new ServletFileUpload();
+            FileItemIterator iter = upload.getItemIterator(request);
+            while (iter.hasNext()) {
+                FileItemStream item = iter.next();
+                String name = item.getFieldName();
+                stream = item.openStream();
+                if (item.isFormField()) {
+                    if (name.equalsIgnoreCase("JSON")) {
+                        String json = Streams.asString(stream);
+                        if (json != null) {
+                            logger.log(Level.INFO, "picture with associated json: {0}", json);
+                            dto = gson.fromJson(json, ImagesDTO.class);
+                            if (dto != null) {
+                                if (dto.getEvaluationID() != null) {
+                                    evaluationDir = createEvaluationDirectory(rootDir, evaluationDir, dto.getEvaluationID());
+                                }
+                                if (dto.getTeamID() != null) {
+                                    teamDir = createTeamDirectory(rootDir, teamDir, dto.getTeamID());
+                                }
+                                if (dto.getTeamMemberID() != null) {
+                                    teamMemberDir = createTeamMemberDirectory(teamDir, teamMemberDir);
+                                }
+                            }
+                        } else {
+                            logger.log(Level.WARNING, "JSON input seems pretty fucked up! is NULL..");
+                        }
+                    }
+                } else {
+                    File imageFile = null;
+                    if (dto == null) {
+                        continue;
+                    }
+                    DateTime dt = new DateTime();
+                    String fileName = "";
+
+                    if (dto.isIsFullPicture()) {
+                        fileName = "f" + dt.getMillis() + ".jpg";
+                    } else {
+                        fileName = "t" + dt.getMillis() + ".jpg";
+                    }
+                    if (dto.getTeamMemberID() != null) {
+                        if (dto.isIsFullPicture()) {
+                            fileName = "f" + dto.getTeamMemberID() + ".jpg";
+                        } else {
+                            fileName = "t" + dto.getTeamMemberID() + ".jpg";
+                        }
+                    }
+                    //
+                    switch (dto.getPictureType()) {
+                        case ImagesDTO.EVALUATION_IMAGE:
+                            imageFile = new File(evaluationDir, fileName);
+                            break;
+                        case ImagesDTO.TEAM_IMAGE:
+                            imageFile = new File(teamDir, fileName);
+                            break;
+                        case ImagesDTO.TEAM_MEMBER_IMAGE:
+                            imageFile = new File(teamMemberDir, fileName);
+                            break;
+                    }
+
+                    writeFile(stream, imageFile);
+                    resp.setStatusCode(0);
+                    resp.setMessage("Photo downloaded from mobile app ");
+                    //add database
+                    System.out.println("filepath: " + imageFile.getAbsolutePath());
+                    //create uri
+
+                    int index = imageFile.getAbsolutePath().indexOf("minisass_images");
+                    if (index > -1) {
+                        String uri = imageFile.getAbsolutePath().substring(index);
+                        System.out.println("uri: " + uri);
+                        if (dto.getEvaluationID() != null) {
+                            eidto.setDateTaken(new Date().getTime());
+                            eidto.setEvaluationID(dto.getEvaluationID());
+                            eidto.setFileName(uri);
+                            dataUtil.addEvaluationImage(eidto);
+                        }
+                        if (dto.getTeamID() != null) {
+                            dataUtil.updateTeamImage(dto.getTeamID(), uri);
+                        }
+                        if (dto.getTeamMemberID() != null && dto.getTeamID() != null) {
+                            dataUtil.updateTeamMemberImage(dto.getTeamMemberID(), uri);
+                        }
+                    }
+
+                }
+            }
+
+        } catch (FileUploadException | IOException | JsonSyntaxException ex) {
+            logger.log(Level.SEVERE, "Servlet failed on IOException, images NOT uploaded", ex);
+            throw new FileUploadException();
+        }
+
+        return resp;
+    }
+
+    private void writeFile(InputStream stream, File imageFile) throws FileNotFoundException, IOException {
+
+        if (imageFile == null) {
+            throw new FileNotFoundException();
+        }
+        try (FileOutputStream fos = new FileOutputStream(imageFile)) {
+            int read;
+            byte[] bytes = new byte[2048];
+            while ((read = stream.read(bytes)) != -1) {
+                fos.write(bytes, 0, read);
+            }
+            stream.close();
+            fos.flush();
+        }
+
+        logger.log(Level.WARNING, "### File downloaded: {0} size: {1}",
+                new Object[]{imageFile.getAbsolutePath(), imageFile.length()});
+    }
+
+    private File createEvaluationDirectory(File rootDir, File evaluationDir, int id) {
+        evaluationDir = new File(rootDir, RequestDTO.EVALUATION_DIR + id);
+        if (!evaluationDir.exists()) {
+            evaluationDir.mkdir();
+            logger.log(Level.INFO, "evaluation directory created - {0}",
+                    evaluationDir.getAbsolutePath());
+        }
+
+        return evaluationDir;
+    }
+
+    private File createTeamDirectory(File rootDir, File teamDir, int id) {
+        teamDir = new File(rootDir, RequestDTO.TEAM_DIR + id);
+        if (!teamDir.exists()) {
+            teamDir.mkdir();
+            logger.log(Level.INFO, "team directory created - {0}",
+                    teamDir.getAbsolutePath());
+        }
+
+        return teamDir;
+    }
+
+    private File createTeamMemberDirectory(File teamDir, File teamMemberDir) {
+        teamMemberDir = new File(teamDir, RequestDTO.TEAM_MEMBER_DIR);
+        if (!teamMemberDir.exists()) {
+            teamMemberDir.mkdir();
+            logger.log(Level.INFO, "team member directory created - {0}",
+                    teamMemberDir.getAbsolutePath());
+        }
+
+        return teamMemberDir;
+    }
+
+    public static double getElapsed(long start, long end) {
+        BigDecimal m = new BigDecimal(end - start).divide(new BigDecimal(1000));
+        return m.doubleValue();
+    }
+    static final Logger logger = Logger.getLogger("PhotoUtil");
 }

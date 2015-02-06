@@ -23,19 +23,20 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class TrafficCop {
-      @EJB
-        DataUtil dataUtil;
 
-        @EJB
-        ListUtil listUtil;
-        
-public ResponseDTO processRequest(RequestDTO req,
+    @EJB
+    DataUtil dataUtil;
+
+    @EJB
+    ListUtil listUtil;
+
+    public ResponseDTO processRequest(RequestDTO req,
             DataUtil dataUtil, ListUtil listUtil,
             Teammember team) {
         long start = System.currentTimeMillis();
         ResponseDTO ur = new ResponseDTO();
-        try{
-        switch (req.getRequestType()) {
+        try {
+            switch (req.getRequestType()) {
                 case RequestDTO.REGISTER_TEAM:
                     ur = dataUtil.registerTeam(req.getTeam());
                     break;
@@ -55,13 +56,13 @@ public ResponseDTO processRequest(RequestDTO req,
                     ur = dataUtil.addEvaluationSite(req.getEvaluationSite());
                     break;
                 case RequestDTO.ADD_INSECT_IMAGE:
-                   ur = dataUtil.addInsertImage(req.getInsectImage());
+                    ur = dataUtil.addInsertImage(req.getInsectImage());
                     break;
                 case RequestDTO.ADD_PROVINCE:
-                   ur = dataUtil.addProvince(req.getProvince());
+                    ur = dataUtil.addProvince(req.getProvince());
                     break;
                 case RequestDTO.ADD_RIVER:
-                  //  ur = dataUtil.
+                    //  ur = dataUtil.
                     break;
                 case RequestDTO.ADD_RIVER_TOWN:
                     ur = dataUtil.addRiverTown(req.getRiverTown());
@@ -76,7 +77,7 @@ public ResponseDTO processRequest(RequestDTO req,
                     ur = listUtil.getEvaluationList(req.getEvaluationSite().getEvaluationSiteID());
                     break;
                 case RequestDTO.LIST_INSECTS:
-                   ur = listUtil.getInsectList();
+                    ur = listUtil.getInsectList();
                     break;
                 case RequestDTO.LIST_RIVER_TOWNS:
                     ur = listUtil.getRiverTownList(req.getRiverTown().getRiverTownID());
@@ -87,14 +88,16 @@ public ResponseDTO processRequest(RequestDTO req,
                 case RequestDTO.LIST_RIVERS_IN_COUNTRY:
                     ur = listUtil.getRiverList(req.getRiver().getRiverID());
                     break;
-                    
-                    
-                     default:
-                      ur.setStatusCode(444);
-                      ur.setMessage("#### Unknown Request");
-                      logger.log(Level.SEVERE, "Couldn't find request,you fool");
-                      break;
-                  
+                case RequestDTO.IMPORT_MEMBERS:
+                    ur = dataUtil.importMembers(req.getTeamID(), req.getMembers());
+                    break;
+
+                default:
+                    ur.setStatusCode(444);
+                    ur.setMessage("#### Unknown Request");
+                    logger.log(Level.SEVERE, "Couldn't find request,you fool");
+                    break;
+
             }
         } catch (DataException e) {
             ur.setStatusCode(101);

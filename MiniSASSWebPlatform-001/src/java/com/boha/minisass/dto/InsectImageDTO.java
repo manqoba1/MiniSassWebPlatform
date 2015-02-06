@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
@@ -15,18 +14,20 @@ import java.util.Date;
  * @author aubreyM
  */
 public class InsectImageDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer insectImageID;
     private String uri;
-    private Date dateRegistered;
+    private long dateRegistered;
     private Integer insectID;
 
     public InsectImageDTO() {
     }
+
     public InsectImageDTO(Insectimage a) {
         this.insectImageID = a.getInsectImageID();
         this.uri = a.getUri();
-        this.dateRegistered = a.getDateRegistered();
+        this.dateRegistered = a.getDateRegistered().getTime();
         this.insectID = a.getInsect().getInsectID();
     }
 
@@ -54,11 +55,11 @@ public class InsectImageDTO implements Serializable {
         this.uri = uri;
     }
 
-    public Date getDateRegistered() {
+    public long getDateRegistered() {
         return dateRegistered;
     }
 
-    public void setDateRegistered(Date dateRegistered) {
+    public void setDateRegistered(long dateRegistered) {
         this.dateRegistered = dateRegistered;
     }
 
@@ -86,5 +87,5 @@ public class InsectImageDTO implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.InsectImage[ insectImageID=" + insectImageID + " ]";
     }
-    
+
 }

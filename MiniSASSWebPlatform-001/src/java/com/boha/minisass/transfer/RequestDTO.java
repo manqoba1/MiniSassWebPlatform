@@ -12,6 +12,7 @@ import com.boha.minisass.dto.RiverTownDTO;
 import com.boha.minisass.dto.TeamDTO;
 import com.boha.minisass.dto.TeamMemberDTO;
 import com.boha.minisass.dto.TownDTO;
+import java.util.List;
 
 /**
  *
@@ -21,7 +22,7 @@ public class RequestDTO {
 
     private int requestType;
     private String email, password;
-    private Integer countryID;
+    private Integer countryID, teamID;
 
     public static final int REGISTER_TEAM = 1,
             REGISTER_TEAM_MEMBER = 2,
@@ -46,8 +47,7 @@ public class RequestDTO {
             UPDATE_INSECT = 33,
             UPDATE_INSECT_IMAGE = 34;
 
-    public static final int
-            LIST_RIVERS_IN_COUNTRY = 40,
+    public static final int LIST_RIVERS_IN_COUNTRY = 40,
             LIST_RIVER_TOWNS = 41,
             LIST_EVALUATION_SITES = 42,
             LIST_INSECTS = 43,
@@ -69,9 +69,12 @@ public class RequestDTO {
     private TownDTO town;
     private ProvinceDTO province;
 
-    public static final String SAMPLE_DIR = "company";
+    private List<TeamMemberDTO> members;
+
+    public static final String EVALUATION_DIR = "evaluation";
     public static final String INSECTS_DIR = "insert";
     public static final String TEAM_DIR = "team";
+    public static final String TEAM_MEMBER_DIR = "teamMember";
 
     public CountryDTO getCountry() {
         return country;
@@ -79,6 +82,22 @@ public class RequestDTO {
 
     public void setCountry(CountryDTO country) {
         this.country = country;
+    }
+
+    public List<TeamMemberDTO> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<TeamMemberDTO> members) {
+        this.members = members;
+    }
+
+    public Integer getTeamID() {
+        return teamID;
+    }
+
+    public void setTeamID(Integer teamID) {
+        this.teamID = teamID;
     }
 
     public TownDTO getTown() {

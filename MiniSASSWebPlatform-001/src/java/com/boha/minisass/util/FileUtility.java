@@ -13,7 +13,6 @@ import com.boha.minisass.transfer.RequestDTO;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -71,7 +70,7 @@ public class FileUtility {
         return null;
     }
 
-    public static List<String> getImageFilesSite(int companyID, int projectID, int projectSiteID) throws Exception {
+   /* public static List<String> getImageFilesSite(int companyID, int projectID, int projectSiteID) throws Exception {
         List<String> list = new ArrayList<>();
         File rootDir = MinisassProperties.getImageDir();
         File ggRoot = new File(rootDir, RequestDTO.SAMPLE_DIR + companyID);
@@ -86,7 +85,7 @@ public class FileUtility {
         if (!target.exists()) {
             return list;
         }
-        File[] files = target.listFiles();
+        [] files = target.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
                 continue;
@@ -95,10 +94,10 @@ public class FileUtility {
         }
 
         Collections.reverse(list);
-        logger.log(Level.OFF, "site image dir: {0}", dir.getAbsolutePath());*/
+        logger.log(Level.OFF, "site image dir: {0}", dir.getAbsolutePath());
 
         return null;
-    }
+    }*/
 
 
 }

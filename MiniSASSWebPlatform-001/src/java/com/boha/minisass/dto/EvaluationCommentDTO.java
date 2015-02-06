@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.Evaluationcomment;
@@ -14,9 +13,10 @@ import java.io.Serializable;
  * @author aubreyM
  */
 public class EvaluationCommentDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer evaluationCommentID;
-    private Integer evaluationID;
+    private Integer evaluationID, commentID;
     private CommentDTO comment;
 
     public EvaluationCommentDTO() {
@@ -26,6 +26,7 @@ public class EvaluationCommentDTO implements Serializable {
         this.evaluationCommentID = a.getEvaluationCommentID();
         this.evaluationID = a.getEvaluation().getEvaluationID();
         this.comment = new CommentDTO(a.getComment());
+        commentID = a.getComment().getCommentID();
     }
 
     public Integer getEvaluationCommentID() {
@@ -36,6 +37,29 @@ public class EvaluationCommentDTO implements Serializable {
         this.evaluationCommentID = evaluationCommentID;
     }
 
+    public Integer getEvaluationID() {
+        return evaluationID;
+    }
+
+    public void setEvaluationID(Integer evaluationID) {
+        this.evaluationID = evaluationID;
+    }
+
+    public Integer getCommentID() {
+        return commentID;
+    }
+
+    public void setCommentID(Integer commentID) {
+        this.commentID = commentID;
+    }
+
+    public CommentDTO getComment() {
+        return comment;
+    }
+
+    public void setComment(CommentDTO comment) {
+        this.comment = comment;
+    }
 
     @Override
     public int hashCode() {
@@ -61,5 +85,5 @@ public class EvaluationCommentDTO implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.EvaluationComment[ evaluationCommentID=" + evaluationCommentID + " ]";
     }
-    
+
 }

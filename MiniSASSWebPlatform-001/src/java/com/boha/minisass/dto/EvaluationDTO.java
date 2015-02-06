@@ -7,7 +7,6 @@ package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
