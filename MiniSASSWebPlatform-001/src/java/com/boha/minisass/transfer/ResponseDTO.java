@@ -13,7 +13,10 @@ import com.boha.minisass.dto.CountryDTO;
 import com.boha.minisass.dto.ErrorStoreAndroidDTO;
 import com.boha.minisass.dto.ErrorStoreDTO;
 import com.boha.minisass.dto.EvaluationDTO;
+import com.boha.minisass.dto.EvaluationImageDTO;
+import com.boha.minisass.dto.EvaluationInsectDTO;
 import com.boha.minisass.dto.EvaluationSiteDTO;
+import com.boha.minisass.dto.GcmDeviceDTO;
 import com.boha.minisass.dto.InsectDTO;
 import com.boha.minisass.dto.ProvinceDTO;
 import com.boha.minisass.dto.RiverDTO;
@@ -38,7 +41,10 @@ public class ResponseDTO {
 
     private TeamDTO team;
     private TeamMemberDTO teamMember;
-
+    private EvaluationDTO evaluation;
+    private List<ImagesDTO> imagesList;
+    private List<EvaluationImageDTO> evaluationImageList;
+    private List<GcmDeviceDTO> gcmDeviceList;
     private List<TeamDTO> teamList = new ArrayList<>();
     private List<TeamMemberDTO> teamMemberList = new ArrayList<>();
     private List<RiverDTO> riverList = new ArrayList<>();
@@ -56,6 +62,38 @@ public class ResponseDTO {
 
     private List<ErrorStoreDTO> errorStoreList = new ArrayList<>();
     private List<ErrorStoreAndroidDTO> errorStoreAndroidList = new ArrayList<>();
+
+    public EvaluationDTO getEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(EvaluationDTO evaluation) {
+        this.evaluation = evaluation;
+    }
+
+    public List<ImagesDTO> getImagesList() {
+        return imagesList;
+    }
+
+    public void setImagesList(List<ImagesDTO> imagesList) {
+        this.imagesList = imagesList;
+    }
+
+    public List<EvaluationImageDTO> getEvaluationImageList() {
+        return evaluationImageList;
+    }
+
+    public void setEvaluationImageList(List<EvaluationImageDTO> evaluationImageList) {
+        this.evaluationImageList = evaluationImageList;
+    }
+
+    public List<GcmDeviceDTO> getGcmDeviceList() {
+        return gcmDeviceList;
+    }
+
+    public void setGcmDeviceList(List<GcmDeviceDTO> gcmDeviceList) {
+        this.gcmDeviceList = gcmDeviceList;
+    }
 
     public TeamDTO getTeam() {
         return team;

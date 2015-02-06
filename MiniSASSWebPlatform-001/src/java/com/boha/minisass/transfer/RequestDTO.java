@@ -1,9 +1,17 @@
 package com.boha.minisass.transfer;
 
+import com.boha.minisass.data.Category;
+import com.boha.minisass.dto.CategoryDTO;
 import com.boha.minisass.dto.CommentDTO;
+import com.boha.minisass.dto.ConditionsDTO;
 import com.boha.minisass.dto.CountryDTO;
+import com.boha.minisass.dto.ErrorStoreAndroidDTO;
+import com.boha.minisass.dto.ErrorStoreDTO;
 import com.boha.minisass.dto.EvaluationDTO;
+import com.boha.minisass.dto.EvaluationImageDTO;
+import com.boha.minisass.dto.EvaluationInsectDTO;
 import com.boha.minisass.dto.EvaluationSiteDTO;
+import com.boha.minisass.dto.GcmDeviceDTO;
 import com.boha.minisass.dto.InsectDTO;
 import com.boha.minisass.dto.InsectImageDTO;
 import com.boha.minisass.dto.ProvinceDTO;
@@ -25,6 +33,8 @@ public class RequestDTO {
     private Integer countryID, teamID;
 
     public static final int REGISTER_TEAM = 1,
+            GENERATE_TEAM = 100,
+            GENERATE_RIVER = 101,
             REGISTER_TEAM_MEMBER = 2,
             SIGN_IN_MEMBER = 3,
             IMPORT_MEMBERS = 4;
@@ -57,6 +67,14 @@ public class RequestDTO {
             LIST_ALL_PROVINCES = 50;
 
     private EvaluationDTO evaluation;
+    private ImagesDTO images;
+    private CategoryDTO category;
+    private ConditionsDTO conditions;
+    private ErrorStoreAndroidDTO errorStoreAndroid;
+    private ErrorStoreDTO errorStore;
+    private EvaluationImageDTO evaluationImage;
+    private EvaluationInsectDTO evaluationInsect;
+    private GcmDeviceDTO gcmDevice;
     private TeamDTO team;
     private TeamMemberDTO teamMember;
     private RiverDTO river;
@@ -75,6 +93,70 @@ public class RequestDTO {
     public static final String INSECTS_DIR = "insert";
     public static final String TEAM_DIR = "team";
     public static final String TEAM_MEMBER_DIR = "teamMember";
+
+    public ImagesDTO getImages() {
+        return images;
+    }
+
+    public void setImages(ImagesDTO images) {
+        this.images = images;
+    }
+
+    public CategoryDTO getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDTO category) {
+        this.category = category;
+    }
+
+    public ConditionsDTO getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(ConditionsDTO conditions) {
+        this.conditions = conditions;
+    }
+
+    public ErrorStoreAndroidDTO getErrorStoreAndroid() {
+        return errorStoreAndroid;
+    }
+
+    public void setErrorStoreAndroid(ErrorStoreAndroidDTO errorStoreAndroid) {
+        this.errorStoreAndroid = errorStoreAndroid;
+    }
+
+    public ErrorStoreDTO getErrorStore() {
+        return errorStore;
+    }
+
+    public void setErrorStore(ErrorStoreDTO errorStore) {
+        this.errorStore = errorStore;
+    }
+
+    public EvaluationImageDTO getEvaluationImage() {
+        return evaluationImage;
+    }
+
+    public void setEvaluationImage(EvaluationImageDTO evaluationImage) {
+        this.evaluationImage = evaluationImage;
+    }
+
+    public EvaluationInsectDTO getEvaluationInsect() {
+        return evaluationInsect;
+    }
+
+    public void setEvaluationInsect(EvaluationInsectDTO evaluationInsect) {
+        this.evaluationInsect = evaluationInsect;
+    }
+
+    public GcmDeviceDTO getGcmDevice() {
+        return gcmDevice;
+    }
+
+    public void setGcmDevice(GcmDeviceDTO gcmDevice) {
+        this.gcmDevice = gcmDevice;
+    }
 
     public CountryDTO getCountry() {
         return country;
