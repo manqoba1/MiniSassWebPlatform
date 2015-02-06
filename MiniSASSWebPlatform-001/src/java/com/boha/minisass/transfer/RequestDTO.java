@@ -38,6 +38,8 @@ public class RequestDTO {
             REGISTER_TEAM_MEMBER = 2,
             SIGN_IN_MEMBER = 3,
             IMPORT_MEMBERS = 4;
+    
+    
 
     public static final int ADD_RIVER = 10,
             ADD_RIVER_TOWN = 11,
