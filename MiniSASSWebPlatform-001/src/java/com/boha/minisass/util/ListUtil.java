@@ -93,6 +93,7 @@ public class ListUtil {
         List<Evaluation> list = q.getResultList();
         for (Evaluation e : list) {
             resp.getEvaluationList().add(new EvaluationDTO(e));
+        
         }
 
         return resp;
@@ -156,7 +157,7 @@ public class ListUtil {
             for (Province p : list) {
                 resp.getProvinceList().add(new ProvinceDTO(p));
             }
-            log.log(Level.OFF, "Provinces failed: {0}", resp.getProvinceList().size());
+            log.log(Level.OFF, "{0} Provinces successfully found", resp.getProvinceList().size());
         } catch (Exception e) {
             log.log(Level.OFF, "failed to get provinces", e);
             throw new DataException("failed ........");
@@ -243,13 +244,23 @@ public class ListUtil {
         return resp;
     }
 
+    public ResponseDTO listRiverTownList() {
+        ResponseDTO resp = new ResponseDTO();
+        Query q = em.createNamedQuery("Rivertown.findAll", Rivertown.class);
+        List<Rivertown> list = q.getResultList();
+        for (Rivertown riv : list) {
+            resp.getRiverTownList().add(new RiverTownDTO(riv));
+        }
+
+        return resp;
+    }
     public ResponseDTO getRiverTownList(Integer riverID) {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("River.findByRiverID", Rivertown.class);
+        Query q = em.createNamedQuery("Rivertown.findByRiverID", Rivertown.class);
         q.setParameter("riverID", riverID);
-        List<River> list = q.getResultList();
-        for (River riv : list) {
-            resp.getRiverList().add(new RiverDTO(riv));
+        List<Rivertown> list = q.getResultList();
+        for (Rivertown riv : list) {
+            resp.getRiverTownList().add(new RiverTownDTO(riv));
         }
 
         return resp;
@@ -277,10 +288,10 @@ public class ListUtil {
         return resp;
     }
 
-    public ResponseDTO getEvaluationSiteList(Integer evaluationSiteID) {
+    public ResponseDTO getEvaluationSiteByRiver(Integer riverID) {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("EvaluationSite.findByEvaluationSiteID", Evaluationsite.class);
-        q.setParameter("evaluationSiteID", evaluationSiteID);
+        Query q = em.createNamedQuery("Evaluationsite.findByRiverID", Evaluationsite.class);
+        q.setParameter("riverID", riverID);
         List<Evaluationsite> list = q.getResultList();
         for (Evaluationsite es : list) {
             resp.getEvaluationSiteList().add(new EvaluationSiteDTO(es));
@@ -312,7 +323,7 @@ public class ListUtil {
     
     public ResponseDTO getEvaluationSiteList() {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("Evaluatiosite.findAll", Evaluationsite.class);
+        Query q = em.createNamedQuery("Evaluationsite.findAll", Evaluationsite.class);
         List<Evaluationsite> list = q.getResultList();
         for (Evaluationsite es : list) {
             resp.getEvaluationSiteList().add(new EvaluationSiteDTO(es));
