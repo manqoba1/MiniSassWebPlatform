@@ -143,6 +143,7 @@ public class River implements Serializable {
     public Date getDateRegistered() {
         return dateRegistered;
     }
+    
 
     public void setDateRegistered(Date dateRegistered) {
         this.dateRegistered = dateRegistered;

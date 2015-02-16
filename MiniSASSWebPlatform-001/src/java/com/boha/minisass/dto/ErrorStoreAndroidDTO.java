@@ -5,104 +5,44 @@
  */
 package com.boha.minisass.dto;
 
-import com.boha.minisass.data.Errorstoreandroid;
-
-
+import com.boha.minisass.data.*;
+import java.io.Serializable;
 
 /**
  *
- * @author aubreyM
+ * @author CodeTribe1
  */
-public class ErrorStoreAndroidDTO {
+public class ErrorStoreAndroidDTO implements Serializable {
 
-    private int errorStoreAndroidID, companyID;
-    private String companyName, logCat, stackTrace, androidVersion,
+    private static final long serialVersionUID = 1L;
+
+    private Integer errorStoreAndroidID, riverID;
+    private String riverName, logCat, stackTrace, androidVersion,
             brand, appVersionCode, appVersionName, packageName, phoneModel;
     private long errorDate;
 
-    public ErrorStoreAndroidDTO(Errorstoreandroid a) {
-        errorDate = a.getErrorDate().getTime();
-        errorStoreAndroidID = a.getErrorStoreAndroidID();
-        logCat = a.getLogCat();
-        stackTrace = a.getStackTrace();
-        androidVersion = a.getAndroidVersion();
-        brand = a.getBrand();
-        appVersionCode = a.getAppVersionCode();
-        appVersionName = a.getAppVersionName();
-        packageName = a.getPackageName();
-        phoneModel = a.getPhoneModel();
+    public ErrorStoreAndroidDTO() {
     }
 
-    public int getErrorStoreAndroidID() {
+    public ErrorStoreAndroidDTO(Errorstoreandroid e) {
+        this.errorStoreAndroidID = e.getErrorStoreAndroidID();
+        this.errorDate = e.getErrorDate().getTime();
+        this.packageName = e.getPackageName();
+        this.appVersionName = e.getAppVersionName();
+        this.appVersionCode = e.getAppVersionCode();
+        this.brand = e.getBrand();
+        this.phoneModel = e.getPhoneModel();
+        this.androidVersion = e.getAndroidVersion();
+        this.stackTrace = e.getStackTrace();
+        this.logCat = e.getLogCat();
+    }
+
+    public Integer getErrorStoreAndroidID() {
         return errorStoreAndroidID;
     }
 
-    public void setErrorStoreAndroidID(int errorStoreAndroidID) {
+    public void setErrorStoreAndroidID(Integer errorStoreAndroidID) {
         this.errorStoreAndroidID = errorStoreAndroidID;
-    }
-
-    public int getGolfGroupID() {
-        return companyID;
-    }
-
-    public void setGolfGroupID(int golfGroupID) {
-        this.companyID = golfGroupID;
-    }
-
-    public String getGolfGroupName() {
-        return companyName;
-    }
-
-    public void setGolfGroupName(String golfGroupName) {
-        this.companyName = golfGroupName;
-    }
-
-    public String getLogCat() {
-        return logCat;
-    }
-
-    public void setLogCat(String logCat) {
-        this.logCat = logCat;
-    }
-
-    public String getStackTrace() {
-        return stackTrace;
-    }
-
-    public void setStackTrace(String stackTrace) {
-        this.stackTrace = stackTrace;
-    }
-
-    public String getAndroidVersion() {
-        return androidVersion;
-    }
-
-    public void setAndroidVersion(String androidVersion) {
-        this.androidVersion = androidVersion;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getAppVersionCode() {
-        return appVersionCode;
-    }
-
-    public void setAppVersionCode(String appVersionCode) {
-        this.appVersionCode = appVersionCode;
-    }
-
-    public String getAppVersionName() {
-        return appVersionName;
-    }
-
-    public void setAppVersionName(String appVersionName) {
-        this.appVersionName = appVersionName;
     }
 
     public String getPackageName() {
@@ -113,6 +53,30 @@ public class ErrorStoreAndroidDTO {
         this.packageName = packageName;
     }
 
+    public String getAppVersionName() {
+        return appVersionName;
+    }
+
+    public void setAppVersionName(String appVersionName) {
+        this.appVersionName = appVersionName;
+    }
+
+    public String getAppVersionCode() {
+        return appVersionCode;
+    }
+
+    public void setAppVersionCode(String appVersionCode) {
+        this.appVersionCode = appVersionCode;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
     public String getPhoneModel() {
         return phoneModel;
     }
@@ -121,12 +85,61 @@ public class ErrorStoreAndroidDTO {
         this.phoneModel = phoneModel;
     }
 
+    public String getAndroidVersion() {
+        return androidVersion;
+    }
+
+    public void setAndroidVersion(String androidVersion) {
+        this.androidVersion = androidVersion;
+    }
+
+    public String getStackTrace() {
+        return stackTrace;
+    }
+
+    public void setStackTrace(String stackTrace) {
+        this.stackTrace = stackTrace;
+    }
+
+    public String getLogCat() {
+        return logCat;
+    }
+
+    public void setLogCat(String logCat) {
+        this.logCat = logCat;
+    }
+
+    public void setErrorStoreAndroidID(int errorStoreAndroidID) {
+        this.errorStoreAndroidID = errorStoreAndroidID;
+    }
+
+    public int getRiverID() {
+        return riverID;
+    }
+
+    public void setRiverID(int riverID) {
+        this.riverID = riverID;
+    }
+
+    public String getRiverName() {
+        return riverName;
+    }
+
+    public void setRiverName(String riverName) {
+        this.riverName = riverName;
+    }
+
     public long getErrorDate() {
         return errorDate;
     }
 
     public void setErrorDate(long errorDate) {
         this.errorDate = errorDate;
+    }
+
+    @Override
+    public String toString() {
+        return "com.boha.minisass.data.Errorstoreandroid[ errorStoreAndroidID=" + errorStoreAndroidID + " ]";
     }
 
 }

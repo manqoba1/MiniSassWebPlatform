@@ -96,7 +96,7 @@ public class Errorstoreandroid implements Serializable {
     private String logCat;
     @JoinColumn(name = "riverID", referencedColumnName = "riverID")
     @ManyToOne(optional = false)
-    private Rivertown river;
+    private River river;
 
     public Errorstoreandroid() {
     }
@@ -198,11 +198,11 @@ public class Errorstoreandroid implements Serializable {
         this.logCat = logCat;
     }
 
-    public Rivertown getRiver() {
+    public River getRiver() {
         return river;
     }
 
-    public void setRiver(Rivertown river) {
+    public void setRiver(River river) {
         this.river = river;
     }
 
