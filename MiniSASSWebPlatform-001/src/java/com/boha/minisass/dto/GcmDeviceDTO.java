@@ -24,6 +24,9 @@ public class GcmDeviceDTO {
     private TeamMemberDTO teamMember;
     private TeamDTO team;
 
+    public GcmDeviceDTO() {
+    }
+
     public GcmDeviceDTO(Gcmdevice a) {
         gcmDeviceID = a.getGcmDeviceID();
         registrationID = a.getRegistrationID();

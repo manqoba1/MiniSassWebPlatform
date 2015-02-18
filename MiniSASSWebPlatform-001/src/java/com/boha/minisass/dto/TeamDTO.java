@@ -7,6 +7,7 @@ package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class TeamDTO implements Serializable {
     private String townName;
     private String teamImage;
     private List<GcmDeviceDTO> gcmdeviceList;
-    private List<TeamMemberDTO> teamMemberList;
+    private List<TeamMemberDTO> teamMemberList = new ArrayList<>();
 
     public TeamDTO() {
     }

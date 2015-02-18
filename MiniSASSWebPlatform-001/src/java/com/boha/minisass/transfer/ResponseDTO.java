@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class ResponseDTO {
 
-    private int statusCode;
+    private Integer statusCode;
     private String message;
     private Integer statusCountInPeriod, goodCount, badCount;
     private String sessionID, GCMRegistrationID, fileString;
@@ -42,6 +42,7 @@ public class ResponseDTO {
     private TeamDTO team;
     private TeamMemberDTO teamMember;
     private EvaluationDTO evaluation;
+    private CountryDTO country;
     private List<ImagesDTO> imagesList;
     private List<EvaluationImageDTO> evaluationImageList;
     private List<GcmDeviceDTO> gcmDeviceList;
@@ -62,6 +63,14 @@ public class ResponseDTO {
 
     private List<ErrorStoreDTO> errorStoreList = new ArrayList<>();
     private List<ErrorStoreAndroidDTO> errorStoreAndroidList = new ArrayList<>();
+
+    public CountryDTO getCountry() {
+        return country;
+    }
+
+    public void setCountry(CountryDTO country) {
+        this.country = country;
+    }
 
     public EvaluationDTO getEvaluation() {
         return evaluation;
@@ -111,11 +120,11 @@ public class ResponseDTO {
         this.teamMember = teamMember;
     }
 
-    public int getStatusCode() {
+    public Integer getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(int statusCode) {
+    public void setStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
     }
 
@@ -170,7 +179,6 @@ public class ResponseDTO {
     public void setEvaluationInsectList(List<EvaluationInsectDTO> evaluationInsectList) {
         this.evaluationInsectList = evaluationInsectList;
     }
-
 
     public void setInsectList(List<InsectDTO> insectList) {
         this.insectList = insectList;

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
@@ -15,11 +14,13 @@ import java.util.List;
  * @author aubreyM
  */
 public class CountryDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer countryID;
     private String countryName;
     private Double latitude;
     private Double longitude;
+    private String countryCode;
     private List<ProvinceDTO> provinceList;
     private List<RiverDTO> originRiverList;
     private List<RiverDTO> endRiverList;
@@ -36,6 +37,15 @@ public class CountryDTO implements Serializable {
         this.countryName = a.getCountryName();
         this.latitude = a.getLatitude();
         this.longitude = a.getLongitude();
+        this.countryCode = a.getCountryCode();
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public Integer getCountryID() {
@@ -94,8 +104,6 @@ public class CountryDTO implements Serializable {
         this.endRiverList = endRiverList;
     }
 
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -120,5 +128,5 @@ public class CountryDTO implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.Country[ countryID=" + countryID + " ]";
     }
-    
+
 }

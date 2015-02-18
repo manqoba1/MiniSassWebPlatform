@@ -26,9 +26,11 @@ public class RiverDTO implements Serializable {
     private long dateRegistered;
     private List<RiverTownDTO> riverTownList;
     private List<EvaluationSiteDTO> evaluationSiteList;
+    private List<ErrorStoreAndroidDTO> errorstoreandroidList;
     private Integer originCountryID;
     private Integer endCountryID;
-    private RiverTownDTO river;
+    private CountryDTO originCountry;
+    private CountryDTO endCountry;
 
     public RiverDTO() {
     }
@@ -43,17 +45,34 @@ public class RiverDTO implements Serializable {
         endCountryName = a.getEndCountry().getCountryName();
         originLatitude = a.getOriginLatitude();
         originLongitude = a.getOriginLongitude();
-
         endLatitude = a.getEndLatitude();
         endLongitude = a.getEndLongitude();
+        originCountry = new CountryDTO(a.getOriginCountry());
+        endCountry = new CountryDTO(a.getEndCountry());
     }
 
-    public RiverTownDTO getRiver() {
-        return river;
+    public List<ErrorStoreAndroidDTO> getErrorstoreandroidList() {
+        return errorstoreandroidList;
     }
 
-    public void setRiver(RiverTownDTO river) {
-        this.river = river;
+    public void setErrorstoreandroidList(List<ErrorStoreAndroidDTO> errorstoreandroidList) {
+        this.errorstoreandroidList = errorstoreandroidList;
+    }
+
+    public CountryDTO getOriginCountry() {
+        return originCountry;
+    }
+
+    public void setOriginCountry(CountryDTO originCountry) {
+        this.originCountry = originCountry;
+    }
+
+    public CountryDTO getEndCountry() {
+        return endCountry;
+    }
+
+    public void setEndCountry(CountryDTO endCountry) {
+        this.endCountry = endCountry;
     }
 
     public String getOriginCountryName() {

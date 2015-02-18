@@ -18,15 +18,25 @@ public class EvaluationCommentDTO implements Serializable {
     private Integer evaluationCommentID;
     private Integer evaluationID, commentID;
     private CommentDTO comment;
+    private EvaluationDTO evaluation;
 
     public EvaluationCommentDTO() {
     }
 
     public EvaluationCommentDTO(Evaluationcomment a) {
-        this.evaluationCommentID = a.getEvaluationCommentID();
-        this.evaluationID = a.getEvaluation().getEvaluationID();
-        this.comment = new CommentDTO(a.getComment());
+        evaluationCommentID = a.getEvaluationCommentID();
+        evaluationID = a.getEvaluation().getEvaluationID();
+        comment = new CommentDTO(a.getComment());
+        evaluation = new EvaluationDTO(a.getEvaluation());
         commentID = a.getComment().getCommentID();
+    }
+
+    public EvaluationDTO getEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(EvaluationDTO evaluation) {
+        this.evaluation = evaluation;
     }
 
     public Integer getEvaluationCommentID() {

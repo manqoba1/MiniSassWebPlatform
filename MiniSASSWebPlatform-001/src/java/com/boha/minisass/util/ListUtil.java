@@ -8,6 +8,7 @@ import com.boha.minisass.data.Evaluation;
 import com.boha.minisass.data.Evaluationinsect;
 import com.boha.minisass.data.Evaluationsite;
 import com.boha.minisass.data.Insect;
+import com.boha.minisass.data.Insectimage;
 import com.boha.minisass.data.Province;
 import com.boha.minisass.data.River;
 import com.boha.minisass.data.Rivertown;
@@ -22,6 +23,7 @@ import com.boha.minisass.dto.EvaluationDTO;
 import com.boha.minisass.dto.EvaluationInsectDTO;
 import com.boha.minisass.dto.EvaluationSiteDTO;
 import com.boha.minisass.dto.InsectDTO;
+import com.boha.minisass.dto.InsectImageDTO;
 import com.boha.minisass.dto.ProvinceDTO;
 import com.boha.minisass.dto.RiverDTO;
 import com.boha.minisass.dto.RiverTownDTO;
@@ -75,6 +77,96 @@ public class ListUtil {
         return resp;
     }
 
+    public ResponseDTO getStartData(String countryCode) {
+        ResponseDTO resp = new ResponseDTO();
+        Query q = em.createNamedQuery("Country.findByCountryCode", Country.class);
+        q.setParameter("countryCode", countryCode);
+        q.setMaxResults(1);
+        Country c = (Country) q.getSingleResult();
+
+        CountryDTO cn = new CountryDTO(c);
+        for (Province p : c.getProvinceList()) {
+            ProvinceDTO province = new ProvinceDTO(p);
+
+            for (Town town : p.getTownList()) {
+                TownDTO townDTO = new TownDTO(town);
+
+                for (Rivertown rivertown : town.getRivertownList()) {
+                    RiverTownDTO riverTown = new RiverTownDTO(rivertown);
+
+                    townDTO.getRiverTownList().add(riverTown);
+                }
+                for (Team team : town.getTeamList()) {
+                    TeamDTO teamDTO = new TeamDTO(team);
+                    for (Teammember teammember : team.getTeammemberList()) {
+                        TeamMemberDTO teamMemberDTO = new TeamMemberDTO(teammember);
+
+                        teamDTO.getTeamMemberList().add(teamMemberDTO);
+                    }
+                    townDTO.getTeamList().add(teamDTO);
+                }
+                province.getTownList().add(townDTO);
+            }
+            cn.getProvinceList().add(province);
+        }
+        resp.setCountry(cn);
+        
+        return resp;
+    }
+    public ResponseDTO getData(){
+        ResponseDTO resp = new ResponseDTO();
+        resp.setCategoryList(getCategoryDTOs());
+        resp.setCommentList(getCommentDTOs());
+        resp.setConditionsList(getConditionsDTOs());
+        resp.setInsectList(getInsectDTOs());
+        return resp;
+    }
+
+    private List<InsectDTO> getInsectDTOs() {
+        List<InsectDTO> result = new ArrayList<>();
+        Query q = em.createNamedQuery("Insect.findAll", Category.class);
+        List<Insect> cate = q.getResultList();
+        for (Insect c : cate) {
+            InsectDTO insect = new InsectDTO(c);
+            for (Insectimage ii : c.getInsectimageList()) {
+                InsectImageDTO insectImage = new InsectImageDTO(ii);
+                insect.getInsectImageList().add(insectImage);
+            }
+            result.add(insect);
+        }
+        return result;
+    }
+
+    private List<CategoryDTO> getCategoryDTOs() {
+        List<CategoryDTO> result = new ArrayList<>();
+        Query q = em.createNamedQuery("Category.findAll", Category.class);
+        List<Category> cate = q.getResultList();
+        for (Category c : cate) {
+            result.add(new CategoryDTO(c));
+        }
+        return result;
+    }
+
+    private List<CommentDTO> getCommentDTOs() {
+        List<CommentDTO> result = new ArrayList<>();
+        Query q = em.createNamedQuery("Comment.findAll", Comment.class);
+        List<Comment> cate = q.getResultList();
+        for (Comment c : cate) {
+            result.add(new CommentDTO(c));
+        }
+        return result;
+    }
+
+    private List<ConditionsDTO> getConditionsDTOs() {
+        List<ConditionsDTO> result = new ArrayList<>();
+        Query q = em.createNamedQuery("Conditions.findAll", Conditions.class);
+        List<Conditions> cate = q.getResultList();
+        for (Conditions c : cate) {
+            result.add(new ConditionsDTO(c));
+        }
+        return result;
+    }
+
     public ResponseDTO getInsectList() {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Insect.findAll", Insect.class);
@@ -93,12 +185,12 @@ public class ListUtil {
         List<Evaluation> list = q.getResultList();
         for (Evaluation e : list) {
             resp.getEvaluationList().add(new EvaluationDTO(e));
-        
+
         }
 
         return resp;
     }
-    
+
     public ResponseDTO getTeamByTown(Integer townID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Team.findByTownID", Team.class);
@@ -110,7 +202,7 @@ public class ListUtil {
 
         return resp;
     }
-    
+
     public ResponseDTO getEvaluationInsectByEvaluation(Integer evaluationID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Evaluationinsect.findByEvaluationID", Evaluationinsect.class);
@@ -122,7 +214,7 @@ public class ListUtil {
 
         return resp;
     }
-    
+
     public ResponseDTO getEvaluationSiteByCategory(Integer categoryID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Evaluationsite.findByCategoryID", Evaluationsite.class);
@@ -134,7 +226,7 @@ public class ListUtil {
 
         return resp;
     }
-    
+
     public ResponseDTO getEvaluationByCondtions(Integer conditionsID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Evaluation.findByConditionsID", Evaluation.class);
@@ -146,8 +238,7 @@ public class ListUtil {
 
         return resp;
     }
-    
-    
+
     public ResponseDTO getAllProvince() throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
@@ -195,8 +286,6 @@ public class ListUtil {
         return resp;
     }
 
-    
-    
     public ResponseDTO getTownByProvince(Integer provinceID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Town.findByProvinceID", Town.class);
@@ -208,7 +297,7 @@ public class ListUtil {
 
         return resp;
     }
-    
+
     public ResponseDTO getTeamMemberList() {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Teammember.findAll", Teammember.class);
@@ -232,7 +321,6 @@ public class ListUtil {
         return resp;
     }
 
-    
     public ResponseDTO getRiverList() {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("River.findAll", River.class);
@@ -254,6 +342,7 @@ public class ListUtil {
 
         return resp;
     }
+
     public ResponseDTO getRiverTownList(Integer riverID) {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Rivertown.findByRiverID", Rivertown.class);
@@ -318,9 +407,9 @@ public class ListUtil {
         for (Team tea : list) {
             resp.getTeamList().add(new TeamDTO(tea));
         }
-    return resp;
+        return resp;
     }
-    
+
     public ResponseDTO getEvaluationSiteList() {
         ResponseDTO resp = new ResponseDTO();
         Query q = em.createNamedQuery("Evaluationsite.findAll", Evaluationsite.class);

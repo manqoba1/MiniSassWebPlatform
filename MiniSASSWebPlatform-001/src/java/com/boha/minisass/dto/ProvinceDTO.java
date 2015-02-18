@@ -8,6 +8,7 @@ package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class ProvinceDTO implements Serializable {
     private String provinceName;
     private Double latitude;
     private Double longitude;
-    private List<TownDTO> townList;
+    private List<TownDTO> townList = new ArrayList<>();
     private Integer countryID;
 
     public ProvinceDTO() {

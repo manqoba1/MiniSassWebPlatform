@@ -71,10 +71,10 @@ public class DataUtil {
         return em;
     }
 
-    public ResponseDTO login(GcmDeviceDTO device, String email,
+    public ResponseDTO login(GcmDeviceDTO d, String email,
             String pin, ListUtil listUtil) throws DataException {
         ResponseDTO resp = new ResponseDTO();
-
+        GcmDeviceDTO dTO = new GcmDeviceDTO();
         try {
             Query q = em.createNamedQuery("TeamMember.signin", Teammember.class);
             q.setParameter("email", email);
@@ -82,24 +82,31 @@ public class DataUtil {
             q.setMaxResults(1);
             Teammember cs = (Teammember) q.getSingleResult();
             Team team = cs.getTeam();
-            resp.setTeamMember(new TeamMemberDTO(cs));
-            resp.setTeam(new TeamDTO(team));
 
-            device.setTeamID(team.getTeamID());
-            device.setTeamMemberID(cs.getTeamMemberID());
-            addDevice(device);
+            dTO.setAndroidVersion(d.getAndroidVersion());
+            dTO.setDateRegistered(new Date().getTime());
+            dTO.setManufacturer(d.getManufacturer());
+            dTO.setModel(d.getModel());
+            dTO.setProduct(d.getProduct());
+            dTO.setSerialNumber(d.getSerialNumber());
+            dTO.setRegistrationID(d.getRegistrationID());
+            dTO.setTeamID(team.getTeamID());
+            dTO.setTeamMemberID(cs.getTeamMemberID());
+
+            addDevice(dTO);
 
             try {
-                CloudMessagingRegistrar.sendRegistration(device.getRegistrationID(), this);
+                CloudMessagingRegistrar.sendRegistration(dTO.getRegistrationID(), this);
             } catch (IOException ex) {
                 Logger.getLogger(DataUtil.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (team.getTeamName() == null) {
-                resp = listUtil.getTeamList(team.getTeamID());
-            } else {
-                resp = listUtil.getTeamList(team.getTown().getTownID());
-            }
+
             resp.setTeamMember(new TeamMemberDTO(cs));
+
+            resp.setCategoryList(listUtil.getData().getCategoryList());
+            resp.setCommentList(listUtil.getData().getCommentList());
+            resp.setConditionsList(listUtil.getData().getConditionsList());
+            resp.setInsectList(listUtil.getData().getInsectList());
 
         } catch (NoResultException e) {
             log.log(Level.WARNING, "Invalid login attempt: " + email + " pin: " + pin, e);
@@ -113,22 +120,26 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Teammember tm = new Teammember();
-          
+
             tm.setTeam(em.find(Team.class, member.getTeamID()));
-            
+
             tm.setFirstName(member.getFirstName());
             tm.setLastName(member.getLastName());
             tm.setEmail(member.getEmail());
             tm.setCellphone(member.getCellphone());
             tm.setActiveFlag(member.getActiveFlag());
             tm.setDateRegistered(new Date());
-            tm.setPin(member.getPin());
+            tm.setPin(getRandomPin());
 
             em.persist(tm);
             em.flush();
 
             resp.getTeamMemberList().add(new TeamMemberDTO(tm));
-
+            EmailUtil.sendMail(tm.getEmail(), "Minisass Registration", "Hi, " + tm.getFirstName()
+                    + "\n You've Succesfully Registered on Minisass Under Team " + tm.getTeam().getTeamName()
+                    + ", Here are your Siging in details:\n"
+                    + "email : " + tm.getEmail() + "\nPassword : " + tm.getPin()
+                    + ".\n Thank you and Enjoy....", new CASessionBean());
             log.log(Level.OFF, "Team Member has been registered for: {0} ",
                     new Object[]{tm.getFirstName()});
 
@@ -172,17 +183,49 @@ public class DataUtil {
 
     public ResponseDTO registerTeam(TeamDTO team) throws DataException {
         ResponseDTO resp = new ResponseDTO();
+
         try {
             Team t = new Team();
             t.setTown(em.find(Town.class, team.getTownID()));
-           // t.setTeamImage(team.getTeamImage());
+            // t.setTeamImage(team.getTeamImage());
             t.setTeamName(team.getTeamName());
             t.setDateRegistered(new Date());
 
             em.persist(t);
             em.flush();
 
-            resp.getTeamList().add(new TeamDTO(t));
+            TeamDTO teamDTO = new TeamDTO(t);
+
+            if (team.getTeamMemberList() != null) {
+
+                for (TeamMemberDTO tms : team.getTeamMemberList()) {
+                    Teammember tm = new Teammember();
+
+                    tm.setTeam(em.find(Team.class, t.getTeamID()));
+
+                    tm.setFirstName(tms.getFirstName());
+                    tm.setLastName(tms.getLastName());
+                    tm.setEmail(tms.getEmail());
+                    tm.setCellphone(tms.getCellphone());
+                    tm.setActiveFlag(tms.getActiveFlag());
+                    tm.setDateRegistered(new Date());
+                    tm.setPin(tms.getPin());
+
+                    em.persist(tm);
+                    em.flush();
+
+                    teamDTO.getTeamMemberList().add(new TeamMemberDTO(tm));
+                    EmailUtil.sendMail(tm.getEmail(), "Minisass Registration", "Hi, " + tm.getFirstName()
+                            + "\n You've Succesfully Registered on Minisass Under Team " + t.getTeamName()
+                            + ", Here are your Siging in details:\n"
+                            + "email : " + tm.getEmail() + "\nPassword : " + tm.getPin()
+                            + ".\n Thank you and Enjoy....", new CASessionBean());
+
+                    log.log(Level.OFF, "Team Membber has been registered for: {0} ",
+                            new Object[]{tm.getFirstName()});
+                }
+            }
+            resp.getTeamList().add(teamDTO);
 
             log.log(Level.OFF, "Team has been registered for: {0} ",
                     new Object[]{t.getTeamName()});
@@ -198,10 +241,9 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Evaluationsite ts = new Evaluationsite();
-            
-                ts.setRiver(em.find(River.class, site.getRiverID()));
-                ts.setCategory(em.find(Category.class, site.getCategoryID()));
-            
+
+            ts.setRiver(em.find(River.class, site.getRiverID()));
+            ts.setCategory(em.find(Category.class, site.getCategoryID()));
 
             ts.setDateRegistered(new Date());
             ts.setLatitude(site.getLatitude());
@@ -247,12 +289,12 @@ public class DataUtil {
     public ResponseDTO addEvaluationInsect(EvaluationInsectDTO evi) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
-            
+
             Evaluationinsect ei = new Evaluationinsect();
-            
+
             ei.setEvaluation(em.find(Evaluation.class, evi.getEvaluationID()));
             ei.setInsect(em.find(Insect.class, evi.getInsectID()));
-            
+
             ei.setRemarks(evi.getRemarks());
             em.persist(ei);
             em.flush();
@@ -268,15 +310,14 @@ public class DataUtil {
         }
         return resp;
     }
-    
+
     public ResponseDTO updateTeam(TeamDTO tea) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
             Team t = em.find(Team.class, tea.getTeamID());
-            
-                if (tea.getTeamName() != null) {
-                    t.setTeamName(tea.getTeamName());
-                            
+
+            if (tea.getTeamName() != null) {
+                t.setTeamName(tea.getTeamName());
 
                 em.merge(t);
                 log.log(Level.INFO, "Team updated");
@@ -293,11 +334,9 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Comment c = em.find(Comment.class, com.getCommentID());
-            
-            
-                if (com.getRemarks() != null) {
-                    c.setRemarks(com.getRemarks());
-                
+
+            if (com.getRemarks() != null) {
+                c.setRemarks(com.getRemarks());
 
                 em.merge(c);
                 log.log(Level.INFO, "Comment updated");
@@ -314,10 +353,10 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Evaluationimage ei = em.find(Evaluationimage.class, evi.getEvaluationImageID());
-            
-                if (evi.getFileName() != null) {
-                    ei.setFileName(evi.getFileName());
-            
+
+            if (evi.getFileName() != null) {
+                ei.setFileName(evi.getFileName());
+
                 em.merge(ei);
                 log.log(Level.INFO, "Evaluation image updated");
             }
@@ -333,11 +372,9 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Conditions c = em.find(Conditions.class, con.getConditionsID());
-            
-            
-                if (con.getConditionName() != null) {
-                    c.setConditionName(con.getConditionName());
-             
+
+            if (con.getConditionName() != null) {
+                c.setConditionName(con.getConditionName());
 
                 em.merge(c);
                 log.log(Level.INFO, "Condition updated");
@@ -354,11 +391,9 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Category c = em.find(Category.class, cat.getCategoryID());
-            
-            
-                if (cat.getCategoryName() != null) {
-                    c.setCategoryName(cat.getCategoryName());
-             
+
+            if (cat.getCategoryName() != null) {
+                c.setCategoryName(cat.getCategoryName());
 
                 em.merge(c);
                 log.log(Level.INFO, "Category updated");
@@ -370,29 +405,28 @@ public class DataUtil {
 
         return resp;
     }
-    
+
     public ResponseDTO updateTeamMember(TeamMemberDTO tem) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
             Teammember tm = em.find(Teammember.class, tem.getTeamMemberID());
-                       
-                if (tem.getCellphone() != null) {
-                    tm.setCellphone(tem.getCellphone());
-                
-                if (tem.getEmail() != null){
+
+            if (tem.getCellphone() != null) {
+                tm.setCellphone(tem.getCellphone());
+
+                if (tem.getEmail() != null) {
                     tm.setEmail(tem.getEmail());
                 }
-                if (tem.getFirstName() != null){
+                if (tem.getFirstName() != null) {
                     tm.setFirstName(tem.getFirstName());
                 }
-                if (tem.getLastName() != null){
+                if (tem.getLastName() != null) {
                     tm.setLastName(tem.getLastName());
                 }
-                if (tem.getPin() != null){
+                if (tem.getPin() != null) {
                     tm.setPin(tem.getPin());
                 }
-                
-                        
+
                 em.merge(tm);
                 log.log(Level.INFO, "Team member updated");
             }
@@ -408,15 +442,14 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Town t = em.find(Town.class, tow.getTownID());
-            
-            
-                if (tow.getTownName() != null) {
-                    t.setTownName(tow.getTownName());
-                    
-                if (tow.getLatitude() != null){
+
+            if (tow.getTownName() != null) {
+                t.setTownName(tow.getTownName());
+
+                if (tow.getLatitude() != null) {
                     t.setLatitude(tow.getLatitude());
                 }
-                if (tow.getLongitude() != null){
+                if (tow.getLongitude() != null) {
                     t.setLongitude(tow.getLongitude());
                 }
 
@@ -430,8 +463,7 @@ public class DataUtil {
 
         return resp;
     }
-    
-    
+
     public ResponseDTO addCategory(CategoryDTO category) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
@@ -481,10 +513,9 @@ public class DataUtil {
         ResponseDTO resp = new ResponseDTO();
         try {
             Rivertown rt = new Rivertown();
-            
-                rt.setRiver(em.find(River.class, rivert.getRiverID()));
-                rt.setTown(em.find(Town.class, rivert.getTownID()));
-            
+
+            rt.setRiver(em.find(River.class, rivert.getRiverID()));
+            rt.setTown(em.find(Town.class, rivert.getTownID()));
 
             em.persist(rt);
             em.flush();
@@ -656,13 +687,9 @@ public class DataUtil {
     public void updateRiver(RiverDTO dto) throws DataException {
         try {
             River r = em.find(River.class, dto.getRiverID());
-
             r.setRiverName(dto.getRiverName());
-
             r.setOriginLongitude(dto.getOriginLongitude());
-
             r.setDateRegistered(new Date());
-
             r.setEndLatitude(dto.getEndLatitude());
 
             em.merge(r);
@@ -787,7 +814,7 @@ public class DataUtil {
             Gcmdevice g = new Gcmdevice();
             g.setTeam(em.find(Team.class, d.getTeam().getTeamID()));
             g.setTeamMember(em.find(Teammember.class, d.getTeamMember().getTeamMemberID()));
-            
+
             g.setDateRegistered(new Date());
             g.setManufacturer(d.getManufacturer());
             g.setMessageCount(0);
@@ -928,5 +955,21 @@ public class DataUtil {
             log.log(Level.SEVERE, "####### Failed to add team member image from \n {0}", e);
 
         }
+    }
+
+    private String getRandomPin() {
+        StringBuilder sb = new StringBuilder();
+        Random rand = new Random(System.currentTimeMillis());
+        int x = rand.nextInt(9);
+        if (x == 0) {
+            x = 3;
+        }
+        sb.append(x);
+        sb.append(rand.nextInt(9));
+        sb.append(rand.nextInt(9));
+        sb.append(rand.nextInt(9));
+        sb.append(rand.nextInt(9));
+        sb.append(rand.nextInt(9));
+        return sb.toString();
     }
 }

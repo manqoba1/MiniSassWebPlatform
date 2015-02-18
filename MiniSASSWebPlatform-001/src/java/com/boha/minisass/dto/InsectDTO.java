@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,17 +15,17 @@ import java.util.List;
  * @author aubreyM
  */
 public class InsectDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer insectID;
     private String groupName;
     private int sensitivityScore;
-    private List<InsectImageDTO> insectImageList;
-    private List<EvaluationInsectDTO> evaluationInsectList;
+    private List<InsectImageDTO> insectImageList = new ArrayList<>();
+    private List<EvaluationInsectDTO> evaluationInsectList = new ArrayList<>();
 
     public InsectDTO() {
     }
 
-  
     public InsectDTO(Insect a) {
         this.insectID = a.getInsectID();
         this.groupName = a.getGroupName();
@@ -96,5 +96,5 @@ public class InsectDTO implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.Insect[ insectID=" + insectID + " ]";
     }
-    
+
 }

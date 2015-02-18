@@ -85,7 +85,7 @@ public class TrafficCop {
                 case RequestDTO.LIST_RIVERS_IN_COUNTRY:
                     ur = listUtil.getRiverInCountry(req.getCountryID());
                     break;
-                    
+
                 case RequestDTO.ADD_EVALUATION_INSECT:
                     ur = dataUtil.addEvaluationInsect(req.getEvaluationInsect());
                     break;
@@ -110,7 +110,7 @@ public class TrafficCop {
                 case RequestDTO.UPDATE_EVALUATION_IMAGE:
                     ur = dataUtil.updateEvaluationImage(req.getEvaluationImage());
                     break;
-                    
+
                 case RequestDTO.LIST_EVALUATION_BY_TEAM_MEMBER:
                     ur = listUtil.getEvaluationByTeamMember(req.getTeamMemberID());
                     break;
@@ -147,13 +147,15 @@ public class TrafficCop {
                 case RequestDTO.LIST_RIVERS:
                     ur = listUtil.getRiverList();
                     break;
-                    
-                     default:
-                      ur.setStatusCode(444);
-                      ur.setMessage("#### Unknown Request");
-                      logger.log(Level.SEVERE, "Couldn't find request,you fool");
-                      break;
-                  
+                case RequestDTO.GET_DATA:
+                    ur = listUtil.getData();
+                    break;
+                default:
+                    ur.setStatusCode(444);
+                    ur.setMessage("#### Unknown Request");
+                    logger.log(Level.SEVERE, "Couldn't find request,you fool");
+                    break;
+
             }
         } catch (DataException e) {
             ur.setStatusCode(101);

@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class RequestDTO {
 
-    private int requestType;
+    private Integer requestType;
     private String email, password;
     private Integer countryID, categoryID, commentID, conditionsID, evaluationID,  evaluationInsectID,
             evaluationCommentID, evaluationSiteID, insectID, provinceID, riverID, teamID, townID, teamMemberID, 
@@ -94,7 +94,8 @@ public class RequestDTO {
             LIST_COMMENTS = 68,
             LIST_COUNTRYS = 69,
             LIST_EVALUATIONS = 70,
-            LIST_RIVERS = 71;
+            LIST_RIVERS = 71,
+            GET_DATA = 72;
                     
                     
     private EvaluationDTO evaluation;
@@ -240,11 +241,11 @@ public class RequestDTO {
         this.province = province;
     }
 
-    public int getRequestType() {
+    public Integer getRequestType() {
         return requestType;
     }
 
-    public void setRequestType(int requestType) {
+    public void setRequestType(Integer requestType) {
         this.requestType = requestType;
     }
 
