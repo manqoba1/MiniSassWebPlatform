@@ -7,6 +7,7 @@ package com.boha.minisass.dto;
 
 import com.boha.minisass.data.Category;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,8 +19,8 @@ public class CategoryDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer categoryID;
     private String categoryName;
-    private List<EvaluationSiteDTO> evaluationSiteList;
-    private List<ConditionsDTO> conditionsList;
+    private List<EvaluationSiteDTO> evaluationSiteList = new ArrayList<>();
+    private List<ConditionsDTO> conditionsList = new ArrayList<>();
 
     public CategoryDTO() {
     }

@@ -7,6 +7,7 @@ package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,9 +25,9 @@ public class RiverDTO implements Serializable {
     private Double endLatitude;
     private Double endLongitude;
     private long dateRegistered;
-    private List<RiverTownDTO> riverTownList;
-    private List<EvaluationSiteDTO> evaluationSiteList;
-    private List<ErrorStoreAndroidDTO> errorstoreandroidList;
+    private List<RiverTownDTO> riverTownList = new ArrayList<>();
+    private List<EvaluationSiteDTO> evaluationSiteList = new ArrayList<>();
+    private List<ErrorStoreAndroidDTO> errorstoreandroidList = new ArrayList<>();
     private Integer originCountryID;
     private Integer endCountryID;
     private CountryDTO originCountry;

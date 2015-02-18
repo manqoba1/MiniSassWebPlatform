@@ -5,6 +5,8 @@ import com.boha.minisass.data.Comment;
 import com.boha.minisass.data.Conditions;
 import com.boha.minisass.data.Country;
 import com.boha.minisass.data.Evaluation;
+import com.boha.minisass.data.Evaluationcomment;
+import com.boha.minisass.data.Evaluationimage;
 import com.boha.minisass.data.Evaluationinsect;
 import com.boha.minisass.data.Evaluationsite;
 import com.boha.minisass.data.Insect;
@@ -19,7 +21,9 @@ import com.boha.minisass.dto.CategoryDTO;
 import com.boha.minisass.dto.CommentDTO;
 import com.boha.minisass.dto.ConditionsDTO;
 import com.boha.minisass.dto.CountryDTO;
+import com.boha.minisass.dto.EvaluationCommentDTO;
 import com.boha.minisass.dto.EvaluationDTO;
+import com.boha.minisass.dto.EvaluationImageDTO;
 import com.boha.minisass.dto.EvaluationInsectDTO;
 import com.boha.minisass.dto.EvaluationSiteDTO;
 import com.boha.minisass.dto.InsectDTO;
@@ -110,16 +114,23 @@ public class ListUtil {
             cn.getProvinceList().add(province);
         }
         resp.setCountry(cn);
-        
+
         return resp;
     }
-    public ResponseDTO getData(){
+
+    public ResponseDTO getData() {
         ResponseDTO resp = new ResponseDTO();
         resp.setCategoryList(getCategoryDTOs());
         resp.setCommentList(getCommentDTOs());
         resp.setConditionsList(getConditionsDTOs());
         resp.setInsectList(getInsectDTOs());
+        resp.setRiverList(getRiverDTOs());
+        
         return resp;
+    }
+
+    private List<RiverDTO> getRiverDTOs() {
+        return getRiverList().getRiverList();
     }
 
     private List<InsectDTO> getInsectDTOs() {
@@ -162,6 +173,12 @@ public class ListUtil {
         Query q = em.createNamedQuery("Conditions.findAll", Conditions.class);
         List<Conditions> cate = q.getResultList();
         for (Conditions c : cate) {
+            ConditionsDTO conditionsDTO = new ConditionsDTO(c);
+            for (Evaluation evaluation : c.getEvaluationList()) {
+                EvaluationDTO evaluationDTO = new EvaluationDTO(evaluation);
+
+                conditionsDTO.getEvaluationList().add(evaluationDTO);
+            }
             result.add(new ConditionsDTO(c));
         }
         return result;
@@ -326,7 +343,38 @@ public class ListUtil {
         Query q = em.createNamedQuery("River.findAll", River.class);
         List<River> list = q.getResultList();
         for (River riv : list) {
-            resp.getRiverList().add(new RiverDTO(riv));
+            RiverDTO riverDTO = new RiverDTO(riv);
+
+            //river list
+            for (Evaluationsite evaluationsite : riv.getEvaluationsiteList()) {
+                EvaluationSiteDTO evaluationSiteDTO = new EvaluationSiteDTO(evaluationsite);
+
+                //evaluation site list
+                for (Evaluation evaluation : evaluationsite.getEvaluationList()) {
+                    EvaluationDTO evaluationDTO = new EvaluationDTO(evaluation);
+
+                    //evaluation list
+                    for (Evaluationimage evaluationimage : evaluation.getEvaluationimageList()) {
+                        //evaluation image list                        
+                        evaluationDTO.getEvaluationImageList().add(new EvaluationImageDTO(evaluationimage));
+                    }
+
+                    //Evaluation comment List 
+                    for (Evaluationcomment evaluationcomment : evaluation.getEvaluationcommentList()) {
+                        evaluationDTO.getEvaluationCommentList().add(new EvaluationCommentDTO(evaluationcomment));
+                    }
+
+                    //Evaluation insect list
+                    for (Evaluationinsect evaluationinsect : evaluation.getEvaluationinsectList()) {
+                        evaluationDTO.getEvaluationInsectList().add(new EvaluationInsectDTO(evaluationinsect));
+                    }
+                    evaluationSiteDTO.getEvaluationList().add(evaluationDTO);
+                }
+
+                riverDTO.getEvaluationSiteList().add(evaluationSiteDTO);
+            }
+            resp.getRiverList().add(riverDTO);
+
         }
 
         return resp;
@@ -394,7 +442,19 @@ public class ListUtil {
         Query q = em.createNamedQuery("Category.findAll", Category.class);
         List<Category> list = q.getResultList();
         for (Category cat : list) {
-            resp.getCategoryList().add(new CategoryDTO(cat));
+            CategoryDTO categoryDTO = new CategoryDTO(cat);
+
+            for (Evaluationsite evaluationsite : cat.getEvaluationsiteList()) {
+                EvaluationSiteDTO evaluationSiteDTO = new EvaluationSiteDTO(evaluationsite);
+
+                for (Evaluation evaluation : evaluationsite.getEvaluationList()) {
+
+                    evaluationSiteDTO.getEvaluationList().add(new EvaluationDTO(evaluation));
+                }
+                categoryDTO.getEvaluationSiteList().add(evaluationSiteDTO);
+            }
+
+            resp.getCategoryList().add(categoryDTO);
         }
 
         return resp;
@@ -402,17 +462,30 @@ public class ListUtil {
 
     public ResponseDTO getTeamList() {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("Team.findAll", Team.class);
+        Query q = em.createNamedQuery("Team.findAll", Team.class
+        );
         List<Team> list = q.getResultList();
         for (Team tea : list) {
-            resp.getTeamList().add(new TeamDTO(tea));
+            TeamDTO teamDTO = new TeamDTO(tea);
+
+            for (Teammember teammember : tea.getTeammemberList()) {
+                TeamMemberDTO memberDTO = new TeamMemberDTO(teammember);
+
+                for (Evaluation evaluation : teammember.getEvaluationList()) {
+
+                    memberDTO.getEvaluationList().add(new EvaluationDTO(evaluation));
+                }
+                teamDTO.getTeamMemberList().add(memberDTO);
+            }
+            resp.getTeamList().add(teamDTO);
         }
         return resp;
     }
 
     public ResponseDTO getEvaluationSiteList() {
         ResponseDTO resp = new ResponseDTO();
-        Query q = em.createNamedQuery("Evaluationsite.findAll", Evaluationsite.class);
+        Query q = em.createNamedQuery("Evaluationsite.findAll", Evaluationsite.class
+        );
         List<Evaluationsite> list = q.getResultList();
         for (Evaluationsite es : list) {
             resp.getEvaluationSiteList().add(new EvaluationSiteDTO(es));

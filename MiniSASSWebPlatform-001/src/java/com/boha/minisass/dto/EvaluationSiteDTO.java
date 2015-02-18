@@ -7,6 +7,7 @@ package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class EvaluationSiteDTO implements Serializable {
     private Integer categoryID;
     private Integer riverID;
     private String riverName, categoryName;
-    private List<EvaluationDTO> evaluationList;
+    private List<EvaluationDTO> evaluationList = new ArrayList<>();
 
     public EvaluationSiteDTO() {
     }
