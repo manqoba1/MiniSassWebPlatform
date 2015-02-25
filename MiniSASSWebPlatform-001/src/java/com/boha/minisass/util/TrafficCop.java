@@ -56,7 +56,7 @@ public class TrafficCop {
                     ur = dataUtil.addEvaluationSite(req.getEvaluationSite());
                     break;
                 case RequestDTO.ADD_INSECT_IMAGE:
-                    ur = dataUtil.addInsertImage(req.getInsectImage());
+                    ur = dataUtil.addInsectImage(req.getInsectImage());
                     break;
                 case RequestDTO.ADD_PROVINCE:
                     ur = dataUtil.addProvince(req.getProvince());
@@ -149,6 +149,9 @@ public class TrafficCop {
                     break;
                 case RequestDTO.GET_DATA:
                     ur = listUtil.getData();
+                    break;
+                case RequestDTO.LIST_ALL_RIVER_TOWNS:
+                    ur = listUtil.listRiverTownList();
                     break;
                 default:
                     ur.setStatusCode(444);
