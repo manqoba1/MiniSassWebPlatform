@@ -60,7 +60,7 @@ public class PhotoUtil {
 
         Gson gson = new Gson();
         File evaluationDir = null, teamDir = null,
-                teamMemberDir = null;
+                teamMemberDir = null, riverDir = null, evaluationSiteDir = null, evaluationImageDir = null;
         try {
             ServletFileUpload upload = new ServletFileUpload();
             FileItemIterator iter = upload.getItemIterator(request);
@@ -75,18 +75,28 @@ public class PhotoUtil {
                             logger.log(Level.INFO, "picture with associated json: {0}", json);
                             dto = gson.fromJson(json, ImagesDTO.class);
                             if (dto != null) {
-                                if (dto.getEvaluationID() != null) {
-                                    evaluationDir = createEvaluationDirectory(rootDir, evaluationDir, dto.getEvaluationID());
+                                if (dto.getRiverID() != null) {
+                                    riverDir = createRiverDirectory(rootDir, riverDir, dto.getRiverID());
                                 }
+                                if (dto.getEvaluationID() != null) {
+                                     evaluationDir = createEvaluationDirectory(riverDir, evaluationDir, dto.getEvaluationID());
+                                }
+                                 if (dto.getEvaluationSiteID() != null) {
+                                     evaluationSiteDir = createEvaluationSiteDirectory(evaluationDir, evaluationSiteDir, dto.getEvaluationSiteID());
+                                 }                        
+                                 if (dto.getEvaluationImageID() != null) {
+                                     evaluationImageDir = createEvaluationImageDirectory(evaluationDir, evaluationImageDir, dto.getEvaluationImageID());
+                                 }
                                 if (dto.getTeamID() != null) {
-                                    teamDir = createTeamDirectory(rootDir, teamDir, dto.getTeamID());
+                                    teamDir = createTeamDirectory(riverDir, teamDir, dto.getTeamID());
                                 }
                                 if (dto.getTeamMemberID() != null) {
-                                    teamMemberDir = createTeamMemberDirectory(teamDir, teamMemberDir);
-                                }
+                                    teamMemberDir = createTeamMemberDirectory(teamDir, teamMemberDir, dto.getTeamMemberID());
+                                }                                
+                               
                             }
                         } else {
-                            logger.log(Level.WARNING, "JSON input seems pretty fucked up! is NULL..");
+                            logger.log(Level.WARNING, "JSON input is NULL..");
                         }
                     }
                 } else {
@@ -177,8 +187,8 @@ public class PhotoUtil {
                 new Object[]{imageFile.getAbsolutePath(), imageFile.length()});
     }
 
-    private File createEvaluationDirectory(File rootDir, File evaluationDir, int id) {
-        evaluationDir = new File(rootDir, RequestDTO.EVALUATION_DIR + id);
+    private File createEvaluationDirectory(File riverDir, File evaluationDir, int id) {
+        evaluationDir = new File(riverDir, RequestDTO.EVALUATION_DIR + id);
         if (!evaluationDir.exists()) {
             evaluationDir.mkdir();
             logger.log(Level.INFO, "evaluation directory created - {0}",
@@ -187,9 +197,38 @@ public class PhotoUtil {
 
         return evaluationDir;
     }
+    
+    private File createEvaluationSiteDirectory(File evaluationDir, File evaluationSiteDir, int id) {
+    evaluationSiteDir = new File(evaluationDir, RequestDTO.EVALUATION_SITE_DIR + id);
+    if (!evaluationSiteDir.exists()) {
+        evaluationSiteDir.mkdir();
+        logger.log(Level.INFO, "evaluationSite directory has been created - {0}", 
+                evaluationSiteDir.getAbsolutePath());
+    }
+    return evaluationSiteDir;
+    }
+    
+    private File createEvaluationImageDirectory(File evaluationDir, File evaluationImageDir, int id) {
+    evaluationImageDir = new File(evaluationDir, RequestDTO.EVALUATION_IMAGE_DIR + id);
+    if (!evaluationImageDir.exists()) {
+        evaluationImageDir.mkdir();
+        logger.log(Level.INFO, "evaluationImage directory has been created - {0}", 
+                evaluationImageDir.getAbsolutePath());
+    }
+    return evaluationImageDir;
+    }
+    
+    private File createRiverDirectory(File rootDir, File riverDir, int id) {
+    riverDir = new File(rootDir, RequestDTO.RIVER_DIR + id);
+    if (!riverDir.exists()) {
+    riverDir.mkdir();
+    logger.log(Level.INFO, "river directory created - {0}", riverDir.getAbsolutePath());
+    }
+    return riverDir;
+    }
 
-    private File createTeamDirectory(File rootDir, File teamDir, int id) {
-        teamDir = new File(rootDir, RequestDTO.TEAM_DIR + id);
+    private File createTeamDirectory(File riverDir, File teamDir, int id) {
+        teamDir = new File(riverDir, RequestDTO.TEAM_DIR + id);
         if (!teamDir.exists()) {
             teamDir.mkdir();
             logger.log(Level.INFO, "team directory created - {0}",
@@ -199,8 +238,8 @@ public class PhotoUtil {
         return teamDir;
     }
 
-    private File createTeamMemberDirectory(File teamDir, File teamMemberDir) {
-        teamMemberDir = new File(teamDir, RequestDTO.TEAM_MEMBER_DIR);
+    private File createTeamMemberDirectory(File teamDir, File teamMemberDir, int id) {
+        teamMemberDir = new File( teamDir, RequestDTO.TEAM_MEMBER_DIR + id);
         if (!teamMemberDir.exists()) {
             teamMemberDir.mkdir();
             logger.log(Level.INFO, "team member directory created - {0}",
