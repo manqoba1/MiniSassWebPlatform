@@ -6,6 +6,7 @@
 package com.boha.minisass.transfer;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,10 +16,15 @@ import java.util.List;
 public class ImagesDTO implements Serializable {
 
     public static final int TEAM_MEMBER_IMAGE = 1, TEAM_IMAGE = 2, EVALUATION_IMAGE = 3;
-    private Integer teamMemberID, teamID, evaluationID, thumbFlag, pictureType;
+    private Integer teamMemberID, teamID, evaluationID, thumbFlag, pictureType, riverID, evaluationSiteID, evaluationImageID;
     private boolean isFullPicture;
     private List<String> tags;
-
+    //MISSING CLAASES
+    private String uri;
+    private Date dateTaken, dateUploaded;
+    private Float accuracy;
+    private Double latitude, longitude;
+    
     public ImagesDTO() {
     }
 
@@ -33,6 +39,15 @@ public class ImagesDTO implements Serializable {
     public Integer getTeamMemberID() {
         return teamMemberID;
     }
+
+    public Integer getRiverID() {
+        return riverID;
+    }
+
+    public void setRiverID(Integer riverID) {
+        this.riverID = riverID;
+    }
+    
 
     public void setTeamMemberID(Integer teamMemberID) {
         this.teamMemberID = teamMemberID;
@@ -78,4 +93,70 @@ public class ImagesDTO implements Serializable {
         this.tags = tags;
     }
 
+    public Integer getEvaluationSiteID() {
+        return evaluationSiteID;
+    }
+
+    public void setEvaluationSiteID(Integer evaluationSiteID) {
+        this.evaluationSiteID = evaluationSiteID;
+    }
+
+    public Integer getEvaluationImageID() {
+        return evaluationImageID;
+    }
+
+    public void setEvaluationImageID(Integer evaluationImageID) {
+        this.evaluationImageID = evaluationImageID;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public Date getDateTaken() {
+        return dateTaken;
+    }
+
+    public void setDateTaken(Date dateTaken) {
+        this.dateTaken = dateTaken;
+    }
+
+    public Date getDateUploaded() {
+        return dateUploaded;
+    }
+
+    public void setDateUploaded(Date dateUploaded) {
+        this.dateUploaded = dateUploaded;
+    }
+
+    public Float getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(Float accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    
+    
 }
