@@ -5,6 +5,14 @@
  */
 package com.boha.minisass.transfer;
 
+import com.boha.minisass.data.Evaluationimage;
+import com.boha.minisass.data.Images;
+import com.boha.minisass.data.Team;
+import com.boha.minisass.data.Teammember;
+import com.boha.minisass.dto.EvaluationImageDTO;
+import com.boha.minisass.dto.TeamDTO;
+import com.boha.minisass.dto.TeamMemberDTO;
+import com.boha.minisass.dto.TownDTO;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -14,40 +22,85 @@ import java.util.List;
  * @author CodeTribe1
  */
 public class ImagesDTO implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     public static final int TEAM_MEMBER_IMAGE = 1, TEAM_IMAGE = 2, EVALUATION_IMAGE = 3;
-    private Integer teamMemberID, teamID, evaluationID, thumbFlag, pictureType, riverID, evaluationSiteID, evaluationImageID;
+    private Integer imagesID,teamMemberID, teamID, evaluationID, thumbFlag, pictureType, 
+            riverID, townID, evaluationSiteID, evaluationImageID, activeFlag;
+    
     private boolean isFullPicture;
     private List<String> tags;
-    //MISSING CLAASES
-    private String uri;
-    private Date dateTaken, dateUploaded;
-    private Float accuracy;
-    private Double latitude, longitude;
     
-    public ImagesDTO() {
+    private String uri, teamName, fileName, firstName, lastName, email, cellphone, pin;
+    private Date dateTaken, dateUploaded, dateRegistered;
+    private float accuracy;
+    private double latitude, longitude;
+    private TeamDTO team;
+    private EvaluationImageDTO evaluationImage;
+    private TeamMemberDTO teamMember;
+    private TownDTO town;
+    
+        
+    
+    public ImagesDTO(Images c) {
+        imagesID = c.getImagesID();
+        teamMemberID = c.getTeamMember().getTeamMemberID();
+        teamID = c.getTeam().getTeamID();
+        evaluationID = c.getEvaluation().getEvaluationID();
+        riverID = c.getRiver().getRiverID();
+        evaluationSiteID = c.getEvaluationSite().getEvaluationSiteID();
+        evaluationImageID = c.getEvaluationImage().getEvaluationImageID();
+        thumbFlag = c.getThumbFlag();
+        pictureType = c.getPictureType();
+        uri = c.getUri();
+        dateTaken = c.getDateTaken();
+        dateUploaded = c.getDateUploaded();
+        accuracy = c.getAccuracy();
+        latitude = c.getLatitude();
+        longitude = c.getLongitude();
+        team = new TeamDTO(c.getTeam());
+        teamMember = new TeamMemberDTO(c.getTeamMember());
+        evaluationImage = new EvaluationImageDTO(c.getEvaluationImage());
+    
+        switch(pictureType) {
+            
+            case TEAM_IMAGE:
+                Team t = c.getTeam();
+                teamName = t.getTeamName();
+                dateRegistered = t.getDateRegistered();
+                break;
+            case EVALUATION_IMAGE:
+                Evaluationimage ei = c.getEvaluationImage();
+                dateTaken = ei.getDateTaken();
+                fileName = ei.getFileName();
+                break;
+            case TEAM_MEMBER_IMAGE:
+                Teammember tm = c.getTeamMember();
+                teamID = tm.getTeam().getTeamID();
+                firstName = tm.getFirstName();
+                lastName = tm.getLastName();
+                email = tm.getEmail();
+                cellphone = tm.getCellphone();
+                dateRegistered = tm.getDateRegistered();
+                pin = tm.getPin();
+                activeFlag = tm.getActiveFlag();
+                break;
+                
+        }       
+        
+        
     }
 
-    public Integer getPictureType() {
-        return pictureType;
+    public Integer getImagesID() {
+        return imagesID;
     }
 
-    public void setPictureType(Integer pictureType) {
-        this.pictureType = pictureType;
+    public void setImagesID(Integer imagesID) {
+        this.imagesID = imagesID;
     }
 
     public Integer getTeamMemberID() {
         return teamMemberID;
     }
-
-    public Integer getRiverID() {
-        return riverID;
-    }
-
-    public void setRiverID(Integer riverID) {
-        this.riverID = riverID;
-    }
-    
 
     public void setTeamMemberID(Integer teamMemberID) {
         this.teamMemberID = teamMemberID;
@@ -77,20 +130,28 @@ public class ImagesDTO implements Serializable {
         this.thumbFlag = thumbFlag;
     }
 
-    public boolean isIsFullPicture() {
-        return isFullPicture;
+    public Integer getPictureType() {
+        return pictureType;
     }
 
-    public void setIsFullPicture(boolean isFullPicture) {
-        this.isFullPicture = isFullPicture;
+    public void setPictureType(Integer pictureType) {
+        this.pictureType = pictureType;
     }
 
-    public List<String> getTags() {
-        return tags;
+    public Integer getRiverID() {
+        return riverID;
     }
 
-    public void setTags(List<String> tags) {
-        this.tags = tags;
+    public void setRiverID(Integer riverID) {
+        this.riverID = riverID;
+    }
+
+    public Integer getTownID() {
+        return townID;
+    }
+
+    public void setTownID(Integer townID) {
+        this.townID = townID;
     }
 
     public Integer getEvaluationSiteID() {
@@ -109,12 +170,94 @@ public class ImagesDTO implements Serializable {
         this.evaluationImageID = evaluationImageID;
     }
 
+    public Integer getActiveFlag() {
+        return activeFlag;
+    }
+
+    public void setActiveFlag(Integer activeFlag) {
+        this.activeFlag = activeFlag;
+    }
+
+    public boolean isIsFullPicture() {
+        return isFullPicture;
+    }
+
+    public void setIsFullPicture(boolean isFullPicture) {
+        this.isFullPicture = isFullPicture;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
     public String getUri() {
         return uri;
     }
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCellphone() {
+        return cellphone;
+    }
+
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
+
+    
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 
     public Date getDateTaken() {
@@ -133,29 +276,71 @@ public class ImagesDTO implements Serializable {
         this.dateUploaded = dateUploaded;
     }
 
-    public Float getAccuracy() {
+    public Date getDateRegistered() {
+        return dateRegistered;
+    }
+
+    public void setDateRegistered(Date dateRegistered) {
+        this.dateRegistered = dateRegistered;
+    }
+
+    public float getAccuracy() {
         return accuracy;
     }
 
-    public void setAccuracy(Float accuracy) {
+    public void setAccuracy(float accuracy) {
         this.accuracy = accuracy;
     }
 
-    public Double getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    public TeamDTO getTeam() {
+        return team;
+    }
+
+    public void setTeam(TeamDTO team) {
+        this.team = team;
+    }
+
+    public EvaluationImageDTO getEvaluationImage() {
+        return evaluationImage;
+    }
+
+    public void setEvaluationImage(EvaluationImageDTO evaluationImage) {
+        this.evaluationImage = evaluationImage;
+    }
+
+    public TeamMemberDTO getTeamMember() {
+        return teamMember;
+    }
+
+    public void setTeamMember(TeamMemberDTO teamMember) {
+        this.teamMember = teamMember;
+    }
+
+    public TownDTO getTown() {
+        return town;
+    }
+
+    public void setTown(TownDTO town) {
+        this.town = town;
+    }
+    
+    
 
     
     
