@@ -240,8 +240,8 @@ public class DataUtil {
     public ResponseDTO addEvaluationSite(EvaluationSiteDTO site) throws DataException {
         ResponseDTO resp = new ResponseDTO();
         try {
-            Evaluationsite ts = new Evaluationsite();
 
+            Evaluationsite ts = new Evaluationsite();
             ts.setRiver(em.find(River.class, site.getRiverID()));
             ts.setCategory(em.find(Category.class, site.getCategoryID()));
 
@@ -252,6 +252,7 @@ public class DataUtil {
             em.persist(ts);
             em.flush();
 
+            Evaluation e = new Evaluation();
             resp.getEvaluationSiteList().add(new EvaluationSiteDTO(ts));
 
             log.log(Level.OFF, "Evaluation site has been registered for: {0} ",

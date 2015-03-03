@@ -7,6 +7,7 @@ package com.boha.minisass.util;
 
 import com.boha.minisass.data.Errorstore;
 import com.boha.minisass.data.Teammember;
+import com.boha.minisass.gate.MinisassWebSocket;
 import com.boha.minisass.transfer.RequestDTO;
 import com.boha.minisass.transfer.ResponseDTO;
 import java.util.Date;
@@ -29,13 +30,14 @@ public class TrafficCop {
 
     @EJB
     ListUtil listUtil;
+    //static final Logger log = Logger.getLogger(TrafficCop.class.getSimpleName());
 
     public ResponseDTO processRequest(RequestDTO req,
-            DataUtil dataUtil, ListUtil listUtil,
-            Teammember team) {
+            DataUtil dataUtil, ListUtil listUtil) {
         long start = System.currentTimeMillis();
         ResponseDTO ur = new ResponseDTO();
         try {
+            logger.log(Level.WARNING, "***** onMessage: {0}", "In");
             switch (req.getRequestType()) {
                 case RequestDTO.REGISTER_TEAM:
                     ur = dataUtil.registerTeam(req.getTeam());
@@ -156,6 +158,9 @@ public class TrafficCop {
                     logger.log(Level.SEVERE, "Couldn't find request,you fool");
                     break;
 
+            }
+            if (ur.getStatusCode() == null) {
+                ur.setStatusCode(0);
             }
         } catch (DataException e) {
             ur.setStatusCode(101);

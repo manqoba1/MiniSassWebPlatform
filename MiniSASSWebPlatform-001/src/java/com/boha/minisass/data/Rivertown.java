@@ -31,14 +31,13 @@ import javax.persistence.Table;
     @NamedQuery(name = "Rivertown.findAll", query = "SELECT r FROM Rivertown r"),
     @NamedQuery(name = "Rivertown.findByRiverTownID", query = "SELECT r FROM Rivertown r WHERE r.riverTownID = :riverTownID")})
 public class Rivertown implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "riverTownID")
     private Integer riverTownID;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "river")
-    private List<Errorstoreandroid> errorstoreandroidList;
     @JoinColumn(name = "riverID", referencedColumnName = "riverID")
     @ManyToOne(optional = false)
     private River river;
@@ -61,14 +60,6 @@ public class Rivertown implements Serializable {
         this.riverTownID = riverTownID;
     }
 
-    public List<Errorstoreandroid> getErrorstoreandroidList() {
-        return errorstoreandroidList;
-    }
-
-    public void setErrorstoreandroidList(List<Errorstoreandroid> errorstoreandroidList) {
-        this.errorstoreandroidList = errorstoreandroidList;
-    }
-
     public River getRiver() {
         return river;
     }
@@ -84,8 +75,6 @@ public class Rivertown implements Serializable {
     public void setTown(Town town) {
         this.town = town;
     }
-
-   
 
     @Override
     public int hashCode() {
@@ -111,5 +100,5 @@ public class Rivertown implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.Rivertown[ riverTownID=" + riverTownID + " ]";
     }
-    
+
 }

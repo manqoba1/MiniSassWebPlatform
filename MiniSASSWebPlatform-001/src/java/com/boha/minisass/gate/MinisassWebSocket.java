@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.boha.minisass.gate;
 
 import com.boha.minisass.data.Teammember;
@@ -9,16 +13,16 @@ import com.boha.minisass.util.GZipUtility;
 import com.boha.minisass.util.ListUtil;
 import com.boha.minisass.util.PlatformUtil;
 import com.boha.minisass.util.TrafficCop;
-import java.nio.ByteBuffer;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -32,11 +36,9 @@ import javax.websocket.server.ServerEndpoint;
  */
 
 @ServerEndpoint("/wsmini")
-@Stateless
-public class TeamWebsockect {
-    
-    Gson gson = new Gson();
-    static final Logger log = Logger.getLogger(TeamWebsockect.class.getSimpleName()); 
+@Stateful
+public class MinisassWebSocket {
+
     @EJB
     DataUtil dataUtil;
     @EJB
@@ -45,25 +47,24 @@ public class TeamWebsockect {
     TrafficCop trafficCop;
     @EJB
     PlatformUtil platformUtil;
-    @EJB
-    Teammember teammember;
-    
+   
+
     static final String SOURCE = "TeamWebSocket";
-    
-     public static final Set<Session> peers
+
+    public static final Set<Session> peers
             = Collections.synchronizedSet(new HashSet<Session>());
-    
-    
-       @OnMessage
+
+    @OnMessage
     public ByteBuffer onMessage(String message) {
         log.log(Level.WARNING, "***** onMessage: {0}", message);
         ResponseDTO resp = new ResponseDTO();
         ByteBuffer gg = null;
-        
+
         try {
             RequestDTO dto = gson.fromJson(message, RequestDTO.class);
-            resp = trafficCop.processRequest(dto, 
-                    dataUtil, listUtil,teammember);
+            
+            resp = trafficCop.processRequest(dto,
+                    dataUtil, listUtil);
             gg = GZipUtility.getZippedResponse(resp);
         } catch (Exception ex) {
             log.log(Level.SEVERE, null, ex);
@@ -78,8 +79,8 @@ public class TeamWebsockect {
         }
         return gg;
     }
-    
-      @OnOpen
+
+    @OnOpen
     public void onOpen(Session session) {
         peers.add(session);
         try {
@@ -105,19 +106,16 @@ public class TeamWebsockect {
         }
     }
 
-       @OnError
+    @OnError
     public void onError(Session session, Throwable t) {
         log.log(Level.SEVERE, "### @OnError, websocket failed.......please check your connection");
         try {
             session.getBasicRemote().sendText("Eish!!!!!!!, something went wrong!");
         } catch (IOException ex) {
-            Logger.getLogger(TeamWebsockect.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MinisassWebSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    Gson gson = new Gson();
+    static final Logger log = Logger.getLogger(MinisassWebSocket.class.getSimpleName());
 
-    
-    
-    
-     
-    
 }

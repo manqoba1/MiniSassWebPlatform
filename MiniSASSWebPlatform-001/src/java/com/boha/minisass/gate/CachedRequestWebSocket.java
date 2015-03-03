@@ -48,8 +48,7 @@ public class CachedRequestWebSocket {
     PlatformUtil platformUtil;
     @EJB
     TrafficCop trafficCop;
-    @EJB
-    Teammember member;
+    
     static final String SOURCE = "CachedRequestWebSocket";
     //TODO - clean up expired sessions!!!!
     public static final Set<Session> peers
@@ -66,7 +65,7 @@ public class CachedRequestWebSocket {
 
             RequestList dto = gson.fromJson(message, RequestList.class);
             for (RequestDTO req : dto.getRequests()) {
-               ResponseDTO resp = trafficCop.processRequest(req, dataUtil, listUtil, member);
+               ResponseDTO resp = trafficCop.processRequest(req, dataUtil, listUtil);
                 if (resp.getStatusCode() == 0) {
                     goodCount++;
                 } else {
