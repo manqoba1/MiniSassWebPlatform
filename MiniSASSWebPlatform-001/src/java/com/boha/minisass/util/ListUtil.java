@@ -120,13 +120,11 @@ public class ListUtil {
 
     public ResponseDTO getData() {
         ResponseDTO resp = new ResponseDTO();
-        log.log(Level.SEVERE, "in");
         resp.setCategoryList(getCategoryDTOs());
         resp.setCommentList(getCommentDTOs());
         resp.setConditionsList(getConditionsDTOs());
         resp.setInsectList(getInsectDTOs());
         resp.setRiverList(getRiverDTOs());
-        resp.setCountryList(getCountryList().getCountryList());
         
         return resp;
     }

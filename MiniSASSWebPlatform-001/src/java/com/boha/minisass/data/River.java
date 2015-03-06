@@ -43,7 +43,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "River.findByEndLongitude", query = "SELECT r FROM River r WHERE r.endLongitude = :endLongitude"),
     @NamedQuery(name = "River.findByDateRegistered", query = "SELECT r FROM River r WHERE r.dateRegistered = :dateRegistered")})
 public class River implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "river")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "riverID")
     private List<Errorstoreandroid> errorstoreandroidList;
     private static final long serialVersionUID = 1L;
     @Id

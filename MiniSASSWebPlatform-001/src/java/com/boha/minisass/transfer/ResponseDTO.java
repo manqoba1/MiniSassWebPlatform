@@ -43,7 +43,6 @@ public class ResponseDTO {
     private TeamMemberDTO teamMember;
     private EvaluationDTO evaluation;
     private CountryDTO country;
-    private List<ImagesDTO> imagesList;
     private List<EvaluationImageDTO> evaluationImageList;
     private List<GcmDeviceDTO> gcmDeviceList;
     private List<TeamDTO> teamList = new ArrayList<>();
@@ -78,14 +77,6 @@ public class ResponseDTO {
 
     public void setEvaluation(EvaluationDTO evaluation) {
         this.evaluation = evaluation;
-    }
-
-    public List<ImagesDTO> getImagesList() {
-        return imagesList;
-    }
-
-    public void setImagesList(List<ImagesDTO> imagesList) {
-        this.imagesList = imagesList;
     }
 
     public List<EvaluationImageDTO> getEvaluationImageList() {
