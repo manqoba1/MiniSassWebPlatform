@@ -60,9 +60,9 @@ public class Country implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
     private List<Province> provinceList;
     @OneToMany(mappedBy = "originCountry")
-    private List<River> riverList;
+    private List<River> originCountryList;
     @OneToMany(mappedBy = "endCountry")
-    private List<River> riverList1;
+    private List<River> endCountryList;
 
     public Country() {
     }
@@ -116,20 +116,20 @@ public class Country implements Serializable {
         this.provinceList = provinceList;
     }
 
-    public List<River> getRiverList() {
-        return riverList;
+    public List<River> getOriginCountryList() {
+        return originCountryList;
     }
 
-    public void setRiverList(List<River> riverList) {
-        this.riverList = riverList;
+    public void setOriginCountryList(List<River> originCountryList) {
+        this.originCountryList = originCountryList;
     }
 
-    public List<River> getRiverList1() {
-        return riverList1;
+    public List<River> getEndCountryList() {
+        return endCountryList;
     }
 
-    public void setRiverList1(List<River> riverList1) {
-        this.riverList1 = riverList1;
+    public void setEndCountryList(List<River> endCountryList) {
+        this.endCountryList = endCountryList;
     }
 
     @Override

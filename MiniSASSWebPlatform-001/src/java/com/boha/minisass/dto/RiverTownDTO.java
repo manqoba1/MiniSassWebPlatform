@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
@@ -14,16 +13,37 @@ import java.io.Serializable;
  * @author aubreyM
  */
 public class RiverTownDTO implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
     private Integer riverTownID, riverID, townID;
+    private RiverDTO river;
+    private TownDTO town;
 
-    public RiverTownDTO(){
-}
+    public RiverTownDTO() {
+    }
+
     public RiverTownDTO(Rivertown a) {
         riverTownID = a.getRiverTownID();
         riverID = a.getRiver().getRiverID();
         townID = a.getTown().getTownID();
+        river = new RiverDTO(a.getRiver());
+        town = new TownDTO(a.getTown());
+    }
+
+    public TownDTO getTown() {
+        return town;
+    }
+
+    public void setTown(TownDTO town) {
+        this.town = town;
+    }
+
+    public RiverDTO getRiver() {
+        return river;
+    }
+
+    public void setRiver(RiverDTO river) {
+        this.river = river;
     }
 
     public Integer getRiverID() {
@@ -41,7 +61,7 @@ public class RiverTownDTO implements Serializable {
     public void setTownID(Integer townID) {
         this.townID = townID;
     }
-    
+
     public Integer getRiverTownID() {
         return riverTownID;
     }
@@ -49,8 +69,6 @@ public class RiverTownDTO implements Serializable {
     public void setRiverTownID(Integer riverTownID) {
         this.riverTownID = riverTownID;
     }
-
-
 
     @Override
     public int hashCode() {
@@ -76,5 +94,5 @@ public class RiverTownDTO implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.RiverTown[ riverTownID=" + riverTownID + " ]";
     }
-    
+
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.boha.minisass.dto;
 
 import com.boha.minisass.data.*;
@@ -14,6 +13,7 @@ import java.io.Serializable;
  * @author aubreyM
  */
 public class EvaluationInsectDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer evaluationInsectID;
     private int evaluationFlag;
@@ -21,11 +21,12 @@ public class EvaluationInsectDTO implements Serializable {
     private String remarks;
     private Integer evaluationID;
     private Integer insectID;
+    private EvaluationDTO evaluation;
+    private InsectDTO insect;
 
     public EvaluationInsectDTO() {
     }
 
-   
     public EvaluationInsectDTO(Evaluationinsect a) {
         this.evaluationInsectID = a.getEvaluationInsectID();
         this.evaluationFlag = a.getEvaluationFlag();
@@ -33,6 +34,24 @@ public class EvaluationInsectDTO implements Serializable {
         this.remarks = a.getRemarks();
         this.evaluationID = a.getEvaluation().getEvaluationID();
         this.insectID = a.getInsect().getInsectID();
+        evaluation = new EvaluationDTO(a.getEvaluation());
+        insect = new InsectDTO(a.getInsect());
+    }
+
+    public EvaluationDTO getEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(EvaluationDTO evaluation) {
+        this.evaluation = evaluation;
+    }
+
+    public InsectDTO getInsect() {
+        return insect;
+    }
+
+    public void setInsect(InsectDTO insect) {
+        this.insect = insect;
     }
 
     public Integer getEvaluationID() {
@@ -51,7 +70,6 @@ public class EvaluationInsectDTO implements Serializable {
         this.insectID = insectID;
     }
 
-    
     public Integer getEvaluationInsectID() {
         return evaluationInsectID;
     }
@@ -84,7 +102,6 @@ public class EvaluationInsectDTO implements Serializable {
         this.remarks = remarks;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -109,5 +126,5 @@ public class EvaluationInsectDTO implements Serializable {
     public String toString() {
         return "com.boha.minisass.data.EvaluationInsect[ evaluationInsectID=" + evaluationInsectID + " ]";
     }
-    
+
 }

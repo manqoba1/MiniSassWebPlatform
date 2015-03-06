@@ -20,6 +20,9 @@ public class EvaluationImageDTO implements Serializable {
     private long dateTaken;
     private String fileName;
     private Integer evaluationID;
+    private Double longitude;
+    private Double latitude;
+    private Float accuracy;
 
     public EvaluationImageDTO() {
     }
@@ -29,6 +32,33 @@ public class EvaluationImageDTO implements Serializable {
         this.dateTaken = a.getDateTaken().getTime();
         this.fileName = a.getFileName();
         this.evaluationID = a.getEvaluation().getEvaluationID();
+        longitude = a.getLongitude();
+        latitude = a.getLatitude();
+        accuracy = a.getAccuracy();
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Float getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(Float accuracy) {
+        this.accuracy = accuracy;
     }
 
     public Integer getEvaluationID() {

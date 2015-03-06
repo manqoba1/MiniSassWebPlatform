@@ -35,6 +35,18 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Evaluationimage.findByDateTaken", query = "SELECT e FROM Evaluationimage e WHERE e.dateTaken = :dateTaken"),
     @NamedQuery(name = "Evaluationimage.findByFileName", query = "SELECT e FROM Evaluationimage e WHERE e.fileName = :fileName")})
 public class Evaluationimage implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "longitude")
+    private double longitude;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "latitude")
+    private double latitude;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "accuracy")
+    private float accuracy;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -123,6 +135,30 @@ public class Evaluationimage implements Serializable {
     @Override
     public String toString() {
         return "com.boha.minisass.data.Evaluationimage[ evaluationImageID=" + evaluationImageID + " ]";
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(float accuracy) {
+        this.accuracy = accuracy;
     }
     
 }

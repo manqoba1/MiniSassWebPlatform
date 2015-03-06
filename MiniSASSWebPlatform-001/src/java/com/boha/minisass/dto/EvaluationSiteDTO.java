@@ -19,13 +19,16 @@ public class EvaluationSiteDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer evaluationSiteID;
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
+    private Float accuracy;
     private long dateRegistered;
     private Integer categoryID;
     private Integer riverID;
     private String riverName, categoryName;
     private List<EvaluationDTO> evaluationList = new ArrayList<>();
+    private RiverDTO river;
+    private CategoryDTO category;
 
     public EvaluationSiteDTO() {
     }
@@ -39,6 +42,33 @@ public class EvaluationSiteDTO implements Serializable {
         this.riverName = a.getRiver().getRiverName();
         this.categoryID = a.getCategory().getCategoryId();
         this.categoryName = a.getCategory().getCategoryName();
+        accuracy = a.getAccuracy();
+        river = new RiverDTO(a.getRiver());
+        category = new CategoryDTO(a.getCategory());
+    }
+
+    public RiverDTO getRiver() {
+        return river;
+    }
+
+    public void setRiver(RiverDTO river) {
+        this.river = river;
+    }
+
+    public CategoryDTO getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDTO category) {
+        this.category = category;
+    }
+
+    public Float getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(Float accuracy) {
+        this.accuracy = accuracy;
     }
 
     public Integer getCategoryID() {
@@ -81,19 +111,19 @@ public class EvaluationSiteDTO implements Serializable {
         this.evaluationSiteID = evaluationSiteID;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

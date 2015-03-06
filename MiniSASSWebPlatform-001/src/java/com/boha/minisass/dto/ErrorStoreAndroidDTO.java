@@ -35,6 +35,8 @@ public class ErrorStoreAndroidDTO implements Serializable {
         this.androidVersion = e.getAndroidVersion();
         this.stackTrace = e.getStackTrace();
         this.logCat = e.getLogCat();
+        riverID = e.getRiver().getRiverID();
+        
     }
 
     public Integer getErrorStoreAndroidID() {

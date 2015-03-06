@@ -51,11 +51,13 @@ public class EvaluationDTO implements Serializable {
         this.waterTemperature = a.getWaterTemperature();
         conditionsID = a.getConditions().getConditionsID();
         teamMemberID = a.getTeamMember().getTeamMemberID();
-        this.teamMember = new TeamMemberDTO(a.getTeamMember());
+        teamMember = new TeamMemberDTO(a.getTeamMember());
+        conditions = new ConditionsDTO(a.getConditions());
         evaluationSiteID = a.getEvaluationSite().getEvaluationSiteID();
-        this.evaluationSite = new EvaluationSiteDTO(a.getEvaluationSite());
+        evaluationSite = new EvaluationSiteDTO(a.getEvaluationSite());
     }
 
+    
     public List<EvaluationCommentDTO> getEvaluationCommentList() {
         return evaluationCommentList;
     }

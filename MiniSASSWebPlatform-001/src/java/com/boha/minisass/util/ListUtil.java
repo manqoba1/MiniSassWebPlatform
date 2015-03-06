@@ -145,6 +145,7 @@ public class ListUtil {
                 InsectImageDTO insectImage = new InsectImageDTO(ii);
                 insect.getInsectImageList().add(insectImage);
             }
+            log.log(Level.INFO, insect.getGroupName());
             result.add(insect);
         }
         return result;
@@ -155,7 +156,11 @@ public class ListUtil {
         Query q = em.createNamedQuery("Category.findAll", Category.class);
         List<Category> cate = q.getResultList();
         for (Category c : cate) {
-            result.add(new CategoryDTO(c));
+            CategoryDTO cdto = new CategoryDTO(c);            
+            for(Conditions cd: c.getConditionsList()){
+                cdto.getConditionsList().add(new ConditionsDTO(cd));
+            }
+            result.add(cdto);
         }
         return result;
     }

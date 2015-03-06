@@ -25,6 +25,7 @@ public class TeamDTO implements Serializable {
     private String teamImage;
     private List<GcmDeviceDTO> gcmdeviceList;
     private List<TeamMemberDTO> teamMemberList = new ArrayList<>();
+    private TownDTO town;
 
     public TeamDTO() {
     }
@@ -36,6 +37,15 @@ public class TeamDTO implements Serializable {
         this.townID = a.getTown().getTownID();
         this.townName = a.getTown().getTownName();
         this.teamImage = a.getTeamImage();
+        town = new TownDTO(a.getTown());
+    }
+
+    public TownDTO getTown() {
+        return town;
+    }
+
+    public void setTown(TownDTO town) {
+        this.town = town;
     }
 
     public Integer getTownID() {

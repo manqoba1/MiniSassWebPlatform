@@ -39,6 +39,10 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Evaluationsite.findByLongitude", query = "SELECT e FROM Evaluationsite e WHERE e.longitude = :longitude"),
     @NamedQuery(name = "Evaluationsite.findByDateRegistered", query = "SELECT e FROM Evaluationsite e WHERE e.dateRegistered = :dateRegistered")})
 public class Evaluationsite implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "accuracy")
+    private float accuracy;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -160,6 +164,14 @@ public class Evaluationsite implements Serializable {
     @Override
     public String toString() {
         return "com.boha.minisass.data.Evaluationsite[ evaluationSiteID=" + evaluationSiteID + " ]";
+    }
+
+    public float getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(float accuracy) {
+        this.accuracy = accuracy;
     }
     
 }

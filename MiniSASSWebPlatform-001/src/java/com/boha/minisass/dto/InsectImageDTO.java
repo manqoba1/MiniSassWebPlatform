@@ -17,10 +17,11 @@ public class InsectImageDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer insectImageID;
-    private String uri;
+    private String uri, groupName;
     private long dateRegistered;
+    private int sensitivityScore;
     private Integer insectID;
-    
+    private InsectDTO insect;
 
     public InsectImageDTO() {
     }
@@ -30,6 +31,33 @@ public class InsectImageDTO implements Serializable {
         this.uri = a.getUri();
         this.dateRegistered = a.getDateRegistered().getTime();
         this.insectID = a.getInsect().getInsectID();
+        groupName = a.getInsect().getGroupName();
+        sensitivityScore = a.getInsect().getSensitivityScore();
+        insect = new InsectDTO(a.getInsect());
+    }
+
+    public InsectDTO getInsect() {
+        return insect;
+    }
+
+    public void setInsect(InsectDTO insect) {
+        this.insect = insect;
+    }
+
+    public int getSensitivityScore() {
+        return sensitivityScore;
+    }
+
+    public void setSensitivityScore(int sensitivityScore) {
+        this.sensitivityScore = sensitivityScore;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public Integer getInsectImageID() {

@@ -34,7 +34,7 @@ public class ConditionsDTO implements Serializable {
         this.high = c.getHigh();
         this.low = c.getLow();
         categoryID = c.getCategory().getCategoryId();
-
+        category = new CategoryDTO(c.getCategory());
     }
 
     public Integer getCategoryID() {

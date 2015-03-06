@@ -68,18 +68,18 @@ public class MinisassProperties {
         props = new Properties();
         try {
             File f = null;
-            f = new File("/workspaces/properties/monitor.properties");
+            f = new File("C:/properties/minisass.properties");
             if (!f.exists()) {
-                f = new File("/opt/properties/monitor.properties");
+                f = new File("/opt/properties/minisass.properties");
             }
             if (!f.exists()) {
-                logger.log(Level.SEVERE, "Monitor Properties File not found");
+                logger.log(Level.SEVERE, "minisass Properties File not found");
             } else {
-                logger.log(Level.INFO, "Monitor Properties: {0}\n\n\n", f.getAbsolutePath());
+                logger.log(Level.INFO, "minisass Properties: {0}\n\n\n", f.getAbsolutePath());
                 props.load(new FileInputStream(f));
             }
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Properties file monitor.properties not found or corrupted");
+            logger.log(Level.SEVERE, "Properties file minisass.properties not found or corrupted");
         }
 
     }
