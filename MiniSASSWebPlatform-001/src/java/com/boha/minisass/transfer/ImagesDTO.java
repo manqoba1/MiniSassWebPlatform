@@ -5,10 +5,6 @@
  */
 package com.boha.minisass.transfer;
 
-import com.boha.minisass.data.Evaluationimage;
-import com.boha.minisass.data.Images;
-import com.boha.minisass.data.Team;
-import com.boha.minisass.data.Teammember;
 import com.boha.minisass.dto.EvaluationImageDTO;
 import com.boha.minisass.dto.TeamDTO;
 import com.boha.minisass.dto.TeamMemberDTO;
@@ -38,57 +34,13 @@ public class ImagesDTO implements Serializable {
     private EvaluationImageDTO evaluationImage;
     private TeamMemberDTO teamMember;
     private TownDTO town;
-    
-        
-    
-    public ImagesDTO(Images c) {
-        imagesID = c.getImagesID();
-        teamMemberID = c.getTeamMember().getTeamMemberID();
-        teamID = c.getTeam().getTeamID();
-        evaluationID = c.getEvaluation().getEvaluationID();
-        riverID = c.getRiver().getRiverID();
-        evaluationSiteID = c.getEvaluationSite().getEvaluationSiteID();
-        evaluationImageID = c.getEvaluationImage().getEvaluationImageID();
-        thumbFlag = c.getThumbFlag();
-        pictureType = c.getPictureType();
-        uri = c.getUri();
-        dateTaken = c.getDateTaken();
-        dateUploaded = c.getDateUploaded();
-        accuracy = c.getAccuracy();
-        latitude = c.getLatitude();
-        longitude = c.getLongitude();
-        team = new TeamDTO(c.getTeam());
-        teamMember = new TeamMemberDTO(c.getTeamMember());
-        evaluationImage = new EvaluationImageDTO(c.getEvaluationImage());
-    
-        switch(pictureType) {
-            
-            case TEAM_IMAGE:
-                Team t = c.getTeam();
-                teamName = t.getTeamName();
-                dateRegistered = t.getDateRegistered();
-                break;
-            case EVALUATION_IMAGE:
-                Evaluationimage ei = c.getEvaluationImage();
-                dateTaken = ei.getDateTaken();
-                fileName = ei.getFileName();
-                break;
-            case TEAM_MEMBER_IMAGE:
-                Teammember tm = c.getTeamMember();
-                teamID = tm.getTeam().getTeamID();
-                firstName = tm.getFirstName();
-                lastName = tm.getLastName();
-                email = tm.getEmail();
-                cellphone = tm.getCellphone();
-                dateRegistered = tm.getDateRegistered();
-                pin = tm.getPin();
-                activeFlag = tm.getActiveFlag();
-                break;
-                
-        }       
-        
-        
+
+    public ImagesDTO() {
     }
+    
+        
+    
+    
 
     public Integer getImagesID() {
         return imagesID;
