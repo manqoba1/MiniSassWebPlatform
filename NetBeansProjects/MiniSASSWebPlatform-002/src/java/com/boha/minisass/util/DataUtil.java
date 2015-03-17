@@ -599,6 +599,17 @@ public class DataUtil {
                 em.flush();
             }
             
+           for(EvaluationImageDTO ei: evaluation.getEvaluationImageList()){
+               Evaluationimage e1 = new Evaluationimage();
+               e1.setAccuracy(ei.getAccuracy());
+               e1.setDateTaken(e1.getDateTaken());
+               e1.setEvaluation(em.find(Evaluation.class, e.getEvaluationID()));
+               e1.setFileName(e1.getFileName());
+               e1.setLatitude(e1.getLatitude());
+               e1.setLongitude(e1.getLongitude());
+               em.persist(e1);
+               em.flush();
+           }
             resp.getEvaluationList().add(new EvaluationDTO(e));
             
             log.log(Level.OFF, "evaluation has been added for: {0} ",
